@@ -6,12 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './routes/main/main.component';
 import { WebcamComponent } from './components/webcam/webcam.component';
+import { PlotComponent } from './components/plot/plot.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    WebcamComponent
+    WebcamComponent,
+    PlotComponent
   ],
   imports: [
     BrowserModule,
