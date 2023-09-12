@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: 'appfont';
+    src: url('/fonts/AlwynNew-LT.ttf');
+}
+
 html {
     width: 100%;
+    font-family: 'appfont', sans-serif;
+    color: #231F20;
 }
 
 body {
