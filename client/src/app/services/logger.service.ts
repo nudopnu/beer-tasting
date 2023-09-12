@@ -19,6 +19,7 @@ export class LoggerService {
   }
 
   private log(event: Event): void {
+    if (event.silent) return;
     console.groupCollapsed(`[Log: ${event.type}]`);
     console.log(event.payload);
     console.groupEnd();

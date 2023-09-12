@@ -3,6 +3,7 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
 import * as faceapi from 'face-api.js';
 import { HttpClient } from '@angular/common/http';
 import { map } from "rxjs";
+import { FaceExpressionEvent } from 'src/app/core/events/events';
 
 @Component({
   selector: 'beer-webcam',
@@ -57,7 +58,9 @@ export class WebcamComponent implements AfterViewInit {
       const detections = await faceDetections
         .withFaceLandmarks()
         .withFaceExpressions();
-      // console.log(detections);
+      if (detections.length > 0) {
+        this.eventDispatcher.dispatch(new FaceExpressionEvent(detections[0].expressions, true));
+      }
       const resizedDetections = faceapi.resizeResults(detections, displaySize);
       canvas.getContext("2d")?.clearRect(0, 0, displaySize.width, displaySize.height);
       // faceapi.draw.drawDetections(canvas, resizedDetections);
