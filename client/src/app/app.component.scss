@@ -1,0 +1,27 @@
+#root {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    max-width: 768px;
+}
+
+#logo-container {
+    padding: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    padding: 70px;
+}
+
+#logo {
+    transform: scale(0.7);
+}
