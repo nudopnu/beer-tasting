@@ -19,7 +19,7 @@ export class LoggerService {
   }
 
   private log(event: Event): void {
-    console.groupCollapsed(`[${event.type}]`);
+    console.groupCollapsed(`[Log: ${event.type}]`);
     console.log(event.payload);
     console.groupEnd();
   }

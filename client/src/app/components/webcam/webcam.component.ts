@@ -9,23 +9,22 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
 })
 export class WebcamComponent implements AfterViewInit {
 
-  @ViewChild('video') videoElement: ElementRef | undefined;
+  @ViewChild('video') videoElementRef: ElementRef | undefined;
 
   constructor(
     private eventDispatcher: EventDispatcherService,
-  ) { 
-    eventDispatcher.dispatch(new ErrorEvent(new Error()));
-    eventDispatcher.dispatch(new InfoEvent("INFOOOO"));
+  ) { }
+
+  async ngAfterViewInit(): Promise<void> {
+    const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    this.setStream(mediaStream);
   }
 
-  ngAfterViewInit(): void {
-    this.videoElement
-    // navigator.getUserMedia({ video: {} }, stream => this.setStream(stream), (err: MediaStreamError) => console.error(err));
-  }
-
-  setStream(stream: MediaStream): void {
-    if (this.videoElement !== undefined) {
-      this.videoElement.nativeElement.srcObject = stream;
+  async setStream(stream: MediaStream): Promise<void> {
+    if (this.videoElementRef !== undefined) {
+      const videoElement = this.videoElementRef.nativeElement as HTMLVideoElement;
+      videoElement.srcObject = stream;
+      await videoElement.play();
     }
   }
 
