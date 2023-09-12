@@ -14,3 +14,21 @@ html {
 body {
     margin: 0;
 }
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 1000px;
+    overflow: hidden;
+    gap: 10px;
+}
+
+button {
+    background: white;
+    border: 1px solid #d0d0d0;
+    padding: 10px;
+    border-radius: 5px;
+    min-width: 100px;
+    cursor: pointer;
+}

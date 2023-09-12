@@ -11,7 +11,7 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
 })
 export class PlotComponent implements AfterViewInit {
 
-  expressions = [
+  EXPRESSIONS = [
     "neutral",
     "happy",
     "sad",
@@ -22,19 +22,25 @@ export class PlotComponent implements AfterViewInit {
   ];
 
   subscription?: Subscription;
-  data: Plotly.Data[] = this.expressions.map(
-    expression => ({
-      x: [1],
-      y: [0],
-      type: 'scatter',
-      name: expression,
-    })
-  );
+  data: Plotly.Data[];
   isRecording = false;
 
   constructor(
     private eventDispatcher: EventDispatcherService,
-  ) { }
+  ) {
+    this.data = this.initialData();
+  }
+
+  private initialData(): Plotly.Data[] {
+    return this.EXPRESSIONS.map(
+      expression => ({
+        x: [1],
+        y: [0],
+        type: 'scatter',
+        name: expression,
+      })
+    );
+  }
 
   ngAfterViewInit(): void {
     Plotly.newPlot('plot', this.data, { autosize: true });
@@ -58,11 +64,7 @@ export class PlotComponent implements AfterViewInit {
 
   toggleRecording() {
     this.isRecording = !this.isRecording;
-    if (this.isRecording) {
-      this.start();
-    } else {
-      this.stop();
-    }
+    this.isRecording ? this.start() : this.stop();
   }
 
   start() {
@@ -77,6 +79,14 @@ export class PlotComponent implements AfterViewInit {
     if (this.subscription) {
       this.subscription.remove();
     }
+  }
+
+  reset() {
+    this.data = this.initialData();
+  }
+
+  hasRecordedData(): boolean {
+    return (this.data[0] as any).x.length > 1;
   }
 
 }

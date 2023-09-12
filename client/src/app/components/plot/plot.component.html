@@ -1,2 +1,5 @@
-<div id="plot"></div>
-<button (click)="toggleRecording()">{{isRecording ? "Stop": "Start" }} recording</button>
+<div id="buttons">
+    <button (click)="toggleRecording()">{{isRecording ? "Stop": "Start" }} recording</button>
+    <button (click)="reset()">reset</button>
+</div>
+<div id="plot" [ngClass]="{'hidden': !hasRecordedData()}"></div>

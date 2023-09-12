@@ -1,11 +1,13 @@
-<beer-webcam></beer-webcam>
-<div *ngIf="faceExpression$ | async  as faceExpression">
-    <div class="expression"><span>neutral:</span><span>{{faceExpression.neutral.toFixed(4)}}</span></div>
-    <div class="expression"><span>happy:</span><span>{{faceExpression.happy.toFixed(4)}}</span></div>
-    <div class="expression"><span>sad:</span><span>{{faceExpression.sad.toFixed(4)}}</span></div>
-    <div class="expression"><span>angry:</span><span>{{faceExpression.angry.toFixed(4)}}</span></div>
-    <div class="expression"><span>fearful:</span><span>{{faceExpression.fearful.toFixed(4)}}</span></div>
-    <div class="expression"><span>disgusted:</span><span>{{faceExpression.disgusted.toFixed(4)}}</span></div>
-    <div class="expression"><span>surprised:</span><span>{{faceExpression.surprised.toFixed(4)}}</span></div>
+<div class="column">
+    <beer-webcam></beer-webcam>
+    <div *ngIf="faceExpression$ | async  as faceExpression">
+        <div class="expression"><span>neutral:</span><span>{{faceExpression.neutral.toFixed(4)}}</span></div>
+        <div class="expression"><span>happy:</span><span>{{faceExpression.happy.toFixed(4)}}</span></div>
+        <div class="expression"><span>sad:</span><span>{{faceExpression.sad.toFixed(4)}}</span></div>
+        <div class="expression"><span>angry:</span><span>{{faceExpression.angry.toFixed(4)}}</span></div>
+        <div class="expression"><span>fearful:</span><span>{{faceExpression.fearful.toFixed(4)}}</span></div>
+        <div class="expression"><span>disgusted:</span><span>{{faceExpression.disgusted.toFixed(4)}}</span></div>
+        <div class="expression"><span>surprised:</span><span>{{faceExpression.surprised.toFixed(4)}}</span></div>
+    </div>
+    <beer-plot></beer-plot>
 </div>
-<beer-plot></beer-plot>
