@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
-import { ErrorEvent, InfoEvent } from 'src/app/core/events/events';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 @Component({
