@@ -1,8 +1,8 @@
 import { Event } from "./event";
 
 export const EventTypes = [
-    "ERROR",
-    "INFO",
+    "ErrorEvent",
+    "InfoEvent",
 ] as const;
 
 export type EventType = typeof EventTypes[number];

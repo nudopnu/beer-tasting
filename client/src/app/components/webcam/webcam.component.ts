@@ -14,7 +14,8 @@ export class WebcamComponent implements AfterViewInit {
   constructor(
     private eventDispatcher: EventDispatcherService,
   ) { 
-    eventDispatcher.dispatch(new InfoEvent("new Error()"))
+    eventDispatcher.dispatch(new ErrorEvent(new Error()));
+    eventDispatcher.dispatch(new InfoEvent("INFOOOO"));
   }
 
   ngAfterViewInit(): void {

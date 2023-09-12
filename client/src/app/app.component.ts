@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoggerService } from './services/logger.service';
 
 @Component({
   selector: 'beer-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'client';
+  constructor(
+    logger: LoggerService,
+  ) { }
 }
