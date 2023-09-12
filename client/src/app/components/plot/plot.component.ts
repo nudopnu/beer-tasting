@@ -1,5 +1,8 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { FaceExpressions } from 'face-api.js';
 import * as Plotly from 'plotly.js-dist-min';
+import { Subscription } from 'src/app/core/events/event-listener';
+import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 @Component({
   selector: 'beer-plot',
@@ -18,8 +21,8 @@ export class PlotComponent implements AfterViewInit {
     "surprised",
   ];
 
-  interval: any;
-  data: any[] = this.expressions.map(
+  subscription?: Subscription;
+  data: Plotly.Data[] = this.expressions.map(
     expression => ({
       x: [1],
       y: [0],
@@ -29,17 +32,21 @@ export class PlotComponent implements AfterViewInit {
   );
   isRecording = false;
 
+  constructor(
+    private eventDispatcher: EventDispatcherService,
+  ) { }
+
   ngAfterViewInit(): void {
     Plotly.newPlot('plot', this.data, { autosize: true });
   }
 
-  addData(): void {
+  addExpression(expression: FaceExpressions): void {
     const new_data = (trace: any) => {
       const result = trace;
-      this.expressions.forEach(expression => {
+      expression.asSortedArray().forEach(({ expression, probability }) => {
         if (trace.name === expression) {
           const newX = result.x.length + 1;
-          const newY = Math.random();
+          const newY = probability;
           result.x = [...result.x, newX];
           result.y = [...result.y, newY];
         }
@@ -59,14 +66,17 @@ export class PlotComponent implements AfterViewInit {
   }
 
   start() {
-    this.interval = setInterval(() => {
-      this.addData();
-      Plotly.react('plot', this.data, { autosize: true });
-    }, 100);
+    this.subscription = this.eventDispatcher.listen("FaceExpressionEvent")
+      .subscribe(event => {
+        this.addExpression(event.payload);
+        Plotly.react('plot', this.data, { autosize: true });
+      });
   }
 
   stop() {
-    clearInterval(this.interval);
+    if (this.subscription) {
+      this.subscription.remove();
+    }
   }
 
 }

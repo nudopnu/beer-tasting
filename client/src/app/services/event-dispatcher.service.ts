@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EventListener, EventListenerOfType } from '../core/events/event-listener';
+import { EventListener, EventListenerOfType, Subscription } from '../core/events/event-listener';
 import { EventOfType, EventType, EventTypes } from '../core/events/event-type';
 
 type EventCallback<SpecificEventType extends EventType> = (event: EventOfType<SpecificEventType>) => void;
@@ -21,8 +21,13 @@ export class EventDispatcherService {
   listen<SpecificEventType extends EventType>(eventType: SpecificEventType): EventListenerOfType<SpecificEventType> {
     const dispatcher = this;
     return new class extends EventListener<EventOfType<SpecificEventType>> {
-      override subscribe(callback: (e: EventOfType<SpecificEventType>) => void): void {
+      override subscribe(callback: (e: EventOfType<SpecificEventType>) => void): Subscription {
         dispatcher.callbacks[eventType].push(callback);
+        return {
+          remove: () => {
+            dispatcher.callbacks[eventType] = dispatcher.callbacks[eventType].filter(cb => cb !== callback) as any;
+          }
+        };
       }
     };
   }
