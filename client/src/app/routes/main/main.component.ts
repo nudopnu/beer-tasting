@@ -10,6 +10,7 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
 })
 export class MainComponent {
   faceExpression$: Observable<FaceExpressions>;
+  precision = 4;
 
   constructor(
     eventDispatcher: EventDispatcherService,

@@ -20,6 +20,10 @@ export class WebcamComponent implements AfterViewInit {
   ) { }
 
   async ngAfterViewInit(): Promise<void> {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDecices = devices.filter(device => device.kind === "videoinput");
+    console.log(videoDecices);
+
     const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
     this.setStream(mediaStream);
   }

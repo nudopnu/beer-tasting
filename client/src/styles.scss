@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'appfont';
-    src: url('/fonts/AlwynNew-LT.ttf');
+    src: url('assets/fonts/AlwynNew-LT.otf');
 }
 
 html {
@@ -25,10 +25,17 @@ body {
 }
 
 button {
+    font-family: 'appfont', sans-serif;
     background: white;
     border: 1px solid #d0d0d0;
     padding: 10px;
     border-radius: 5px;
     min-width: 100px;
     cursor: pointer;
+}
+
+button.icon {
+    padding: 0px 7px;
+    min-width: 40px;
+    color: #898989;
 }
