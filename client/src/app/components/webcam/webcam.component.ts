@@ -56,7 +56,7 @@ export class WebcamComponent implements AfterViewInit {
         const { width, height } = videoElement.getBoundingClientRect()
         faceapi.matchDimensions(this.canvas, { width, height });
 
-        const modelsPath = '../assets/models/';
+        const modelsPath = '../beer-tasting/assets/models/';
         await Promise.all([
           faceapi.nets.faceExpressionNet.loadFromUri(modelsPath),
           faceapi.nets.faceLandmark68Net.loadFromUri(modelsPath),
