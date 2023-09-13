@@ -322,7 +322,6 @@ export class IconComponent implements AfterViewInit {
       .subscribe(res => {
         const svgCode = new TextDecoder().decode(res);
         this.innerSvg = this.domSanatizer.bypassSecurityTrustHtml(svgCode);
-        console.log(this.innerSvg);
       });
   }
 }

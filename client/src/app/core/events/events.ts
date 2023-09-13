@@ -12,3 +12,7 @@ export class InfoEvent extends AbstractEvent<string>{
 export class FaceExpressionEvent extends AbstractEvent<FaceExpressions>{
     override readonly type = "FaceExpressionEvent";
 }
+
+export class OpenDialogEvent extends AbstractEvent<{ component: any }>{
+    override readonly type = "OpenDialogEvent";
+}

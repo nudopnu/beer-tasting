@@ -2,7 +2,9 @@ import { AfterViewInit, Component } from '@angular/core';
 import { FaceExpressions } from 'face-api.js';
 import * as Plotly from 'plotly.js-dist-min';
 import { Subscription } from 'src/app/core/events/event-listener';
+import { OpenDialogEvent } from 'src/app/core/events/events';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
+import { SettingsComponent } from '../modal/settings/settings.component';
 
 @Component({
   selector: 'beer-plot',
@@ -65,6 +67,10 @@ export class PlotComponent implements AfterViewInit {
   toggleRecording() {
     this.isRecording = !this.isRecording;
     this.isRecording ? this.start() : this.stop();
+  }
+
+  openSettings() {
+    this.eventDispatcher.dispatch(new OpenDialogEvent({ component: SettingsComponent }))
   }
 
   start() {

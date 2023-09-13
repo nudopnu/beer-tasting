@@ -1,0 +1,10 @@
+<div [ngClass]="{'hidden': currentComponent === undefined}" id="background">
+    <div id="dialog">
+        <div id="dialogContent">
+            <div #dialogContent></div>
+        </div>
+        <div id="dialog-footer">
+            <button (click)="destroy()">Close</button>
+        </div>
+    </div>
+</div>

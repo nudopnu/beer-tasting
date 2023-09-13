@@ -1,6 +1,6 @@
 <div id="buttons">
     <button (click)="toggleRecording()">{{isRecording ? "Stop": "Start" }} recording</button>
     <button (click)="reset()">reset</button>
-    <button class="icon"> <beer-icon [name]="'cog'" ></beer-icon> </button>
+    <button class="icon" (click)="openSettings()"> <beer-icon [name]="'cog'" ></beer-icon> </button>
 </div>
 <div id="plot" [ngClass]="{'hidden': !hasRecordedData()}"></div>

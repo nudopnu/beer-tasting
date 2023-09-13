@@ -1,5 +1,5 @@
 import { EventType } from "./event-type";
-import { ErrorEvent, FaceExpressionEvent, InfoEvent } from "./events";
+import { ErrorEvent, FaceExpressionEvent, InfoEvent, OpenDialogEvent } from "./events";
 
 export abstract class AbstractEvent<T> {
     abstract readonly type: EventType;
@@ -13,4 +13,5 @@ export type Event =
     | ErrorEvent
     | InfoEvent
     | FaceExpressionEvent
+    | OpenDialogEvent
     ;

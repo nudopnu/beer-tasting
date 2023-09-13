@@ -8,6 +8,8 @@ import { MainComponent } from './routes/main/main.component';
 import { WebcamComponent } from './components/webcam/webcam.component';
 import { PlotComponent } from './components/plot/plot.component';
 import { IconComponent } from './components/icon/icon.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { SettingsComponent } from './components/modal/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { IconComponent } from './components/icon/icon.component';
     MainComponent,
     WebcamComponent,
     PlotComponent,
-    IconComponent
+    IconComponent,
+    ModalComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
