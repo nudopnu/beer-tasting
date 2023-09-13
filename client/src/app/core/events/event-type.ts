@@ -5,6 +5,7 @@ export const EventTypes = [
     "InfoEvent",
     "FaceExpressionEvent",
     "OpenDialogEvent",
+    "ChangeVideoSourceEvent",
 ] as const;
 
 export type EventType = typeof EventTypes[number];

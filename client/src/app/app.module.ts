@@ -10,6 +10,7 @@ import { PlotComponent } from './components/plot/plot.component';
 import { IconComponent } from './components/icon/icon.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { SettingsComponent } from './components/modal/settings/settings.component';
+import { DropDownComponent } from './components/drop-down/drop-down.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SettingsComponent } from './components/modal/settings/settings.componen
     PlotComponent,
     IconComponent,
     ModalComponent,
-    SettingsComponent
+    SettingsComponent,
+    DropDownComponent
   ],
   imports: [
     BrowserModule,

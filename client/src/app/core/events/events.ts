@@ -16,3 +16,7 @@ export class FaceExpressionEvent extends AbstractEvent<FaceExpressions>{
 export class OpenDialogEvent extends AbstractEvent<{ component: any }>{
     override readonly type = "OpenDialogEvent";
 }
+
+export class ChangeVideoSourceEvent extends AbstractEvent<{ deviceId: string }>{
+    override readonly type = "ChangeVideoSourceEvent";
+}

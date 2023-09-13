@@ -14,18 +14,30 @@ export class WebcamComponent implements AfterViewInit {
 
   @ViewChild('video') videoElementRef: ElementRef | undefined;
 
+  interval: any;
+  canvas: HTMLCanvasElement | undefined;
+
   constructor(
     private eventDispatcher: EventDispatcherService,
-    private httpClient: HttpClient,
-  ) { }
+  ) {
+    eventDispatcher.listen("ChangeVideoSourceEvent").subscribe(async event => {
+      const { deviceId } = event.payload;
+      const mediaStream = await this.getVideoInputStream(deviceId);
+      this.setStream(mediaStream);
+    });
+  }
 
   async ngAfterViewInit(): Promise<void> {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoDecices = devices.filter(device => device.kind === "videoinput");
-    console.log(videoDecices);
-
-    const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const mediaStream = await this.getVideoInputStream();
     this.setStream(mediaStream);
+  }
+
+  private async getVideoInputStream(videoSource?: string) {
+    const constraints = {
+      video: videoSource ? { deviceId: { exact: videoSource } } : true
+    };
+    const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+    return mediaStream;
   }
 
   async setStream(stream: MediaStream): Promise<void> {
@@ -36,12 +48,13 @@ export class WebcamComponent implements AfterViewInit {
 
       if (this.videoElementRef) {
         const videoElement = this.videoElementRef.nativeElement as HTMLVideoElement;
-        const canvas = await faceapi.createCanvasFromMedia(videoElement);
-        canvas.style.position = 'absolute';
-        videoElement.parentElement?.appendChild(canvas);
+        if (this.canvas) this.canvas.parentElement?.removeChild(this.canvas);
+        this.canvas = await faceapi.createCanvasFromMedia(videoElement);
+        this.canvas.style.position = 'absolute';
+        videoElement.parentElement?.appendChild(this.canvas);
 
         const { width, height } = videoElement.getBoundingClientRect()
-        faceapi.matchDimensions(canvas, { width, height });
+        faceapi.matchDimensions(this.canvas, { width, height });
 
         const modelsPath = '../assets/models/';
         await Promise.all([
@@ -50,7 +63,8 @@ export class WebcamComponent implements AfterViewInit {
           faceapi.nets.tinyFaceDetector.loadFromUri(modelsPath),
         ]);
 
-        setInterval(this.detectAndDraw(videoElement, { width, height }, canvas), 100);
+        if (this.interval) clearInterval(this.interval);
+        this.interval = setInterval(this.detectAndDraw(videoElement, { width, height }, this.canvas), 100);
       }
     }
   }
