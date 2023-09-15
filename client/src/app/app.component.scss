@@ -1,28 +1,29 @@
-#root {
-    display: flex;
-    height: 100%;
+main {
     width: 100%;
+    display: flex;
     justify-content: center;
 }
 
 #content {
     display: flex;
     flex-direction: column;
-    width: 100%;
     justify-content: center;
     align-items: center;
     max-width: 768px;
-    width: 768px;
+    width: 100%;
+    margin: 10px;
 }
 
 #logo-container {
-    padding: 10px;
     display: flex;
-    width: 100%;
     justify-content: end;
-    padding: 70px;
+    width: 100%;
+    padding: min(10%, 20px) 0px;
+    max-width: 768px;
 }
 
 #logo {
-    transform: scale(0.7);
+    width: 70%;
+    max-width: 300px;
+    height: auto;
 }
