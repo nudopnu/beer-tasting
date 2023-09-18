@@ -8,6 +8,8 @@ import { Subscription } from 'src/app/core/events/event-listener';
 import { OpenDialogEvent } from 'src/app/core/events/events';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
+import * as _ from "lodash";
+
 @Component({
   selector: 'beer-main',
   templateUrl: './main.component.html',
@@ -23,6 +25,7 @@ export class MainComponent implements AfterViewInit {
     "disgusted",
     "surprised",
   ];
+  beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), 3);
 
   faceExpression$: Observable<FaceExpressions>;
   precision = 4;
@@ -43,6 +46,10 @@ export class MainComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     Plotly.newPlot('plot', this.data, { autosize: true });
+  }
+
+  getRandomBeers(): void {
+    this.beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), 3);
   }
 
   addExpression(expression: FaceExpressions): void {

@@ -1,10 +1,12 @@
 <div class="column">
     <beer-webcam></beer-webcam>
-    <beer-beer-selection></beer-beer-selection>
+    <beer-beer-selection [beers]="beers"></beer-beer-selection>
     <div id="buttons">
         <button (click)="toggleRecording()">{{isRecording ? "Stop": "Start" }} recording</button>
         <button (click)="reset()">reset</button>
-        <button class="icon" (click)="openSettings()"> <beer-icon [name]="'cog'" ></beer-icon> </button>
+        <button class="icon" > <beer-icon [name]="'user-plus'"></beer-icon> </button>
+        <button class="icon" (click)="getRandomBeers()"> <beer-icon [name]="'dice'"></beer-icon> </button>
+        <button class="icon" (click)="openSettings()"> <beer-icon [name]="'cog'"></beer-icon> </button>
     </div>
     <div *ngIf="faceExpression$ | async  as faceExpression">
         <div class="expression"><span>neutral:</span><span>{{faceExpression.neutral.toFixed(precision)}}</span></div>
@@ -12,8 +14,10 @@
         <div class="expression"><span>sad:</span><span>{{faceExpression.sad.toFixed(precision)}}</span></div>
         <div class="expression"><span>angry:</span><span>{{faceExpression.angry.toFixed(precision)}}</span></div>
         <div class="expression"><span>fearful:</span><span>{{faceExpression.fearful.toFixed(precision)}}</span></div>
-        <div class="expression"><span>disgusted:</span><span>{{faceExpression.disgusted.toFixed(precision)}}</span></div>
-        <div class="expression"><span>surprised:</span><span>{{faceExpression.surprised.toFixed(precision)}}</span></div>
+        <div class="expression"><span>disgusted:</span><span>{{faceExpression.disgusted.toFixed(precision)}}</span>
+        </div>
+        <div class="expression"><span>surprised:</span><span>{{faceExpression.surprised.toFixed(precision)}}</span>
+        </div>
     </div>
     <beer-plot [data]="data"></beer-plot>
 </div>

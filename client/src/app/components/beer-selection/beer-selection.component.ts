@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'beer-beer-selection',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./beer-selection.component.scss']
 })
 export class BeerSelectionComponent {
-  beers = [...Array(10)].map((_, i) => i + 1);
+  @Input() beers = [...Array(10)].map((_, i) => i + 1);
 }
