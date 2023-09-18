@@ -1,15 +1,16 @@
 import { Settings } from "../models/settings.model";
-import { AbstractResource } from "./resource";
+import { User } from "../models/user.model";
+import { AbstractMultiResource, AbstractSingleResource } from "./resource";
 
-export abstract class SettingsResource extends AbstractResource<Settings> {
+export abstract class SettingsResource extends AbstractSingleResource<Settings> {
     readonly type = "SettingsResource";
 }
 
-export abstract class StringResource extends AbstractResource<string> {
-    readonly type = "StringResource";
+export abstract class UserResource extends AbstractMultiResource<User> {
+    readonly type = "UserResource";
 }
 
 export type Resource =
-    | StringResource
+    | UserResource
     | SettingsResource
     ;

@@ -5,10 +5,11 @@ import { FaceExpressions } from 'face-api.js';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { SettingsComponent } from 'src/app/components/modal/settings/settings.component';
 import { Subscription } from 'src/app/core/events/event-listener';
-import { OpenDialogEvent } from 'src/app/core/events/events';
+import { FaceExpressionEvent, OpenDialogEvent } from 'src/app/core/events/events';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 import * as _ from "lodash";
+import { FaceApi } from 'src/app/core/FaceApi';
 
 @Component({
   selector: 'beer-main',
@@ -32,6 +33,7 @@ export class MainComponent implements AfterViewInit {
   isRecording = false;
   subscription?: Subscription;
   data: Plotly.Data[];
+  faceapi: FaceApi;
 
   constructor(
     private eventDispatcher: EventDispatcherService,
@@ -42,6 +44,16 @@ export class MainComponent implements AfterViewInit {
     });
     this.faceExpression$ = faceExpressionSource.asObservable();
     this.data = this.initialData();
+    this.faceapi = new FaceApi(detections => {
+      if (detections.length > 0) {
+        const { expressions } = detections[0];
+        eventDispatcher.dispatch(new FaceExpressionEvent(expressions, true));
+      }
+    });
+  }
+
+  onStreamInit(videoElement: HTMLVideoElement) {
+    this.faceapi.startDetection(videoElement);
   }
 
   ngAfterViewInit(): void {

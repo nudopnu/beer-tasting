@@ -1,5 +1,5 @@
 <div class="column">
-    <beer-webcam></beer-webcam>
+    <beer-webcam (onStreamInit)="onStreamInit($event)"></beer-webcam>
     <beer-beer-selection [beers]="beers"></beer-beer-selection>
     <div id="buttons">
         <button (click)="toggleRecording()">{{isRecording ? "Stop": "Start" }} recording</button>

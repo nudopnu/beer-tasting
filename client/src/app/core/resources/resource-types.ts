@@ -1,6 +1,6 @@
 export const ResourceTypes = [
     "SettingsResource",
-    "StringResource",
+    "UserResource",
 ] as const;
 
 export type ResourceType = typeof ResourceTypes[number];
