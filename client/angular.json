@@ -31,7 +31,7 @@
               {
                 "glob": "**/*",
                 "input": "./node_modules/heroicons/24/",
-                "output": "/icons/"
+                "output": "/assets/icons/"
               }
             ],
             "styles": [

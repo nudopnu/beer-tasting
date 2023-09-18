@@ -30,6 +30,10 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    border: 1px solid #4e4e4e;
+}
+
 select {
     padding: 10px;
     border-radius: 5px;

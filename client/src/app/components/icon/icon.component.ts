@@ -307,7 +307,7 @@ type IconType = "outline" | "solid";
 })
 export class IconComponent implements AfterViewInit {
   @Input() type: IconType = "outline";
-  @Input() name: IconName | undefined;
+  @Input() name: IconName | string | undefined;
   @ViewChild('svg') svgElementRef: ElementRef | undefined;
 
   innerSvg: SafeHtml = "";
@@ -318,7 +318,7 @@ export class IconComponent implements AfterViewInit {
   ) { }
 
   ngAfterViewInit(): void {
-    this.http.get(`./icons/${this.type}/${this.name}.svg`, { responseType: 'arraybuffer' })
+    this.http.get(`./assets/icons/${this.type}/${this.name}.svg`, { responseType: 'arraybuffer' })
       .subscribe(res => {
         const svgCode = new TextDecoder().decode(res);
         this.innerSvg = this.domSanatizer.bypassSecurityTrustHtml(svgCode);

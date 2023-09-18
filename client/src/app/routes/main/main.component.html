@@ -1,5 +1,11 @@
 <div class="column">
     <beer-webcam></beer-webcam>
+    <beer-beer-selection></beer-beer-selection>
+    <div id="buttons">
+        <button (click)="toggleRecording()">{{isRecording ? "Stop": "Start" }} recording</button>
+        <button (click)="reset()">reset</button>
+        <button class="icon" (click)="openSettings()"> <beer-icon [name]="'cog'" ></beer-icon> </button>
+    </div>
     <div *ngIf="faceExpression$ | async  as faceExpression">
         <div class="expression"><span>neutral:</span><span>{{faceExpression.neutral.toFixed(precision)}}</span></div>
         <div class="expression"><span>happy:</span><span>{{faceExpression.happy.toFixed(precision)}}</span></div>
@@ -9,5 +15,5 @@
         <div class="expression"><span>disgusted:</span><span>{{faceExpression.disgusted.toFixed(precision)}}</span></div>
         <div class="expression"><span>surprised:</span><span>{{faceExpression.surprised.toFixed(precision)}}</span></div>
     </div>
-    <beer-plot></beer-plot>
+    <beer-plot [data]="data"></beer-plot>
 </div>

@@ -3,3 +3,10 @@
     display: flex;
     justify-content: space-between;
 }
+
+#buttons {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+}
