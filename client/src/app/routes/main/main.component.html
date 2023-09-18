@@ -1,5 +1,6 @@
 <div class="column">
     <beer-webcam (onStreamInit)="onStreamInit($event)"></beer-webcam>
+    <beer-qrcode></beer-qrcode>
     <beer-beer-selection [beers]="beers"></beer-beer-selection>
     <div id="buttons">
         <button (click)="toggleRecording()">{{isRecording ? "Stop": "Start" }} recording</button>
@@ -12,6 +13,5 @@
     </ng-container> -->
     <ng-container *ngIf="recording && recording.traces$ | async as data">
         <beer-plot [data]="data"></beer-plot>
-        {{data|json}}
     </ng-container>
 </div>

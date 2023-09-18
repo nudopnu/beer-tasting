@@ -12,6 +12,7 @@ import * as _ from "lodash";
 import { FaceExpressionDetector as FaceDetector } from 'src/app/core/FaceApi';
 import { FaceExpressionsRecording } from 'src/app/core/FaceExpressionsRecording';
 import { User } from 'src/app/core/models/user.model';
+import { QrcodeDetector } from 'src/app/core/QrcodeDetectpr';
 
 @Component({
   selector: 'beer-main',
@@ -25,7 +26,8 @@ export class MainComponent {
   faceExpression$: Observable<FaceExpressions>;
   isRecording = false;
   subscription?: Subscription;
-  faceapi: FaceDetector;
+  faceDetector: FaceDetector;
+  qrcodeDetector: QrcodeDetector;
   recording: FaceExpressionsRecording | undefined;
 
   constructor(
@@ -36,16 +38,17 @@ export class MainComponent {
       faceExpressionSource.next(event.payload);
     });
     this.faceExpression$ = faceExpressionSource.asObservable();
-    this.faceapi = new FaceDetector(detections => {
+    this.faceDetector = new FaceDetector(detections => {
       if (detections.length > 0) {
         const { expressions } = detections[0];
         eventDispatcher.dispatch(new FaceExpressionEvent(expressions, true));
       }
     });
+    this.qrcodeDetector = new QrcodeDetector();
   }
 
   async onStreamInit(videoElement: HTMLVideoElement) {
-    await this.faceapi.startDetection(videoElement);
+    // await this.faceapi.startDetection(videoElement);
   }
 
   setUser() {

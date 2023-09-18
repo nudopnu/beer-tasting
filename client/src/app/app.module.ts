@@ -14,6 +14,8 @@ import { PlotComponent } from './components/plot/plot.component';
 import { WebcamComponent } from './components/webcam/webcam.component';
 import { MainComponent } from './routes/main/main.component';
 import { FaceExpressionComponent } from './components/face-expression/face-expression.component';
+import { QrcodeComponent } from './components/qrcode/qrcode.component';
+import { RegisterComponent } from './routes/register/register.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { FaceExpressionComponent } from './components/face-expression/face-expre
     DropDownComponent,
     BeerSelectionComponent,
     BeerComponent,
-    FaceExpressionComponent
+    FaceExpressionComponent,
+    QrcodeComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
