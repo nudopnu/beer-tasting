@@ -1,6 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import * as QRCode from 'qrcode'
 import { User } from 'src/app/core/models/user.model';
+import { GenerationNames } from "../../core/models/generation";
 
 @Component({
   selector: 'beer-register',
@@ -8,6 +9,8 @@ import { User } from 'src/app/core/models/user.model';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements AfterViewInit {
+  generations = GenerationNames;
+
   constructor() {
 
   }

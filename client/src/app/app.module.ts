@@ -16,6 +16,15 @@ import { MainComponent } from './routes/main/main.component';
 import { FaceExpressionComponent } from './components/face-expression/face-expression.component';
 import { QrcodeComponent } from './components/qrcode/qrcode.component';
 import { RegisterComponent } from './routes/register/register.component';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { de_DE } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import de from '@angular/common/locales/de';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ZorroModule } from './zorro.module';
+
+registerLocaleData(de);
 
 @NgModule({
   declarations: [
@@ -37,8 +46,13 @@ import { RegisterComponent } from './routes/register/register.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ZorroModule,
   ],
-  providers: [],
+  providers: [
+    { provide: NZ_I18N, useValue: de_DE }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

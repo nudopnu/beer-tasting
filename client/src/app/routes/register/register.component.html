@@ -1,2 +1,10 @@
 <p>register works!</p>
 <canvas id="canvas"></canvas>
+<div id="form">
+    <div class="label generation">
+        Select generation:
+    </div>
+    <nz-select>
+        <nz-option *ngFor="let generation of generations" nzValue="lucy" [nzLabel]="generation"></nz-option>
+    </nz-select>
+</div>
