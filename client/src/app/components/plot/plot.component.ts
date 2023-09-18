@@ -1,22 +1,28 @@
-import { Input, AfterViewInit, Component } from '@angular/core';
-import { FaceExpressions } from 'face-api.js';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as Plotly from 'plotly.js-dist-min';
-import { Subscription } from 'src/app/core/events/event-listener';
-import { OpenDialogEvent } from 'src/app/core/events/events';
-import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
-import { SettingsComponent } from '../modal/settings/settings.component';
 
 @Component({
   selector: 'beer-plot',
   templateUrl: './plot.component.html',
   styleUrls: ['./plot.component.scss']
 })
-export class PlotComponent {
+export class PlotComponent implements OnChanges {
 
   @Input() data: Plotly.Data[] = [];
+  plot: any;
 
   hasRecordedData(): boolean {
-    return (this.data[0] as any).x.length > 1;
+    return this.data.length > 1;
   }
 
+  async ngOnChanges(changes: SimpleChanges) {
+    if (!this.plot)
+      this.plot = this.initPlot();
+    else
+      this.plot = await Plotly.react('plot', this.data, { autosize: true });
+  }
+
+  private async initPlot() {
+    return await Plotly.newPlot('plot', this.data, { autosize: true });
+  }
 }

@@ -9,31 +9,24 @@ import { FaceExpressionEvent, OpenDialogEvent } from 'src/app/core/events/events
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 import * as _ from "lodash";
-import { FaceApi } from 'src/app/core/FaceApi';
+import { FaceExpressionDetector as FaceDetector } from 'src/app/core/FaceApi';
+import { FaceExpressionsRecording } from 'src/app/core/FaceExpressionsRecording';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'beer-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements AfterViewInit {
-  EXPRESSIONS = [
-    "neutral",
-    "happy",
-    "sad",
-    "angry",
-    "fearful",
-    "disgusted",
-    "surprised",
-  ];
+export class MainComponent {
+  currentUser: User | undefined;
   beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), 3);
 
   faceExpression$: Observable<FaceExpressions>;
-  precision = 4;
   isRecording = false;
   subscription?: Subscription;
-  data: Plotly.Data[];
-  faceapi: FaceApi;
+  faceapi: FaceDetector;
+  recording: FaceExpressionsRecording | undefined;
 
   constructor(
     private eventDispatcher: EventDispatcherService,
@@ -43,8 +36,7 @@ export class MainComponent implements AfterViewInit {
       faceExpressionSource.next(event.payload);
     });
     this.faceExpression$ = faceExpressionSource.asObservable();
-    this.data = this.initialData();
-    this.faceapi = new FaceApi(detections => {
+    this.faceapi = new FaceDetector(detections => {
       if (detections.length > 0) {
         const { expressions } = detections[0];
         eventDispatcher.dispatch(new FaceExpressionEvent(expressions, true));
@@ -52,44 +44,17 @@ export class MainComponent implements AfterViewInit {
     });
   }
 
-  onStreamInit(videoElement: HTMLVideoElement) {
-    this.faceapi.startDetection(videoElement);
+  async onStreamInit(videoElement: HTMLVideoElement) {
+    await this.faceapi.startDetection(videoElement);
   }
 
-  ngAfterViewInit(): void {
-    Plotly.newPlot('plot', this.data, { autosize: true });
+  setUser() {
+    this.currentUser = { generation: "Boomers I", id: "abc123" } as User;
+    this.recording = new FaceExpressionsRecording(this.currentUser);
   }
 
   getRandomBeers(): void {
     this.beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), 3);
-  }
-
-  addExpression(expression: FaceExpressions): void {
-    const new_data = (trace: any) => {
-      const result = trace;
-      expression.asSortedArray().forEach(({ expression, probability }) => {
-        if (trace.name === expression) {
-          const newX = result.x.length + 1;
-          const newY = probability;
-          result.x = [...result.x, newX];
-          result.y = [...result.y, newY];
-        }
-      });
-      return result;
-    };
-    this.data = this.data.map(new_data);
-  }
-
-
-  private initialData(): Plotly.Data[] {
-    return this.EXPRESSIONS.map(
-      expression => ({
-        x: [1],
-        y: [0],
-        type: 'scatter',
-        name: expression,
-      })
-    );
   }
 
   openSettings() {
@@ -104,8 +69,7 @@ export class MainComponent implements AfterViewInit {
   start() {
     this.subscription = this.eventDispatcher.listen("FaceExpressionEvent")
       .subscribe(event => {
-        this.addExpression(event.payload);
-        Plotly.react('plot', this.data, { autosize: true });
+        this.recording?.addExpression(event.payload);
       });
   }
 
@@ -113,10 +77,6 @@ export class MainComponent implements AfterViewInit {
     if (this.subscription) {
       this.subscription.remove();
     }
-  }
-
-  reset() {
-    this.data = this.initialData();
   }
 
 }

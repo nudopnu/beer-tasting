@@ -1,9 +1,10 @@
 import * as faceapi from 'face-api.js';
 import { WithFaceExpressions, WithFaceLandmarks, FaceDetection, FaceLandmarks68, IDimensions } from 'face-api.js';
 
-export class FaceApi {
+export class FaceExpressionDetector {
 
     MODELS_PATH = '../assets/models/'; // '../beer-tasting/assets/models/'; // FOR PRODUCTION
+    
     canvas: HTMLCanvasElement | undefined;
     interval: any;
 
