@@ -1,12 +1,37 @@
-<main>
-  <div id="content">
+<nz-layout>
+
+  <nz-header>
     <div id="logo-container">
       <img id="logo" src="./assets/images/Logo_Hauptcampus_Wirtschaft.gif" alt="image">
     </div>
-    <div id="inner-content">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</main>
+  </nz-header>
+
+  <nz-layout>
+
+    <nz-sider nzCollapsible nzWidth="200px" nzTheme="light" nzBreakpoint="lg" [nzCollapsedWidth]="0" [nzTrigger]="null">
+      <ul nz-menu nzTheme="light" nzMode="inline">
+
+        <li nz-menu-item [nzSelected]="this.isSelected('/statistics')" routerLink="/statistics" routerLinkActive="active">
+          <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+          <span>Statistiken</span>
+        </li>
+
+        <li nz-menu-item nzTitle="Settings" (click)="openSettings()">
+          <span nz-icon nzType="setting"></span>
+          <span>Einstellungen</span>
+        </li>
+      </ul>
+    </nz-sider>
+
+    <nz-content>
+      <main>
+        <div id="content">
+          <router-outlet></router-outlet>
+        </div>
+      </main>
+    </nz-content>
+
+  </nz-layout>
+</nz-layout>
 
 <beer-modal></beer-modal>

@@ -27,7 +27,8 @@ export class RadarChartComponent implements OnChanges {
         ticktext: FaceExpressionTypes.map(toGerman),
       },
     },
-    showlegend: false
+    showlegend: false,
+    responsive: false,
   };
   isInitialized = false;
 

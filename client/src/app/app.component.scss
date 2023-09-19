@@ -1,33 +1,47 @@
+::ng-deep .ant-layout, .ant-layout-header {
+    background: unset !important;
+}
+
+::ng-deep .ant-layout-header {
+    min-height: 100px;
+    height: 100px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+@media (min-width: 992px) {
+    ::ng-deep .ant-layout-header {
+        padding-left: 200px;
+    }
+
+    ::ng-deep .ant-layout-content {
+        padding-right: 200px;
+    }
+}
+
 main {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-#content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+main #content {
+    width: 100%;
     max-width: 768px;
-    width: 100%;
-    margin: 10px;
-}
-
-#inner-content {
-    width: 100%;
 }
 
 #logo-container {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     width: 100%;
-    padding: min(10%, 20px) 0px;
     max-width: 768px;
+    height: 100px;
+    padding: min(10%, 20px) 20px;
 }
 
 #logo {
-    width: 70%;
     max-width: 300px;
     height: auto;
+    float: right;
 }
