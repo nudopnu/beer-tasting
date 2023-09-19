@@ -11,6 +11,7 @@ import { ErrorEvent } from 'src/app/core/events/events';
 export class QrCodeComponent implements OnChanges {
   @ViewChild('svg') svgElementRef: ElementRef | undefined;
   @Input() content!: string;
+  @Input() caption: string | undefined;
 
   constructor(
     private eventDispatcher: EventDispatcherService,
