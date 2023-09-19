@@ -13,7 +13,7 @@ import { SettingsComponent } from './components/modal/settings/settings.componen
 import { PlotComponent } from './components/plot/plot.component';
 import { WebcamComponent } from './components/webcam/webcam.component';
 import { MainComponent } from './routes/main/main.component';
-import { FaceExpressionComponent } from './components/face-expression/face-expression.component';
+import { FaceExpressionStatsComponent } from './components/face-expression/face-expression-stats/face-expression-stats.component';
 import { QrcodeComponent } from './components/qrcode/qrcode.component';
 import { RegisterComponent } from './routes/register/register.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -23,6 +23,8 @@ import de from '@angular/common/locales/de';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ZorroModule } from './zorro.module';
+import { FaceExpressionComponent } from './components/face-expression/face-expression.component';
+import { RadarChartComponent } from './components/face-expression/radar-chart/radar-chart.component';
 
 registerLocaleData(de);
 
@@ -38,9 +40,11 @@ registerLocaleData(de);
     DropDownComponent,
     BeerSelectionComponent,
     BeerComponent,
-    FaceExpressionComponent,
+    FaceExpressionStatsComponent,
     QrcodeComponent,
     RegisterComponent,
+    FaceExpressionComponent,
+    RadarChartComponent,
   ],
   imports: [
     BrowserModule,

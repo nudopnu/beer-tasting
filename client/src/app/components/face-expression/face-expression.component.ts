@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FaceExpressions } from 'face-api.js';
-import { FaceExpression } from 'src/app/core/face-api/FaceExpression';
+import { Subscription } from 'src/app/core/events/event-listener';
+import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 @Component({
   selector: 'beer-face-expression',
@@ -8,6 +9,13 @@ import { FaceExpression } from 'src/app/core/face-api/FaceExpression';
   styleUrls: ['./face-expression.component.scss']
 })
 export class FaceExpressionComponent {
-  @Input() faceExpression: FaceExpressions | undefined;
-  precision = 4;
+  @Input() faceExpression: FaceExpressions | undefined
+  subscription: Subscription;
+
+  constructor(
+    eventDispatcher: EventDispatcherService,
+  ) {
+    this.subscription = eventDispatcher.listen("FaceExpressionEvent")
+      .subscribe(event => this.faceExpression = event.payload);
+  }
 }

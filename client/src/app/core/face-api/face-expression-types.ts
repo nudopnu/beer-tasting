@@ -1,4 +1,4 @@
-export const FaceExpressions = [
+export const FaceExpressionTypes = [
     "neutral",
     "happy",
     "sad",
@@ -8,4 +8,4 @@ export const FaceExpressions = [
     "surprised",
 ] as const;
 
-export type FaceExpression = typeof FaceExpressions[number];
+export type FaceExpressionType = typeof FaceExpressionTypes[number];
