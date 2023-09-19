@@ -52,7 +52,7 @@ export class MainComponent {
   }
 
   setUser() {
-    this.currentUser = { generation: "Boomers I", id: "abc123" } as User;
+    this.currentUser = { generation: "Boomer", id: "abc123" } as User;
     this.recording = new FaceExpressionsRecording(this.currentUser);
   }
 

@@ -4,20 +4,21 @@ export const GenerationNames = [
     "Gen Z",
     "Millenial",
     "Gen X",
-    "Boomers II (aka Generation Jones)",
-    "Boomers I",
+    "Boomer",
     "Post War",
     "WWII",
 ] as const;
 
-type Generations = {
-    "Gen Z": { range: "1997-2012" },
-    "Millenial": { range: "1981-1996" },
-    "Gen X": { range: "1965-1980" },
-    "Boomers II (aka Generation Jones)": { range: "1955-1964" },
-    "Boomers I": { range: "1946-1954" },
-    "Post War": { range: "1928-1945" },
-    "WWII": { range: "1922-1927" },
-};
+export function toRange(genaration: Generation) {
+    const mapping: { [K in Generation]: string } = {
+        "Gen Z": "1997-2012",
+        "Millenial": "1981-1996",
+        "Gen X": "1965-1980",
+        "Boomer": "1946-1964",
+        "Post War": "1928-1945",
+        "WWII": "1922-1927",
+    };
+    return mapping[genaration];
+}
 
-export type Generation = keyof Generations;
+export type Generation = typeof GenerationNames[number];

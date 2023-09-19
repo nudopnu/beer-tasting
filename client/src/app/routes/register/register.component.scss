@@ -1,4 +1,31 @@
 #form {
     display: grid;
     grid-template-areas: 'a b';
+    padding: 20px;
+    gap: 20px;
+}
+
+.select {
+    min-width: 100px;
+}
+
+#buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#svg {
+    border: 1px solid #d0d0d0;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 40px;
+    max-width: 300px;
+    width: 100%;
+}
+
+#qr {
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
