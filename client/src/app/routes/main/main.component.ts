@@ -22,12 +22,12 @@ import { QrcodeDetector } from 'src/app/core/QrcodeDetectpr';
 export class MainComponent {
   currentUser: User | undefined;
   beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), 3);
+  faceDetector: FaceDetector;
+  qrcodeDetector: QrcodeDetector;
 
   faceExpression$: Observable<FaceExpressions>;
   isRecording = false;
   subscription?: Subscription;
-  faceDetector: FaceDetector;
-  qrcodeDetector: QrcodeDetector;
   recording: FaceExpressionsRecording | undefined;
 
   constructor(
@@ -48,7 +48,7 @@ export class MainComponent {
   }
 
   async onStreamInit(videoElement: HTMLVideoElement) {
-    // await this.faceapi.startDetection(videoElement);
+    await this.faceDetector.startDetection(videoElement);
   }
 
   setUser() {
@@ -78,7 +78,7 @@ export class MainComponent {
 
   stop() {
     if (this.subscription) {
-      this.subscription.remove();
+      this.subscription.stop();
     }
   }
 

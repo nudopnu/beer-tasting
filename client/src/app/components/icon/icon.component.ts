@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterViewInit, AfterContentInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { first } from 'rxjs';
 
 const IconNames = [
   'academic-cap',
@@ -305,7 +306,7 @@ type IconType = "outline" | "solid";
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss']
 })
-export class IconComponent implements AfterViewInit {
+export class IconComponent implements AfterContentInit {
   @Input() type: IconType = "outline";
   @Input() name: IconName | string | undefined;
   @ViewChild('svg') svgElementRef: ElementRef | undefined;
@@ -316,9 +317,9 @@ export class IconComponent implements AfterViewInit {
     private http: HttpClient,
     private domSanatizer: DomSanitizer,
   ) { }
-
-  ngAfterViewInit(): void {
+  async ngAfterContentInit() {
     this.http.get(`./assets/icons/${this.type}/${this.name}.svg`, { responseType: 'arraybuffer' })
+      .pipe(first())
       .subscribe(res => {
         const svgCode = new TextDecoder().decode(res);
         this.innerSvg = this.domSanatizer.bypassSecurityTrustHtml(svgCode);

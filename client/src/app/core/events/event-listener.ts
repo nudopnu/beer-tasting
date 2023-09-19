@@ -2,7 +2,8 @@ import { Event } from "./event";
 import { EventOfType, EventType } from "./event-type";
 
 export interface Subscription {
-    remove(): void;
+    stop(): void;
+    resume(): void;
 }
 
 export abstract class EventListener<SpecificEvent extends Event> {
