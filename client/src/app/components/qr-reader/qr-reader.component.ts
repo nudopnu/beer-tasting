@@ -3,9 +3,9 @@ import { Html5Qrcode } from "html5-qrcode";
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 @Component({
-  selector: 'beer-qrcode',
-  templateUrl: './qrcode.component.html',
-  styleUrls: ['./qrcode.component.scss']
+  selector: 'beer-qr-reader',
+  templateUrl: './qr-reader.component.html',
+  styleUrls: ['./qr-reader.component.scss']
 })
 export class QrcodeComponent implements AfterViewInit {
 

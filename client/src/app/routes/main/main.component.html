@@ -1,7 +1,7 @@
 <div class="column">
     <beer-webcam (onStreamInit)="onStreamInit($event)"></beer-webcam>
     <div><beer-face-expression></beer-face-expression></div>
-    <beer-qrcode></beer-qrcode>
+    <beer-qr-reader></beer-qr-reader>
     <beer-beer-selection [beers]="beers"></beer-beer-selection>
     <div id="buttons">
         <button (click)="toggleRecording()">{{isRecording ? "Stop": "Start" }} recording</button>

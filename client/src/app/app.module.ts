@@ -14,7 +14,7 @@ import { PlotComponent } from './components/plot/plot.component';
 import { WebcamComponent } from './components/webcam/webcam.component';
 import { MainComponent } from './routes/main/main.component';
 import { FaceExpressionStatsComponent } from './components/face-expression/face-expression-stats/face-expression-stats.component';
-import { QrcodeComponent } from './components/qrcode/qrcode.component';
+import { QrcodeComponent } from './components/qr-reader/qr-reader.component';
 import { RegisterComponent } from './routes/register/register.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { de_DE } from 'ng-zorro-antd/i18n';
@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ZorroModule } from './zorro.module';
 import { FaceExpressionComponent } from './components/face-expression/face-expression.component';
 import { RadarChartComponent } from './components/face-expression/radar-chart/radar-chart.component';
+import { QrCodeComponent } from './components/qr-code/qr-code.component';
 
 registerLocaleData(de);
 
@@ -45,6 +46,7 @@ registerLocaleData(de);
     RegisterComponent,
     FaceExpressionComponent,
     RadarChartComponent,
+    QrCodeComponent,
   ],
   imports: [
     BrowserModule,

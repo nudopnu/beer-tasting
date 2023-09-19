@@ -15,17 +15,9 @@
     justify-content: center;
 }
 
-#svg {
-    border: 1px solid #d0d0d0;
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 40px;
-    max-width: 300px;
-    width: 100%;
-}
-
 #qr {
     display: flex;
     width: 100%;
     justify-content: center;
+    padding: 20px;
 }

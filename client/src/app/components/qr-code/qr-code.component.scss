@@ -1,0 +1,10 @@
+#svg {
+    border: 1px solid #d0d0d0;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100%;
+}
+
+::ng-deep svg {
+    width: 100%;
+}

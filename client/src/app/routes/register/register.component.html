@@ -17,10 +17,11 @@
         <nz-option *ngFor="let gender of genderTypes" [nzValue]="gender" [nzLabel]="gender"></nz-option>
     </nz-select>
 </div>
-<div id="qr" [ngStyle]="{'display': !currentUser ? 'none': 'flex'}">
-    <div id="svg" #svg></div>
+<div id="qr">
+    <beer-qr-code *ngIf="qrCode" [content]="qrCode"></beer-qr-code>
 </div>
 <div id="buttons">
-    <button *ngIf="!currentUser" [disabled]="!selectedGender || !selectedGeneration" (click)="generateQrCode()">QR Code generieren</button>
+    <button *ngIf="!currentUser" [disabled]="!selectedGender || !selectedGeneration" (click)="generateQrCode()">QR Code
+        generieren</button>
     <button *ngIf="!!currentUser" (click)="back()">Zurück</button>
 </div>
