@@ -1,14 +1,17 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FaceExpressions } from 'face-api.js';
 import * as Plotly from 'plotly.js-dist-min';
-import { FaceExpressionTypes } from 'src/app/core/face-api/face-expression-types';
+import { FaceExpressionTypes, toGerman } from 'src/app/core/face-api/face-expression-types';
+
+
+const FRACTION = 360 / 7;
 
 @Component({
   selector: 'beer-radar-chart',
   templateUrl: './radar-chart.component.html',
   styleUrls: ['./radar-chart.component.scss']
 })
-export class RadarChartComponent implements AfterViewInit, OnChanges {
+export class RadarChartComponent implements OnChanges {
 
   @Input() faceExpression: FaceExpressions | undefined;
   data = [] as any[];
@@ -18,42 +21,48 @@ export class RadarChartComponent implements AfterViewInit, OnChanges {
         visible: true,
         range: [0, 1],
         autotick: false,
-        // autorange: false,
-        // tickmode: "linear" as "linear",
-        // nticks: 20,
-        // tickwidth: 0.1,
-        // tick0: 0.5,
-        // dtick: 0.75,
-      }
+      },
+      angularaxis: {
+        tickvals: [...Array(7)].map((_, i) => i * FRACTION),
+        ticktext: FaceExpressionTypes.map(toGerman),
+      },
     },
     showlegend: false
   };
+  isInitialized = false;
 
-  ngAfterViewInit(): void {
-    Plotly.newPlot("plot", this.data, this.layout);
+  async createOrUpdate() {
+    if (this.isInitialized) {
+      await Plotly.react('plot', this.data, this.layout);
+    } else {
+      await Plotly.newPlot("plot", this.data, this.layout);
+      this.isInitialized = true;
+    }
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    const values = [] as number[];
-    const labels = [] as string[];
-    const widths = [] as number[];
+    const newData = [] as any[];
 
-    FaceExpressionTypes.forEach(faceExpressionType => {
+    FaceExpressionTypes.forEach((faceExpressionType, index) => {
+
       if (!this.faceExpression) return;
-      values.push(this.faceExpression[faceExpressionType]);
-      labels.push(faceExpressionType);
-      widths.push(1);
+      const value = this.faceExpression[faceExpressionType];
+      const label = toGerman(faceExpressionType);
+
+      const values = [0, value, value, 0] as number[];
+      const thetas = [0, index * FRACTION - 10, index * FRACTION + 10, 0] as number[];
+
+      newData.push({
+        type: 'scatterpolar',
+        mode: "lines",
+        fill: 'toself',
+        r: values,
+        theta: thetas,
+      });
     })
 
-    this.data = [{
-      type: 'scatterpolar',
-      mode: "lines",
-      fill: 'toself',
-      r: values,
-      width: widths,
-      theta: labels,
-    }];
-    await Plotly.react('plot', this.data, this.layout);
+    this.data = newData;
+    this.createOrUpdate();
   }
 
 }
