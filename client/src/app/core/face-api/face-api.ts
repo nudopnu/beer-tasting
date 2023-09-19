@@ -1,6 +1,10 @@
 import * as faceapi from 'face-api.js';
 import { WithFaceExpressions, WithFaceLandmarks, FaceDetection, FaceLandmarks68, IDimensions } from 'face-api.js';
 
+export type FaceDetections = WithFaceExpressions<WithFaceLandmarks<{
+    detection: FaceDetection;
+}, FaceLandmarks68>>[];
+
 export class FaceExpressionDetector {
 
     MODELS_PATH = '../assets/models/'; // '../beer-tasting/assets/models/'; // FOR PRODUCTION
@@ -9,7 +13,7 @@ export class FaceExpressionDetector {
     interval: any;
 
     constructor(
-        private onDetect: (detections: WithFaceExpressions<WithFaceLandmarks<{ detection: FaceDetection; }, FaceLandmarks68>>[]) => void,
+        private onDetect: (detections: FaceDetections) => void,
     ) { }
 
     async startDetection(videoElement: HTMLVideoElement) {

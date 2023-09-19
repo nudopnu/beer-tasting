@@ -1,15 +1,11 @@
-import { AfterViewInit, Component } from '@angular/core';
-import * as Plotly from 'plotly.js-dist-min';
+import { Component } from '@angular/core';
 
-import { FaceExpressions } from 'face-api.js';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { SettingsComponent } from 'src/app/components/modal/settings/settings.component';
-import { Subscription } from 'src/app/core/events/event-listener';
 import { FaceExpressionEvent, OpenDialogEvent } from 'src/app/core/events/events';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 import * as _ from "lodash";
-import { FaceExpressionDetector as FaceDetector } from 'src/app/core/FaceApi';
+import { FaceDetections, FaceExpressionDetector as FaceDetector } from 'src/app/core/face-api/face-api';
 import { FaceExpressionsRecording } from 'src/app/core/FaceExpressionsRecording';
 import { User } from 'src/app/core/models/user.model';
 import { QrcodeDetector } from 'src/app/core/QrcodeDetectpr';
@@ -25,26 +21,22 @@ export class MainComponent {
   faceDetector: FaceDetector;
   qrcodeDetector: QrcodeDetector;
 
-  faceExpression$: Observable<FaceExpressions>;
   isRecording = false;
-  subscription?: Subscription;
   recording: FaceExpressionsRecording | undefined;
 
   constructor(
     private eventDispatcher: EventDispatcherService,
   ) {
-    const faceExpressionSource = new Subject<FaceExpressions>();
-    eventDispatcher.listen("FaceExpressionEvent").subscribe(event => {
-      faceExpressionSource.next(event.payload);
-    });
-    this.faceExpression$ = faceExpressionSource.asObservable();
-    this.faceDetector = new FaceDetector(detections => {
-      if (detections.length > 0) {
-        const { expressions } = detections[0];
-        eventDispatcher.dispatch(new FaceExpressionEvent(expressions, true));
-      }
-    });
+    const faceDetectorCallback = this.onFaceDetection.bind(this);
+    this.faceDetector = new FaceDetector(faceDetectorCallback);
     this.qrcodeDetector = new QrcodeDetector();
+  }
+
+  private onFaceDetection(detections: FaceDetections) {
+    if (detections.length > 0) {
+      const { expressions } = detections[0];
+      this.eventDispatcher.dispatch(new FaceExpressionEvent(expressions, true));
+    }
   }
 
   async onStreamInit(videoElement: HTMLVideoElement) {
@@ -62,24 +54,6 @@ export class MainComponent {
 
   openSettings() {
     this.eventDispatcher.dispatch(new OpenDialogEvent({ component: SettingsComponent }));
-  }
-
-  toggleRecording() {
-    this.isRecording = !this.isRecording;
-    this.isRecording ? this.start() : this.stop();
-  }
-
-  start() {
-    this.subscription = this.eventDispatcher.listen("FaceExpressionEvent")
-      .subscribe(event => {
-        this.recording?.addExpression(event.payload);
-      });
-  }
-
-  stop() {
-    if (this.subscription) {
-      this.subscription.stop();
-    }
   }
 
 }
