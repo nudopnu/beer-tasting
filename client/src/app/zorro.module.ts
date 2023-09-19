@@ -1,13 +1,13 @@
 import { NgModule } from "@angular/core";
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { MailOutline, MenuUnfoldOutline, MenuFoldOutline, AppstoreOutline, SettingOutline, LineChartOutline } from '@ant-design/icons-angular/icons';
 import { IconDefinition } from '@ant-design/icons-angular';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { AppstoreOutline, HomeOutline, LineChartOutline, MailOutline, MenuFoldOutline, MenuUnfoldOutline, SettingOutline } from '@ant-design/icons-angular/icons';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 
 const icons: IconDefinition[] = [
@@ -17,6 +17,7 @@ const icons: IconDefinition[] = [
     AppstoreOutline,
     MenuFoldOutline,
     LineChartOutline,
+    HomeOutline,
 ];
 
 const exports = [

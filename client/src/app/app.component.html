@@ -11,15 +11,26 @@
     <nz-sider nzCollapsible nzWidth="200px" nzTheme="light" nzBreakpoint="lg" [nzCollapsedWidth]="0" [nzTrigger]="null">
       <ul nz-menu nzTheme="light" nzMode="inline">
 
+        <li nz-menu-item [nzSelected]="this.isSelected('/')" routerLink="/" routerLinkActive="active">
+          <span nz-icon nzType="home" nzTheme="outline"></span>
+          <span>Home</span>
+        </li>
+
         <li nz-menu-item [nzSelected]="this.isSelected('/statistics')" routerLink="/statistics" routerLinkActive="active">
           <span nz-icon nzType="line-chart" nzTheme="outline"></span>
           <span>Statistiken</span>
+        </li>
+
+        <li nz-menu-item [nzSelected]="this.isSelected('/register')" routerLink="/register" routerLinkActive="active">
+          <span nz-icon nzType="edit" nzTheme="outline"></span>
+          <span>Registrieren</span>
         </li>
 
         <li nz-menu-item nzTitle="Settings" (click)="openSettings()">
           <span nz-icon nzType="setting"></span>
           <span>Einstellungen</span>
         </li>
+        
       </ul>
     </nz-sider>
 

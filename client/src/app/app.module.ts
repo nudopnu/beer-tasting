@@ -26,6 +26,7 @@ import { ZorroModule } from './zorro.module';
 import { FaceExpressionComponent } from './components/face-expression/face-expression.component';
 import { RadarChartComponent } from './components/face-expression/radar-chart/radar-chart.component';
 import { QrCodeComponent } from './components/qr-code/qr-code.component';
+import { StatisticsComponent } from './routes/statistics/statistics.component';
 
 registerLocaleData(de);
 
@@ -47,6 +48,7 @@ registerLocaleData(de);
     FaceExpressionComponent,
     RadarChartComponent,
     QrCodeComponent,
+    StatisticsComponent,
   ],
   imports: [
     BrowserModule,
