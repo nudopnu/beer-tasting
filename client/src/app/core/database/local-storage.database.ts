@@ -1,5 +1,4 @@
 import { ResourceType } from "../resources/resource-types";
-import { Resource } from "../resources/resources";
 import { Database, WithId } from "./database";
 
 export class LocalStorageDatabase implements Database {

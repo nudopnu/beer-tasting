@@ -26,6 +26,9 @@ import { FaceExpressionComponent } from './components/face-expression/face-expre
 import { RadarChartComponent } from './components/face-expression/radar-chart/radar-chart.component';
 import { QrCodeComponent } from './components/qr-code/qr-code.component';
 import { StatisticsComponent } from './routes/statistics/statistics.component';
+import { OpenerComponent } from './routes/main/opener/opener.component';
+import { DrinkingComponent } from './routes/main/drinking/drinking.component';
+import { UserScanningComponent } from './routes/main/user-scanning/user-scanning.component';
 
 registerLocaleData(de);
 
@@ -47,6 +50,9 @@ registerLocaleData(de);
     RadarChartComponent,
     QrCodeComponent,
     StatisticsComponent,
+    OpenerComponent,
+    DrinkingComponent,
+    UserScanningComponent,
   ],
   imports: [
     BrowserModule,

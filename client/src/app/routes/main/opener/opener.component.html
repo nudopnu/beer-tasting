@@ -1,0 +1,8 @@
+<ng-container *ngIf="settings$ | async as settings">
+    <beer-webcam (onStreamInit)="onStreamInit($event)" [deviceId]="settings.videoInputDevice?.deviceId"></beer-webcam>
+    <div><beer-face-expression></beer-face-expression></div>
+    <button nz-button id="qr">
+        <nz-qrcode nzValue="https://nudopnu.github.io/beer-tasting/register" nzLevel="H"></nz-qrcode>
+        <div>Teilnehmen</div>
+    </button>
+</ng-container>
