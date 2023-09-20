@@ -3,9 +3,9 @@ import { Resource } from "../resources/resources";
 import { Database, WithId } from "./database";
 
 export class LocalStorageDatabase implements Database {
-    static INTERNAL_ID = "__id";
+    static INTERNAL_ID_COUNTER = "__id";
 
-    static id = parseInt(localStorage.getItem(LocalStorageDatabase.INTERNAL_ID) + "");
+    static id = parseInt(localStorage.getItem(LocalStorageDatabase.INTERNAL_ID_COUNTER) || "0");
 
     assignId<T>(item: T): WithId<T> {
         const newId = ++LocalStorageDatabase.id;
