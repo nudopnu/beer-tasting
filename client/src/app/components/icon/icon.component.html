@@ -1,1 +1,3 @@
-<div #svg id="svg" *ngIf="name" [innerHTML]="innerSvg"></div>
+<ng-container *ngIf="name">
+    <span #svg id="icon-svg-container" nz-icon  [innerHTML]="innerSvg" [ngClass]="sizing"></span>
+</ng-container>

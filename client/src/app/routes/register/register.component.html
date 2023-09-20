@@ -21,7 +21,13 @@
     <beer-qr-code *ngIf="qrCode" [content]="qrCode"></beer-qr-code>
 </div>
 <div id="buttons">
-    <button *ngIf="!currentUser" [disabled]="!selectedGender || !selectedGeneration" (click)="generateQrCode()">QR Code
-        generieren</button>
-    <button *ngIf="!!currentUser" (click)="back()">Zurück</button>
+    <ng-container *ngIf="!currentUser">
+        <button nz-button nzType="default" nzShape="round" [disabled]="!selectedGender || !selectedGeneration"
+            (click)="generateQrCode()">
+            QR Code generieren
+        </button>
+    </ng-container>
+    <ng-container *ngIf="!!currentUser">
+        <button nz-button nzType="default" nzShape="round" (click)="back()">Zurück</button>
+    </ng-container>
 </div>

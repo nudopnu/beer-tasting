@@ -307,6 +307,8 @@ type IconType = "outline" | "solid";
   styleUrls: ['./icon.component.scss']
 })
 export class IconComponent implements AfterContentInit {
+
+  @Input() sizing: 'default' | 'fill' = "default";
   @Input() type: IconType = "outline";
   @Input() name: IconName | string | undefined;
   @ViewChild('svg') svgElementRef: ElementRef | undefined;

@@ -25,6 +25,13 @@ body {
     width: 100%;
 }
 
+button {
+    border-radius: 5px !important;
+}
+
+.ant-btn {
+    color: unset;
+}
 // button {
 //     font-family: 'appfont', sans-serif;
 //     background: white;

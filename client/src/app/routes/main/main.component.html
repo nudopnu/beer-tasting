@@ -1,18 +1,20 @@
 <div class="column">
-    
+<!-- 
     <beer-webcam (onStreamInit)="onStreamInit($event)"></beer-webcam>
     <div><beer-face-expression></beer-face-expression></div>
-    <div id="qr"><beer-qr-code [content]="'https://nudopnu.github.io/beer-tasting/register'" [caption]="'Teilnehmen'"></beer-qr-code></div>
+    <div id="qr"><beer-qr-code [content]="'https://nudopnu.github.io/beer-tasting/register'"
+            [caption]="'Teilnehmen'"></beer-qr-code></div> -->
 
-    <!-- <beer-qr-reader></beer-qr-reader> -->
-    <!-- <beer-beer-selection [beers]="beers"></beer-beer-selection>
-    <div id="buttons">
-        <button (click)="toggleRecording()">{{isRecording ? "Stop": "Start" }} recording</button>
-        <button class="icon" (click)="setUser()"> <beer-icon [name]="'user-plus'"></beer-icon> </button>
-        <button class="icon" (click)="getRandomBeers()"> <beer-icon [name]="'dice'"></beer-icon> </button>
-        <button class="icon" (click)="openSettings()"> <beer-icon [name]="'cog'"></beer-icon> </button>
-    </div> -->
-    <!-- <ng-container *ngIf="recording && recording.traces$ | async as data">
-        <beer-plot [data]="data"></beer-plot>
-    </ng-container> -->
+    <beer-qr-reader></beer-qr-reader>
+    <beer-beer-selection [beers]="beers"></beer-beer-selection>
+
 </div>
+<div id="buttons">
+        <button nz-button>{{isRecording ? "Stop": "Start" }} recording</button>
+        <button nz-button class="icon" (click)="setUser()"> <beer-icon [name]="'user-plus'"></beer-icon> </button>
+        <button nz-button class="icon" (click)="getRandomBeers()"> <beer-icon [name]="'dice'"></beer-icon> </button>
+        <button nz-button class="icon" (click)="openSettings()"> <beer-icon [name]="'cog'"></beer-icon> </button>
+    </div>
+<!-- <ng-container *ngIf="recording && recording.traces$ | async as data">
+        <beer-plot [data]="data"></beer-plot>
+    </ng-container>-->
