@@ -1,6 +1,6 @@
 import { Data } from "plotly.js";
 import { BehaviorSubject } from "rxjs";
-import { FaceExpressionTypes as AllFaceExpressions } from "./face-api/face-expression-types";
+import { FaceExpressionTypes as AllFaceExpressions } from "./face-detection/face-expression-types";
 import { User } from "./models/user.model";
 import { FaceExpressions } from "face-api.js";
 

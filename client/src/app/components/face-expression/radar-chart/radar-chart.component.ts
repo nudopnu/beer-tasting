@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FaceExpressions } from 'face-api.js';
 import * as Plotly from 'plotly.js-dist-min';
-import { FaceExpressionTypes, toGerman } from 'src/app/core/face-api/face-expression-types';
+import { FaceExpressionTypes, toGerman } from 'src/app/core/face-detection/face-expression-types';
 
 
 const FRACTION = 360 / 7;

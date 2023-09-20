@@ -18,6 +18,7 @@ export class FaceExpressionComponent implements OnDestroy {
     this.subscription = eventDispatcher.listen("FaceExpressionEvent")
       .subscribe(event => this.faceExpression = event.payload);
   }
+  
   ngOnDestroy(): void {
     this.subscription.stop();
   }

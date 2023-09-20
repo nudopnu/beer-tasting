@@ -5,7 +5,7 @@ import { FaceExpressionEvent, OpenDialogEvent } from 'src/app/core/events/events
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 import * as _ from "lodash";
-import { FaceDetections, FaceExpressionDetector as FaceDetector } from 'src/app/core/face-api/face-api';
+import { FaceDetections, FaceExpressionDetector as FaceDetector } from 'src/app/core/face-detection/face-expression-detector';
 import { FaceExpressionsRecording } from 'src/app/core/FaceExpressionsRecording';
 import { User } from 'src/app/core/models/user.model';
 import { QrcodeDetector } from 'src/app/core/QrcodeDetectpr';
