@@ -1,5 +1,5 @@
 export const FaceExpressionTypes = [
-    "neutral",
+    // "neutral",
     "happy",
     "sad",
     "angry",
@@ -12,7 +12,7 @@ export type FaceExpressionType = typeof FaceExpressionTypes[number];
 
 export function toGerman(faceExpressionType: FaceExpressionType): string {
     const mapping: {[K in FaceExpressionType]: string} = {
-        neutral: "neutral",
+        // neutral: "neutral",
         happy: "fröhlich",
         sad: "traurig",
         angry: "wütend",
