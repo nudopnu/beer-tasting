@@ -1,6 +1,6 @@
 import { ResourceType } from "../resources/resource-types";
 
-export type WithId<T> = T & { id: string };
+export type WithId<T> = { item: T, id: string };
 
 export abstract class Database {
     abstract reset(type: ResourceType): void;

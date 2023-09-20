@@ -1,1 +1,2 @@
-<p>user-scanning works!</p>
+<beer-qr-reader [deviceId]="settings.videoInputDevice?.deviceId"
+    (onUserRegistered)="onUserRegistered.emit($event)"></beer-qr-reader>

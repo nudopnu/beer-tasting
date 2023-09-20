@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FaceExpressionEvent } from 'src/app/core/events/events';
 import { FaceDetections, FaceExpressionDetector } from 'src/app/core/face-detection/face-expression-detector';
@@ -14,8 +14,9 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
 })
 export class OpenerComponent implements OnDestroy {
 
-  settingsResource: SettingsResource;
-  settings$: Observable<Settings>;
+  @Output() onStart = new EventEmitter();
+  @Input() settings!: Settings;
+
   faceDetector: FaceExpressionDetector;
 
   constructor(
@@ -25,10 +26,6 @@ export class OpenerComponent implements OnDestroy {
     const faceDetectorCallback = this.onFaceDetection.bind(this);
     this.faceDetector = new FaceExpressionDetector(faceDetectorCallback);
     // this.qrcodeDetector = new QrcodeDetector();
-    this.settingsResource = new SettingsResource(databaseService.database);
-    this.settings$ = this.settingsResource.toObservable();
-    this.settings$.subscribe(d => console.log(d))
-    if (!this.settingsResource.get()) this.settingsResource.set({ videoInputDevice: undefined } as Settings);
   }
 
   async onStreamInit(videoElement: HTMLVideoElement) {

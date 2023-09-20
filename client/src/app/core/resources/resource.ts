@@ -20,7 +20,7 @@ export abstract class AbstractResource<T> {
         AbstractResource.notifier.next("");
     }
 
-    toObservable(): Observable<T> {
+    asObservable(): Observable<T> {
         return AbstractResource.notifier.asObservable().pipe(
             map(this.toItem)
         );
@@ -32,12 +32,14 @@ export abstract class AbstractSingleResource<T> extends AbstractResource<T> {
     override set(item: T): void {
         this.database.reset(this.type);
         this.database.addItems(this.type, [item]);
+        console.log(item);
+
         this.triggerUpdate();
     }
 
     override get(): T {
         const items = this.database.getItems<T>(this.type);
-        return items[0];
+        return items[0].item;
     }
 
     override toItem: (_: string) => T = _ => this.get();
@@ -52,7 +54,7 @@ export abstract class AbstractMultiResource<T> extends AbstractResource<Array<T>
     }
 
     override get(): Array<T> {
-        return this.database.getItems<T>(this.type);
+        return this.database.getItems<T>(this.type).map(dbi => dbi.item);
     }
 
     addItems(items: Array<T>): void {

@@ -1,13 +1,15 @@
-<div class="column">
-    <beer-opener></beer-opener>
-    <beer-beer-selection [beers]="beers"></beer-beer-selection>
+<div class="column" *ngIf="state$ | async as state">
+    <ng-container *ngIf="settings$ | async as settings">
+        <ng-container [ngSwitch]="state">
+            <beer-opener *ngSwitchCase="'Default'" (onStart)="onStart()" [settings]="settings"></beer-opener>
+            <beer-user-scanning *ngSwitchCase="'Scanning'" (onUserRegistered)="onUserRegistered($event)" [settings]="settings"></beer-user-scanning>
+            <beer-drinking  *ngSwitchCase="'Recording'" [user]="currentUser"></beer-drinking>
+        </ng-container>
+    </ng-container>
+
 </div>
 
-<div id="buttons">
-    <button nz-button>{{isRecording ? "Stop": "Start" }} recording</button>
-    <button nz-button class="icon" (click)="setUser()"> <beer-icon [name]="'user-plus'"></beer-icon> </button>
-    <button nz-button class="icon" (click)="getRandomBeers()"> <beer-icon [name]="'dice'"></beer-icon> </button>
-</div>
+
 <!-- <ng-container *ngIf="recording && recording.traces$ | async as data">
         <beer-plot [data]="data"></beer-plot>
     </ng-container>-->

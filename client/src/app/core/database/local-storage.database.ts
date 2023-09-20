@@ -7,17 +7,17 @@ export class LocalStorageDatabase implements Database {
     static id = parseInt(localStorage.getItem(LocalStorageDatabase.INTERNAL_ID_COUNTER) || "0");
 
     assignId<T>(item: T): WithId<T> {
-        const newId = ++LocalStorageDatabase.id;
-        localStorage.setItem("__id", `${newId}`);
-        return { ...item, id: newId } as WithId<T>
+        const newId = `${++LocalStorageDatabase.id}`;
+        localStorage.setItem("__id", newId);
+        return { item, id: newId } as WithId<T>
     }
 
     reset(type: ResourceType): void {
         localStorage.removeItem(type);
     }
 
-    getItems<T>(type: ResourceType): Array<T> {
-        return this.getItemsOrEmpty(type);
+    getItems<T>(type: ResourceType): Array<WithId<T>> {
+        return this.getItemsOrEmpty<T>(type);
     }
 
     addItems<T>(type: ResourceType, items: T[]): WithId<T>[] {
@@ -25,6 +25,8 @@ export class LocalStorageDatabase implements Database {
             ...this.getItemsOrEmpty<T>(type),
             ...items.map(this.assignId),
         ];
+        console.log(items, newItems);
+
         this.setItems(type, newItems);
         return newItems;
     }

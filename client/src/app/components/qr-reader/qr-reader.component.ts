@@ -1,5 +1,10 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { Html5Qrcode } from "html5-qrcode";
+import { Observable } from 'rxjs';
+import { Settings } from 'src/app/core/models/settings.model';
+import { User } from 'src/app/core/models/user.model';
+import { SettingsResource } from 'src/app/core/resources/resources';
+import { DatabaseService } from 'src/app/services/database.service';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 @Component({
@@ -7,14 +12,11 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
   templateUrl: './qr-reader.component.html',
   styleUrls: ['./qr-reader.component.scss']
 })
-export class QrcodeComponent implements AfterViewInit {
+export class QrcodeComponent implements AfterViewInit, OnChanges, OnDestroy {
 
+  @Input() deviceId: string | undefined;
+  @Output() onUserRegistered = new EventEmitter<User>();
   html5QrCode: Html5Qrcode | undefined;
-  deviceId: string | undefined;
-
-  constructor(eventDispatcher: EventDispatcherService,) {
-    eventDispatcher.listen("ChangeVideoSourceEvent").subscribe(event => this.init(event.payload.deviceId));
-  }
 
   init(cameraId: string) {
     this.html5QrCode!.start(
@@ -25,7 +27,8 @@ export class QrcodeComponent implements AfterViewInit {
       },
       (decodedText, decodedResult) => {
         console.log(decodedText, decodedResult);
-        // do something when code is read
+        const user = JSON.parse(decodedText) as User;
+        this.onUserRegistered.next(user);
       },
       (errorMessage) => {
         // parse error, ignore it.
@@ -36,12 +39,18 @@ export class QrcodeComponent implements AfterViewInit {
   }
 
   async ngAfterViewInit() {
-    this.html5QrCode = new Html5Qrcode(/* element id */ "reader");
-    this.deviceId = (await window.navigator.mediaDevices.enumerateDevices())
-      .filter(info => info.kind === "videoinput")
-      .map(info => info.deviceId)[0];
-    console.log(this.deviceId);
-    this.init(this.deviceId);
+    this.html5QrCode = new Html5Qrcode("reader");
+    // this.deviceId = (await window.navigator.mediaDevices.enumerateDevices())
+    //   .filter(info => info.kind === "videoinput")
+    //   .map(info => info.deviceId)[0];
+    this.init(this.deviceId!);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.init(this.deviceId!);
+  }
+
+  ngOnDestroy(): void {
+    this.html5QrCode!.stop();
+  }
 }
