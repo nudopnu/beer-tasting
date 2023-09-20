@@ -1,5 +1,5 @@
 import * as faceapi from 'face-api.js';
-import { WithFaceExpressions, WithFaceLandmarks, FaceDetection, FaceLandmarks68, IDimensions } from 'face-api.js';
+import { FaceDetection, FaceLandmarks68, IDimensions, WithFaceExpressions, WithFaceLandmarks } from 'face-api.js';
 
 export type FaceDetections = WithFaceExpressions<WithFaceLandmarks<{
     detection: FaceDetection;
@@ -8,7 +8,7 @@ export type FaceDetections = WithFaceExpressions<WithFaceLandmarks<{
 export class FaceExpressionDetector {
 
     MODELS_PATH = '../assets/models/'; // '../beer-tasting/assets/models/'; // FOR PRODUCTION
-    
+
     canvas: HTMLCanvasElement | undefined;
     interval: any;
 
@@ -21,6 +21,10 @@ export class FaceExpressionDetector {
         await this.loadModels();
         this.canvas = await this.initCanvas(videoElement, { width, height });
         this.startDetectionLoop(videoElement, { width, height });
+    }
+    
+    stopDetection(): void {
+        clearInterval(this.interval);
     }
 
     private startDetectionLoop(videoElement: HTMLVideoElement, dimensions: IDimensions) {

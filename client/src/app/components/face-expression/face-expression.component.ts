@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FaceExpressions } from 'face-api.js';
 import { Subscription } from 'src/app/core/events/event-listener';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
@@ -8,7 +8,7 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
   templateUrl: './face-expression.component.html',
   styleUrls: ['./face-expression.component.scss']
 })
-export class FaceExpressionComponent {
+export class FaceExpressionComponent implements OnDestroy {
   @Input() faceExpression: FaceExpressions | undefined
   subscription: Subscription;
 
@@ -17,5 +17,8 @@ export class FaceExpressionComponent {
   ) {
     this.subscription = eventDispatcher.listen("FaceExpressionEvent")
       .subscribe(event => this.faceExpression = event.payload);
+  }
+  ngOnDestroy(): void {
+    this.subscription.stop();
   }
 }

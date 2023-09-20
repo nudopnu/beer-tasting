@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 import { SettingsComponent } from 'src/app/components/modal/settings/settings.component';
 import { FaceExpressionEvent, OpenDialogEvent } from 'src/app/core/events/events';
@@ -19,7 +19,7 @@ import { Settings } from 'src/app/core/models/settings.model';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
+export class MainComponent implements OnDestroy {
 
   settingsResource: SettingsResource;
   settings$: Observable<Settings>;
@@ -42,7 +42,7 @@ export class MainComponent {
     this.settingsResource = new SettingsResource(databaseService.database);
     this.settings$ = this.settingsResource.toObservable();
     this.settings$.subscribe(d => console.log(d))
-    if (!this.settingsResource.get()) this.settingsResource.set({ videoInputDevice: undefined} as Settings);
+    if (!this.settingsResource.get()) this.settingsResource.set({ videoInputDevice: undefined } as Settings);
   }
 
   private onFaceDetection(detections: FaceDetections) {
@@ -69,4 +69,7 @@ export class MainComponent {
     this.eventDispatcher.dispatch(new OpenDialogEvent({ component: SettingsComponent }));
   }
 
+  ngOnDestroy(): void {
+    this.faceDetector.stopDetection();
+  }
 }

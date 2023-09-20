@@ -1,6 +1,5 @@
 <div class="column">
     <ng-container *ngIf="settings$ | async as settings">
-{{settings|json}}
         <beer-webcam (onStreamInit)="onStreamInit($event)" [deviceId]="settings.videoInputDevice?.deviceId"></beer-webcam>
         <div><beer-face-expression></beer-face-expression></div>
         <div id="qr"><beer-qr-code [content]="'https://nudopnu.github.io/beer-tasting/register'"
