@@ -1,10 +1,13 @@
 <div class="column">
     <ng-container *ngIf="settings$ | async as settings">
-        <beer-webcam (onStreamInit)="onStreamInit($event)" [deviceId]="settings.videoInputDevice?.deviceId"></beer-webcam>
+        <beer-webcam (onStreamInit)="onStreamInit($event)"
+            [deviceId]="settings.videoInputDevice?.deviceId"></beer-webcam>
         <div><beer-face-expression></beer-face-expression></div>
-        <div id="qr"><beer-qr-code [content]="'https://nudopnu.github.io/beer-tasting/register'"
-                [caption]="'Teilnehmen'"></beer-qr-code></div>
-
+        <button nz-button id="qr">
+            <nz-qrcode nzValue="https://nudopnu.github.io/beer-tasting/register"
+                nzLevel="H"></nz-qrcode>
+                <div>Teilnehmen</div>
+        </button>
         <!-- <beer-qr-reader></beer-qr-reader> -->
         <beer-beer-selection [beers]="beers"></beer-beer-selection>
     </ng-container>

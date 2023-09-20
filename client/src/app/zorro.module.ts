@@ -8,6 +8,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
 
 
 const icons: IconDefinition[] = [
@@ -28,6 +29,7 @@ const exports = [
     NzToolTipModule,
     NzLayoutModule,
     NzButtonModule,
+    NzQRCodeModule,
 ];
 
 @NgModule({
