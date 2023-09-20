@@ -9,6 +9,10 @@ import { FaceDetections, FaceExpressionDetector as FaceDetector } from 'src/app/
 import { FaceExpressionsRecording } from 'src/app/core/FaceExpressionsRecording';
 import { User } from 'src/app/core/models/user.model';
 import { QrcodeDetector } from 'src/app/core/QrcodeDetectpr';
+import { DatabaseService } from 'src/app/services/database.service';
+import { SettingsResource } from 'src/app/core/resources/resources';
+import { Observable } from 'rxjs';
+import { Settings } from 'src/app/core/models/settings.model';
 
 @Component({
   selector: 'beer-main',
@@ -16,6 +20,10 @@ import { QrcodeDetector } from 'src/app/core/QrcodeDetectpr';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
+
+  settingsResource: SettingsResource;
+  settings$: Observable<Settings>;
+
   currentUser: User | undefined;
   beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), 3);
   faceDetector: FaceDetector;
@@ -26,10 +34,15 @@ export class MainComponent {
 
   constructor(
     private eventDispatcher: EventDispatcherService,
+    private databaseService: DatabaseService,
   ) {
     const faceDetectorCallback = this.onFaceDetection.bind(this);
     this.faceDetector = new FaceDetector(faceDetectorCallback);
     this.qrcodeDetector = new QrcodeDetector();
+    this.settingsResource = new SettingsResource(databaseService.database);
+    this.settings$ = this.settingsResource.toObservable();
+    this.settings$.subscribe(d => console.log(d))
+    if (!this.settingsResource.get()) this.settingsResource.set({ videoInputDevice: undefined} as Settings);
   }
 
   private onFaceDetection(detections: FaceDetections) {

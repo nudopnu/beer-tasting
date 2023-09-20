@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 @Component({
@@ -6,23 +6,15 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
   templateUrl: './webcam.component.html',
   styleUrls: ['./webcam.component.scss']
 })
-export class WebcamComponent implements AfterViewInit {
+export class WebcamComponent implements  OnChanges {
 
   @ViewChild('video') videoElementRef: ElementRef | undefined;
   @Output() onStreamInit = new EventEmitter<HTMLVideoElement>();
+  @Input() deviceId: string | undefined;
 
-  constructor(eventDispatcher: EventDispatcherService) {
-    eventDispatcher.listen("ChangeVideoSourceEvent")
-      .subscribe(async event => {
-        const { deviceId } = event.payload;
-        const mediaStream = await this.getVideoInputStream(deviceId);
-        this.setStream(mediaStream);
-      });
-  }
-
-  async ngAfterViewInit(): Promise<void> {
-    const mediaStream = await this.getVideoInputStream();
-    this.setStream(mediaStream);
+  async ngOnChanges(_changes: SimpleChanges) {
+    const mediaStream = await this.getVideoInputStream(this.deviceId);
+    await this.setStream(mediaStream);
   }
 
   private async getVideoInputStream(videoSource?: string) {
@@ -36,7 +28,7 @@ export class WebcamComponent implements AfterViewInit {
     return mediaStream;
   }
 
-  async setStream(stream: MediaStream): Promise<void> {
+  private async setStream(stream: MediaStream): Promise<void> {
     if (this.videoElementRef !== undefined) {
       const videoElement = this.videoElementRef.nativeElement as HTMLVideoElement;
       videoElement.srcObject = stream;

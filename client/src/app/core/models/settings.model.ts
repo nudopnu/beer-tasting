@@ -1,3 +1,3 @@
 export interface Settings {
-    videoInputDeviceId: string;
+    videoInputDevice: MediaDeviceInfo | undefined;
 }

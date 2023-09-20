@@ -36,7 +36,8 @@ export abstract class AbstractSingleResource<T> extends AbstractResource<T> {
     }
 
     override get(): T {
-        return this.database.getItems<T>(this.type)[0];
+        const items = this.database.getItems<T>(this.type);
+        return items[0];
     }
 
     override toItem: (_: string) => T = _ => this.get();
@@ -63,6 +64,8 @@ export abstract class AbstractMultiResource<T> extends AbstractResource<Array<T>
         this.database.removeItems(this.type, itemIds);
         this.triggerUpdate();
     }
+
+    toItem: (_: string) => Array<T> = _ => this.get();
 }
 
 export type ResourceOfType<T> = Extract<Resource, { type: T }>;

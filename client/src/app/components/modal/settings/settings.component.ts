@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { ChangeVideoSourceEvent } from 'src/app/core/events/events';
-import { Option } from 'src/app/core/models/option.model';
-import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
+import { SettingsResource } from 'src/app/core/resources/resources';
+import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
   selector: 'beer-settings',
@@ -10,24 +9,23 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
 })
 export class SettingsComponent {
 
-  videoInputOptions: Option<MediaDeviceInfo>[] = [];
+  settingsResource: SettingsResource;
   videoDeviceInfos: MediaDeviceInfo[] = [];
   selectedDevice: MediaDeviceInfo | undefined;
 
   constructor(
-    private eventDispatcher: EventDispatcherService,
+    databaseSerive: DatabaseService,
   ) {
-    const rer = this;
     (async () => {
       const inputDevices = await navigator.mediaDevices.enumerateDevices();
       this.videoDeviceInfos = inputDevices.filter(device => device.kind === "videoinput");
-      this.videoInputOptions = this.videoDeviceInfos.map(device => new Option<MediaDeviceInfo>(device.label, device));
+      this.selectedDevice = this.videoDeviceInfos[0];
     })();
+    this.settingsResource = new SettingsResource(databaseSerive.database);
   }
 
-  onVideoInputChange(selectedDevice:any) {
-    const { deviceId } = selectedDevice!;
-    this.eventDispatcher.dispatch(new ChangeVideoSourceEvent({ deviceId }));
+  onVideoInputChange(selectedDevice: MediaDeviceInfo) {
+    this.settingsResource.set({ videoInputDevice: selectedDevice });
   }
 
 }

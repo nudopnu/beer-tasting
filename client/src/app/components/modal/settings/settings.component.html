@@ -1,5 +1,5 @@
 <h1>Settings</h1>
-<div class="col-center"><beer-webcam></beer-webcam></div>
+<div class="col-center"><beer-webcam [deviceId]="selectedDevice?.deviceId"></beer-webcam></div>
 <div id="settings">
     <div>Video Source:</div>
     <nz-select [(ngModel)]="selectedDevice" (ngModelChange)="onVideoInputChange($event)">
