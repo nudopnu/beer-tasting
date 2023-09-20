@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BeerSelectionComponent } from './components/beer-selection/beer-selection.component';
 import { BeerComponent } from './components/beer-selection/beer/beer.component';
-import { DropDownComponent } from './components/drop-down/drop-down.component';
 import { IconComponent } from './components/icon/icon.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { SettingsComponent } from './components/modal/settings/settings.component';
@@ -39,7 +38,6 @@ registerLocaleData(de);
     IconComponent,
     ModalComponent,
     SettingsComponent,
-    DropDownComponent,
     BeerSelectionComponent,
     BeerComponent,
     FaceExpressionStatsComponent,

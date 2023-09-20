@@ -1,6 +1,8 @@
 <h1>Settings</h1>
-<div style="width: 100%; display: flex; justify-content: center;"><beer-webcam></beer-webcam></div>
+<div class="col-center"><beer-webcam></beer-webcam></div>
 <div id="settings">
     <div>Video Source:</div>
-    <beer-drop-down [options]="videoInputOptions" (optionChange)="onVideoInputChange($event)"></beer-drop-down>
+    <nz-select [(ngModel)]="selectedDevice" (ngModelChange)="onVideoInputChange($event)">
+        <nz-option *ngFor="let deviceInfo of videoDeviceInfos" [nzValue]="deviceInfo" [nzLabel]="deviceInfo.label" />
+    </nz-select>
 </div>

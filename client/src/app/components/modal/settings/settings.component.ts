@@ -11,6 +11,8 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
 export class SettingsComponent {
 
   videoInputOptions: Option<MediaDeviceInfo>[] = [];
+  videoDeviceInfos: MediaDeviceInfo[] = [];
+  selectedDevice: MediaDeviceInfo | undefined;
 
   constructor(
     private eventDispatcher: EventDispatcherService,
@@ -18,14 +20,14 @@ export class SettingsComponent {
     const rer = this;
     (async () => {
       const inputDevices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = inputDevices.filter(device => device.kind === "videoinput");
-      this.videoInputOptions = videoDevices.map(device => new Option<MediaDeviceInfo>(device.label, device));
+      this.videoDeviceInfos = inputDevices.filter(device => device.kind === "videoinput");
+      this.videoInputOptions = this.videoDeviceInfos.map(device => new Option<MediaDeviceInfo>(device.label, device));
     })();
   }
 
-  onVideoInputChange(newVideoInput: MediaDeviceInfo) {
-    const { deviceId } = newVideoInput
+  onVideoInputChange(selectedDevice:any) {
+    const { deviceId } = selectedDevice!;
     this.eventDispatcher.dispatch(new ChangeVideoSourceEvent({ deviceId }));
   }
-  
+
 }
