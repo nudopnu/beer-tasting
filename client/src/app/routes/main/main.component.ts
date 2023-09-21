@@ -39,7 +39,8 @@ export class MainComponent {
     })();
 
     // DELETE THIS:
-    this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
+    // this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
+    this.stateResource.set("Default");
   }
 
   onStart() {

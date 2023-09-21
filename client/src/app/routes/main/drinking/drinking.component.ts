@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import * as _ from "lodash";
+import { DrinkingState } from 'src/app/core/models/drinking-state.model';
 import { User } from 'src/app/core/models/user.model';
 import { DrinkingStateResource, SettingsResource } from 'src/app/core/resources/resources';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
@@ -18,7 +19,7 @@ export class DrinkingComponent {
   videoDeviceId: string;
   drinkingStateResource;
   drinkingState$;
-  RatingTooltips = ['ekelhaft', 'geht so', 'normal', 'gut', 'köstlich'];
+  RatingTooltips = ['ekelhaft!', 'geht so', 'normal', 'gut', 'köstlich!'];
   userRating = 0;
 
   constructor(resourceProvider: ResourceProviderService) {
@@ -35,6 +36,15 @@ export class DrinkingComponent {
     this.beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), this.numberOfSamples);
   }
 
+  getInstruction(state: DrinkingState) {
+    switch (state) {
+      case 'Choosing': return 'Nach Auswahl ihres Getränks haben Sie ca. 20 Sekunden Zeit für die Verkostung:';
+      case 'Preparing': return 'Bereiten Sie sich vor...';
+      case 'Drinking': return 'Prost!';
+      case 'Rating': return 'Bitte bewerten Sie ihr Getränk:';
+    }
+  }
+
   onBeerSelect(selectedBeer: number) {
     this.drinkingStateResource.set("Preparing");
     this.selectedBeer = selectedBeer;
@@ -45,9 +55,14 @@ export class DrinkingComponent {
   }
 
   onBeerCompleted() {
+    this.userRating = 0;
     this.drinkingStateResource.set("Rating");
     if (this.selectedBeer) {
       this.beers = this.beers.filter(beer => beer !== this.selectedBeer);
     }
+  }
+
+  onNextBeer() {
+    this.drinkingStateResource.set("Choosing");
   }
 }
