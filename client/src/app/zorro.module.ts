@@ -10,6 +10,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzRateModule } from 'ng-zorro-antd/rate';
 
 
 const icons: IconDefinition[] = [
@@ -32,6 +33,7 @@ const exports = [
     NzButtonModule,
     NzQRCodeModule,
     NzProgressModule,
+    NzRateModule,
 ];
 
 @NgModule({

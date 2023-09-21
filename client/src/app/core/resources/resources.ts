@@ -1,3 +1,4 @@
+import { DrinkingState } from "../models/drinking-state.model";
 import { DEFAULT_SETTINGS, Settings } from "../models/settings.model";
 import { State } from "../models/state.model";
 import { User } from "../models/user.model";
@@ -17,8 +18,14 @@ export class StateResource extends AbstractSingleResource<State>{
     override readonly default = "Default";
 }
 
+export class DrinkingStateResource extends AbstractSingleResource<DrinkingState> {
+    readonly type = "DrinkingStateResource";
+    override readonly default = "Choosing";
+}
+
 export type Resource =
     | UserResource
     | SettingsResource
     | StateResource
+    | DrinkingStateResource
     ;

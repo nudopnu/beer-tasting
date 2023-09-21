@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import * as _ from "lodash";
 import { User } from 'src/app/core/models/user.model';
-import { SettingsResource } from 'src/app/core/resources/resources';
+import { DrinkingStateResource, SettingsResource } from 'src/app/core/resources/resources';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
 @Component({
@@ -16,13 +16,19 @@ export class DrinkingComponent {
   beers: number[];
   selectedBeer: number | undefined;
   videoDeviceId: string;
-  shouldDrink = false;
+  drinkingStateResource;
+  drinkingState$;
+  RatingTooltips = ['ekelhaft', 'geht so', 'normal', 'gut', 'köstlich'];
+  userRating = 0;
 
   constructor(resourceProvider: ResourceProviderService) {
     const settings = resourceProvider.getResource(SettingsResource).get();
     this.numberOfSamples = settings.numberOfSamples;
     this.videoDeviceId = settings.videoInputDevice!.deviceId;
     this.beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), this.numberOfSamples);
+    this.drinkingStateResource = resourceProvider.getResource(DrinkingStateResource);
+    this.drinkingState$ = this.drinkingStateResource.asObservable();
+    this.drinkingStateResource.set("Choosing");
   }
 
   getRandomBeers(): void {
@@ -30,19 +36,18 @@ export class DrinkingComponent {
   }
 
   onBeerSelect(selectedBeer: number) {
-    console.log(selectedBeer);
-    this.shouldDrink = true;
+    this.drinkingStateResource.set("Preparing");
     this.selectedBeer = selectedBeer;
   }
 
-  onCowntdownCompleted() {
-    // 'TODO'
+  onStartDrinking() {
+    this.drinkingStateResource.set("Drinking");
   }
 
   onBeerCompleted() {
+    this.drinkingStateResource.set("Rating");
     if (this.selectedBeer) {
       this.beers = this.beers.filter(beer => beer !== this.selectedBeer);
-      this.shouldDrink = false;
     }
   }
 }
