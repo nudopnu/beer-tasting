@@ -1,5 +1,8 @@
 <div id="beer-selection">
-    <div *ngFor="let beer of beers">
-        <beer-beer [beer]="beer"></beer-beer>
+    <div *ngFor="let beer of beerSlots">
+        <button nz-button id="button" (click)="onBeerSelect.emit(getBeer(beer))">
+            <div class="icon"><beer-icon [name]="'beer'" [type]="'solid'" sizing="fill"></beer-icon></div>
+            <div class="number">{{getBeer(beer)}}</div>
+        </button>
     </div>
 </div>

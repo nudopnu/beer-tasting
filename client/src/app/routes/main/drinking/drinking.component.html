@@ -1,6 +1,6 @@
-<h1>{{user | json}}</h1>
-<p>drinking works!</p>
-<beer-beer-selection [beers]="beers"></beer-beer-selection>
+<h1>Prost!</h1>
+<h2>Wählen Sie ihr Bier:</h2>
+<beer-beer-selection [beers]="beers" (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
 <div id="buttons">
     <button nz-button class="icon" (click)="getRandomBeers()"> <beer-icon [name]="'dice'"></beer-icon> </button>
 </div>
