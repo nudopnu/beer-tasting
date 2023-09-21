@@ -3,14 +3,20 @@
     <h2>{{getInstruction(drinkingState)}}</h2>
     <div [ngSwitch]="drinkingState" class="col-center">
         <div id="rating" *ngSwitchCase="'Rating'" class="col-center">
-            <nz-rate [(ngModel)]="userRating" [nzTooltips]="RatingTooltips" [nzCharacter]="beerIcon" class="large"></nz-rate>
+            <nz-rate [(ngModel)]="userRating" [nzTooltips]="RatingTooltips" [nzCharacter]="beerIcon"
+                class="large"></nz-rate>
             <button nz-button [disabled]="userRating === 0" (click)="onNextBeer()">Weiter</button>
         </div>
-        <beer-beer-selection *ngSwitchCase="'Choosing'" [beers]="beers" (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
+        <beer-beer-selection *ngSwitchCase="'Choosing'" [beers]="beers"
+            (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
         <beer-countdown *ngSwitchCase="'Preparing'" (onCompleted)="onStartDrinking()"></beer-countdown>
-        <beer-countdown *ngSwitchCase="'Drinking'" (onCompleted)="onBeerCompleted()" [startValue]="secondsPerSample"></beer-countdown>
-        <beer-webcam [deviceId]="videoDeviceId"></beer-webcam>
+        <beer-countdown *ngSwitchCase="'Drinking'" (onCompleted)="onBeerCompleted()"
+            [startValue]="secondsPerSample"></beer-countdown>
+        <beer-webcam [deviceId]="videoDeviceId" (onStreamInit)="onStreamInit($event)"></beer-webcam>
+        <!-- <ng-container *ngSwitchCase="'Drinking'">
+        </ng-container> -->
     </div>
 </ng-container>
+<beer-plot *ngIf="recording?.traces$ | async as data" [data]="data"></beer-plot>
 
 <ng-template #beerIcon><beer-icon [name]="'beer'" [type]="'solid'" sizing="fill"></beer-icon></ng-template>

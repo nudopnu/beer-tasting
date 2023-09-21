@@ -1,5 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as _ from "lodash";
+import { Subscription } from 'rxjs';
+import { FaceExpressionsRecording } from 'src/app/core/FaceExpressionsRecording';
+import { FaceDetections, FaceExpressionDetector } from 'src/app/core/face-detection/face-expression-detector';
+import { LazyBuffer } from 'src/app/core/face-detection/lazy-buffer';
+import { BeerRaction } from 'src/app/core/models/beer-reaction.model';
 import { DrinkingState } from 'src/app/core/models/drinking-state.model';
 import { User } from 'src/app/core/models/user.model';
 import { DrinkingStateResource, SettingsResource } from 'src/app/core/resources/resources';
@@ -10,9 +15,10 @@ import { ResourceProviderService } from 'src/app/services/resource-provider.serv
   templateUrl: './drinking.component.html',
   styleUrls: ['./drinking.component.scss']
 })
-export class DrinkingComponent {
+export class DrinkingComponent implements AfterContentInit {
 
   @Input() user: User | undefined;
+  @Output() onBeerReactionCompleted = new EventEmitter<BeerRaction>();
   @Output() onUserCompleted = new EventEmitter();
   numberOfSamples: number;
   beers: number[];
@@ -21,8 +27,12 @@ export class DrinkingComponent {
   secondsPerSample: number;
   drinkingStateResource;
   drinkingState$;
-  RatingTooltips = ['ekelhaft!', 'geht so', 'normal', 'gut', 'köstlich!'];
+  RatingTooltips = ['ekelhaft!', 'geht so', 'okay', 'gut', 'köstlich!'];
   userRating = 0;
+  recording: FaceExpressionsRecording | undefined;
+  faceDetector: FaceExpressionDetector;
+  expressionBuffer: LazyBuffer;
+  subscription: Subscription | undefined;
 
   constructor(resourceProvider: ResourceProviderService) {
     const settings = resourceProvider.getResource(SettingsResource).get();
@@ -33,6 +43,13 @@ export class DrinkingComponent {
     this.drinkingStateResource = resourceProvider.getResource(DrinkingStateResource);
     this.drinkingState$ = this.drinkingStateResource.asObservable();
     this.drinkingStateResource.set("Choosing");
+    const faceDetectorCallback = this.onFaceDetection.bind(this);
+    this.faceDetector = new FaceExpressionDetector(faceDetectorCallback);
+    this.expressionBuffer = new LazyBuffer();
+  }
+
+  ngAfterContentInit(): void {
+    this.recording = new FaceExpressionsRecording(this.user!);
   }
 
   getRandomBeers(): void {
@@ -55,6 +72,9 @@ export class DrinkingComponent {
 
   onStartDrinking() {
     this.drinkingStateResource.set("Drinking");
+    this.subscription = this.expressionBuffer.value$.subscribe(value => {
+      this.recording?.addExpression(value);
+    });
   }
 
   onBeerCompleted() {
@@ -63,12 +83,30 @@ export class DrinkingComponent {
     if (this.selectedBeer) {
       this.beers = this.beers.filter(beer => beer !== this.selectedBeer);
     }
+    this.subscription?.unsubscribe();
   }
 
   onNextBeer() {
+    this.onBeerReactionCompleted.emit({
+      beer: this.selectedBeer!,
+      rating: this.userRating,
+      recording: this.recording!,
+    });
+    this.recording = new FaceExpressionsRecording(this.user!);
     this.drinkingStateResource.set("Choosing");
     if (this.beers.length === 0) {
       this.onUserCompleted.emit();
+    }
+  }
+
+  async onStreamInit(videoElement: HTMLVideoElement) {
+    await this.faceDetector.startDetection(videoElement);
+  }
+
+  private onFaceDetection(detections: FaceDetections) {
+    if (this.drinkingStateResource.get() === "Drinking" && detections.length > 0) {
+      const { expressions } = detections[0];
+      this.expressionBuffer.addExpression(expressions);
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Data } from "plotly.js";
 import { BehaviorSubject } from "rxjs";
-import { FaceExpressionTypes as AllFaceExpressions } from "./face-detection/face-expression-types";
+import { FaceExpressionTypes as AllFaceExpressions, toGerman } from "./face-detection/face-expression-types";
 import { User } from "./models/user.model";
 import { FaceExpressions } from "face-api.js";
 
@@ -11,7 +11,7 @@ export class FaceExpressionsRecording {
             x: [],
             y: [],
             type: 'scatter',
-            name: faceExpression,
+            name: toGerman(faceExpression),
         } as Data)
     );
 
@@ -22,13 +22,13 @@ export class FaceExpressionsRecording {
         public user: User,
     ) { }
 
-    addExpression(expression: FaceExpressions): void {
+    addExpression(expressions: FaceExpressions): void {
         const mapping = (trace: any) => {
             const result = trace;
-            expression.asSortedArray().forEach(({ expression, probability }) => {
-                if (trace.name === expression) {
+            Object.keys(expressions).forEach((expression) => {
+                if (trace.name === toGerman(expression as any)) {
                     const newX = result.x.length + 1;
-                    const newY = probability;
+                    const newY = expressions[expression as keyof FaceExpressions];
                     result.x = [...result.x, newX];
                     result.y = [...result.y, newY];
                 }
