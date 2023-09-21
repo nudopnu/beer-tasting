@@ -8,7 +8,7 @@ export abstract class AbstractResource<T> {
     abstract readonly type: ResourceType;
     abstract toItem: ((_: string) => T);
     abstract set(value: T): void;
-    abstract get(): void;
+    abstract get(): T;
 
     protected static notifier = new BehaviorSubject<string>("");
 
@@ -32,17 +32,18 @@ export abstract class AbstractSingleResource<T> extends AbstractResource<T> {
     override set(item: T): void {
         this.database.reset(this.type);
         this.database.addItems(this.type, [item]);
-        console.log(item);
-
         this.triggerUpdate();
     }
 
     override get(): T {
         const items = this.database.getItems<T>(this.type);
+        if (items.length === 0) return this.default;
         return items[0].item;
     }
 
     override toItem: (_: string) => T = _ => this.get();
+
+    abstract default: T;
 }
 
 export abstract class AbstractMultiResource<T> extends AbstractResource<Array<T>> {

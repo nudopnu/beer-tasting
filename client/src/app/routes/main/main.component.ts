@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Settings } from 'src/app/core/models/settings.model';
+import { DEFAULT_SETTINGS, Settings } from 'src/app/core/models/settings.model';
 import { State } from 'src/app/core/models/state.model';
 import { User } from 'src/app/core/models/user.model';
 import { SettingsResource, StateResource } from 'src/app/core/resources/resources';
@@ -25,10 +25,12 @@ export class MainComponent {
   ) {
     this.stateResource = resourceProvider.getResource(StateResource);
     this.state$ = this.stateResource.asObservable();
-    this.stateResource.set("Default");
     this.settingsResource = resourceProvider.getResource(SettingsResource);
     this.settings$ = this.settingsResource.asObservable();
-    if (!this.settingsResource.get()) this.settingsResource.set({ videoInputDevice: undefined } as Settings);
+    if (!this.settingsResource.get()) this.settingsResource.set(DEFAULT_SETTINGS);
+
+    // DELETE THIS:
+    this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
   }
 
   onStart() {

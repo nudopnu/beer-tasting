@@ -25,7 +25,10 @@ export class SettingsComponent {
   }
 
   onVideoInputChange(selectedDevice: MediaDeviceInfo) {
-    this.settingsResource.set({ videoInputDevice: selectedDevice });
+    this.settingsResource.set({
+      ...this.settingsResource.get(),
+      videoInputDevice: selectedDevice
+    });
   }
 
 }
