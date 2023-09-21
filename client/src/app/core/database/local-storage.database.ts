@@ -25,8 +25,6 @@ export class LocalStorageDatabase implements Database {
             ...this.getItemsOrEmpty<T>(type),
             ...items.map(this.assignId),
         ];
-        console.log(items, newItems);
-
         this.setItems(type, newItems);
         return newItems;
     }

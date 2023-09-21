@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { Html5Qrcode } from "html5-qrcode";
+import { ErrorEvent } from 'src/app/core/events/events';
 import { User } from 'src/app/core/models/user.model';
+import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 @Component({
   selector: 'beer-qr-reader',
@@ -12,22 +14,26 @@ export class QrReaderComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() deviceId: string | undefined;
   @Output() onUserRegistered = new EventEmitter<User>();
   html5QrCode: Html5Qrcode | undefined;
-  config = {
+  readerConfiguration = {
     fps: 10,
     qrbox: { width: 250, height: 250 }
   };
 
-  init(cameraId: string) {
+  constructor(
+    private eventDispatcher: EventDispatcherService,
+  ) { }
+
+  init(deviceId: string) {
     this.html5QrCode!.start(
-      cameraId,
-      this.config,
+      deviceId,
+      this.readerConfiguration,
       (decodedText, _decodedResult) => {
         const user = JSON.parse(decodedText) as User;
         this.onUserRegistered.next(user);
       },
       () => { })
       .catch((err) => {
-        // Start failed, handle it.
+        this.eventDispatcher.dispatch(new ErrorEvent(err));
       });
   }
 
@@ -36,7 +42,8 @@ export class QrReaderComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.init(this.deviceId!);
   }
 
-  ngOnChanges(_changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["deviceId"].isFirstChange()) return;
     this.init(this.deviceId!);
   }
 
