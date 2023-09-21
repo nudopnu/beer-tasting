@@ -14,13 +14,16 @@ export class DrinkingComponent {
   @Input() user: User | undefined;
   numberOfSamples: number;
   beers: number[];
+  selectedBeer: number | undefined;
+  videoDeviceId: string;
+  shouldDrink = false;
 
   constructor(resourceProvider: ResourceProviderService) {
     const settings = resourceProvider.getResource(SettingsResource).get();
     this.numberOfSamples = settings.numberOfSamples;
+    this.videoDeviceId = settings.videoInputDevice!.deviceId;
     this.beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), this.numberOfSamples);
   }
-
 
   getRandomBeers(): void {
     this.beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), this.numberOfSamples);
@@ -28,8 +31,18 @@ export class DrinkingComponent {
 
   onBeerSelect(selectedBeer: number) {
     console.log(selectedBeer);
+    this.shouldDrink = true;
+    this.selectedBeer = selectedBeer;
+  }
 
-    // Later:
-    // this.beers = this.beers.filter(beer => beer !== selectedBeer);
+  onCowntdownCompleted() {
+    // 'TODO'
+  }
+
+  onBeerCompleted() {
+    if (this.selectedBeer) {
+      this.beers = this.beers.filter(beer => beer !== this.selectedBeer);
+      this.shouldDrink = false;
+    }
   }
 }

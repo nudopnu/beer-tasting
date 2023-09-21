@@ -1,3 +1,10 @@
+:ng-host {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+}
+
 #beer-selection {
     display: flex;
     flex-flow: wrap;

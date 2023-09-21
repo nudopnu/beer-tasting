@@ -27,7 +27,16 @@ export class MainComponent {
     this.state$ = this.stateResource.asObservable();
     this.settingsResource = resourceProvider.getResource(SettingsResource);
     this.settings$ = this.settingsResource.asObservable();
-    if (!this.settingsResource.get()) this.settingsResource.set(DEFAULT_SETTINGS);
+    const x = this;
+    (async () => {
+      const inputDevices = await navigator.mediaDevices.enumerateDevices();
+      const videoDeviceInfos = inputDevices.filter(device => device.kind === "videoinput");
+      const defaultDevice = videoDeviceInfos[0];
+      x.settingsResource.set({
+        ...x.settingsResource.get(),
+        videoInputDevice: defaultDevice,
+      });
+    })();
 
     // DELETE THIS:
     this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);

@@ -1,6 +1,7 @@
-<h1>Prost!</h1>
-<h2>Wählen Sie ihr Bier:</h2>
-<beer-beer-selection [beers]="beers" (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
-<div id="buttons">
-    <button nz-button class="icon" (click)="getRandomBeers()"> <beer-icon [name]="'dice'"></beer-icon> </button>
+<h1>Willkommen!</h1>
+<h2>Nach Auswahl ihres Getränks haben Sie ca. 30 Sekunden Zeit für die Verkostung:</h2>
+<div class="col-center">
+    <beer-beer-selection *ngIf="!shouldDrink" [beers]="beers" (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
+    <beer-countdown *ngIf="shouldDrink" (onCompleted)="onBeerCompleted()"></beer-countdown>
+    <beer-webcam [deviceId]="videoDeviceId"></beer-webcam>
 </div>

@@ -9,6 +9,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 
 const icons: IconDefinition[] = [
@@ -30,6 +31,7 @@ const exports = [
     NzLayoutModule,
     NzButtonModule,
     NzQRCodeModule,
+    NzProgressModule,
 ];
 
 @NgModule({

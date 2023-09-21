@@ -27,6 +27,7 @@ import { UserScanningComponent } from './routes/main/user-scanning/user-scanning
 import { RegisterComponent } from './routes/register/register.component';
 import { StatisticsComponent } from './routes/statistics/statistics.component';
 import { ZorroModule } from './zorro.module';
+import { CountdownComponent } from './components/countdown/countdown.component';
 
 registerLocaleData(de);
 
@@ -50,6 +51,7 @@ registerLocaleData(de);
     OpenerComponent,
     DrinkingComponent,
     UserScanningComponent,
+    CountdownComponent,
   ],
   imports: [
     BrowserModule,
