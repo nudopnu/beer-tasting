@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SettingsResource } from 'src/app/core/resources/resources';
-import { DatabaseService } from 'src/app/services/database.service';
+import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
 @Component({
   selector: 'beer-settings',
@@ -14,14 +14,14 @@ export class SettingsComponent {
   selectedDevice: MediaDeviceInfo | undefined;
 
   constructor(
-    databaseSerive: DatabaseService,
+    resourceProvider: ResourceProviderService,
   ) {
     (async () => {
       const inputDevices = await navigator.mediaDevices.enumerateDevices();
       this.videoDeviceInfos = inputDevices.filter(device => device.kind === "videoinput");
       this.selectedDevice = this.videoDeviceInfos[0];
     })();
-    this.settingsResource = new SettingsResource(databaseSerive.database);
+    this.settingsResource = resourceProvider.getResource(SettingsResource);
   }
 
   onVideoInputChange(selectedDevice: MediaDeviceInfo) {

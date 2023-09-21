@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Settings } from 'src/app/core/models/settings.model';
-
-
 import { State } from 'src/app/core/models/state.model';
 import { User } from 'src/app/core/models/user.model';
 import { SettingsResource, StateResource } from 'src/app/core/resources/resources';
-import { DatabaseService } from 'src/app/services/database.service';
+import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
 @Component({
   selector: 'beer-main',
@@ -23,12 +21,12 @@ export class MainComponent {
   currentUser: User | undefined;
 
   constructor(
-    databaseService: DatabaseService,
+    resourceProvider: ResourceProviderService,
   ) {
-    this.stateResource = new StateResource(databaseService.database);
+    this.stateResource = resourceProvider.getResource(StateResource);
     this.state$ = this.stateResource.asObservable();
     this.stateResource.set("Default");
-    this.settingsResource = new SettingsResource(databaseService.database);
+    this.settingsResource = resourceProvider.getResource(SettingsResource);
     this.settings$ = this.settingsResource.asObservable();
     if (!this.settingsResource.get()) this.settingsResource.set({ videoInputDevice: undefined } as Settings);
   }

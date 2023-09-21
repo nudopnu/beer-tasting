@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { Observable } from 'rxjs';
 import { FaceExpressionEvent } from 'src/app/core/events/events';
 import { FaceDetections, FaceExpressionDetector } from 'src/app/core/face-detection/face-expression-detector';
 import { Settings } from 'src/app/core/models/settings.model';
-import { SettingsResource } from 'src/app/core/resources/resources';
-import { DatabaseService } from 'src/app/services/database.service';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
+import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
 @Component({
   selector: 'beer-opener',
@@ -21,11 +19,10 @@ export class OpenerComponent implements OnDestroy {
 
   constructor(
     private eventDispatcher: EventDispatcherService,
-    private databaseService: DatabaseService,
+    private resourceProvider: ResourceProviderService,
   ) {
     const faceDetectorCallback = this.onFaceDetection.bind(this);
     this.faceDetector = new FaceExpressionDetector(faceDetectorCallback);
-    // this.qrcodeDetector = new QrcodeDetector();
   }
 
   async onStreamInit(videoElement: HTMLVideoElement) {

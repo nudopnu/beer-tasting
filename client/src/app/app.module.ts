@@ -13,7 +13,7 @@ import { PlotComponent } from './components/plot/plot.component';
 import { WebcamComponent } from './components/webcam/webcam.component';
 import { MainComponent } from './routes/main/main.component';
 import { FaceExpressionStatsComponent } from './components/face-expression/face-expression-stats/face-expression-stats.component';
-import { QrcodeComponent } from './components/qr-reader/qr-reader.component';
+import { QrReaderComponent } from './components/qr-reader/qr-reader.component';
 import { RegisterComponent } from './routes/register/register.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { de_DE } from 'ng-zorro-antd/i18n';
@@ -44,7 +44,7 @@ registerLocaleData(de);
     BeerSelectionComponent,
     BeerComponent,
     FaceExpressionStatsComponent,
-    QrcodeComponent,
+    QrReaderComponent,
     RegisterComponent,
     FaceExpressionComponent,
     RadarChartComponent,
