@@ -29,6 +29,8 @@ export class RadarChartComponent implements OnChanges {
     },
     showlegend: false,
     responsive: false,
+    width: 400,
+    height: 400,
   };
   isInitialized = false;
 
