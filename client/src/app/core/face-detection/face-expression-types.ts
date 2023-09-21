@@ -3,7 +3,7 @@ export const FaceExpressionTypes = [
     "happy",
     "sad",
     "angry",
-    "fearful",
+    // "fearful",
     "disgusted",
     "surprised",
 ] as const;
@@ -16,7 +16,7 @@ export function toGerman(faceExpressionType: FaceExpressionType): string {
         happy: "fröhlich",
         sad: "traurig",
         angry: "wütend",
-        fearful: "ängstlich",
+        // fearful: "ängstlich",
         disgusted: "angewidert",
         surprised: "überrascht"
     };

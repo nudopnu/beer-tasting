@@ -4,7 +4,7 @@ import * as Plotly from 'plotly.js-dist-min';
 import { FaceExpressionTypes, toGerman } from 'src/app/core/face-detection/face-expression-types';
 
 
-const FRACTION = 360 / 6;
+const FRACTION = 360 / FaceExpressionTypes.length;
 
 @Component({
   selector: 'beer-radar-chart',
@@ -23,7 +23,7 @@ export class RadarChartComponent implements OnChanges {
         autotick: false,
       },
       angularaxis: {
-        tickvals: [...Array(6)].map((_, i) => i * FRACTION),
+        tickvals: [...Array(FaceExpressionTypes.length)].map((_, i) => i * FRACTION),
         ticktext: FaceExpressionTypes.map(toGerman),
       },
     },

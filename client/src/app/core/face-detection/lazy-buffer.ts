@@ -13,7 +13,8 @@ export class LazyBuffer {
     ) { }
 
     addExpression(expression: FaceExpressions) {
-        this.buffer.push(expression);
+        this.buffer.push(this.normalize(this.cheatAttributes(expression)));
+        // this.buffer.push(expression);
         if (this.buffer.length >= this.bufferSize) {
             const avgExpressions = {
                 angry: this.avg(this.buffer.map(exp => exp.angry)),
@@ -24,19 +25,18 @@ export class LazyBuffer {
                 sad: this.avg(this.buffer.map(exp => exp.sad)),
                 surprised: this.avg(this.buffer.map(exp => exp.surprised)),
             } as FaceExpressions;
-            this.emitter.next(this.normalize(this.cheatAttributes(avgExpressions)));
-            // this.emitter.next(avgExpressions);
+            this.emitter.next(avgExpressions);
             this.buffer = this.buffer.slice(1);
         }
     }
 
     cheatAttributes(expression: FaceExpressions) {
-        const angryFactor = 0.5;
+        const angryFactor = 0.01;
         const disgustedFactor = 0.9;
-        const fearfulFactor = 0.9;
-        const happyFactor = 0.00001;
+        const fearfulFactor = 0;
+        const happyFactor = 0.001;
         const neutralFactor = 0;
-        const sadFactor = 0.05;
+        const sadFactor = 0.01;
         const surprisedFactor = 0.1;
 
         const cheatedExpressions = {
