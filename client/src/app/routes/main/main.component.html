@@ -3,7 +3,7 @@
         <ng-container [ngSwitch]="state">
             <beer-opener *ngSwitchCase="'Default'" (onStart)="onStart()" [settings]="settings"></beer-opener>
             <beer-user-scanning *ngSwitchCase="'Scanning'" (onUserRegistered)="onUserRegistered($event)" [settings]="settings"></beer-user-scanning>
-            <beer-drinking  *ngSwitchCase="'Recording'" [user]="currentUser"></beer-drinking>
+            <beer-drinking  *ngSwitchCase="'Recording'" [user]="currentUser" (onUserCompleted)="onUserCompleted()"></beer-drinking>
         </ng-container>
     </ng-container>
 

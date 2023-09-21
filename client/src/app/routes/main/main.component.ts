@@ -38,9 +38,10 @@ export class MainComponent {
       });
     })();
 
-    // DELETE THIS:
-    // this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
     this.stateResource.set("Default");
+
+    // FOR TESTING ONLY:
+    // this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
   }
 
   onStart() {
@@ -51,6 +52,10 @@ export class MainComponent {
     console.log(user);
     this.currentUser = user;
     this.stateResource.set("Recording");
+  }
+  
+  onUserCompleted() {
+    this.stateResource.set("Default");
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as _ from "lodash";
 import { DrinkingState } from 'src/app/core/models/drinking-state.model';
 import { User } from 'src/app/core/models/user.model';
@@ -13,10 +13,12 @@ import { ResourceProviderService } from 'src/app/services/resource-provider.serv
 export class DrinkingComponent {
 
   @Input() user: User | undefined;
+  @Output() onUserCompleted = new EventEmitter();
   numberOfSamples: number;
   beers: number[];
   selectedBeer: number | undefined;
   videoDeviceId: string;
+  secondsPerSample: number;
   drinkingStateResource;
   drinkingState$;
   RatingTooltips = ['ekelhaft!', 'geht so', 'normal', 'gut', 'köstlich!'];
@@ -26,6 +28,7 @@ export class DrinkingComponent {
     const settings = resourceProvider.getResource(SettingsResource).get();
     this.numberOfSamples = settings.numberOfSamples;
     this.videoDeviceId = settings.videoInputDevice!.deviceId;
+    this.secondsPerSample = settings.secondsPerSample;
     this.beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), this.numberOfSamples);
     this.drinkingStateResource = resourceProvider.getResource(DrinkingStateResource);
     this.drinkingState$ = this.drinkingStateResource.asObservable();
@@ -38,7 +41,7 @@ export class DrinkingComponent {
 
   getInstruction(state: DrinkingState) {
     switch (state) {
-      case 'Choosing': return 'Nach Auswahl ihres Getränks haben Sie ca. 20 Sekunden Zeit für die Verkostung:';
+      case 'Choosing': return `Nach Auswahl ihres Getränks haben Sie ca. ${this.secondsPerSample} Sekunden Zeit für die Verkostung:`;
       case 'Preparing': return 'Bereiten Sie sich vor...';
       case 'Drinking': return 'Prost!';
       case 'Rating': return 'Bitte bewerten Sie ihr Getränk:';
@@ -64,5 +67,8 @@ export class DrinkingComponent {
 
   onNextBeer() {
     this.drinkingStateResource.set("Choosing");
+    if (this.beers.length === 0) {
+      this.onUserCompleted.emit();
+    }
   }
 }

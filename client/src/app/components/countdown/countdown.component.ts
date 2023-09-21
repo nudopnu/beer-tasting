@@ -24,7 +24,7 @@ export class CountdownComponent implements AfterViewInit, OnDestroy {
         this.onCompleted.emit();
         clearInterval(this.interval);
       }
-    }, 50);
+    }, (10 * this.startValue));
   }
 
   ngOnDestroy(): void {

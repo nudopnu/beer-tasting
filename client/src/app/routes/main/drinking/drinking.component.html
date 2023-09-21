@@ -8,7 +8,7 @@
         </div>
         <beer-beer-selection *ngSwitchCase="'Choosing'" [beers]="beers" (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
         <beer-countdown *ngSwitchCase="'Preparing'" (onCompleted)="onStartDrinking()"></beer-countdown>
-        <beer-countdown *ngSwitchCase="'Drinking'" (onCompleted)="onBeerCompleted()" [startValue]="20"></beer-countdown>
+        <beer-countdown *ngSwitchCase="'Drinking'" (onCompleted)="onBeerCompleted()" [startValue]="secondsPerSample"></beer-countdown>
         <beer-webcam [deviceId]="videoDeviceId"></beer-webcam>
     </div>
 </ng-container>
