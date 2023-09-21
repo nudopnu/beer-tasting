@@ -1,17 +1,12 @@
-:ng-host {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-}
-
 #beer-selection {
     display: flex;
     flex-flow: wrap;
     justify-content: center;
+    align-items: center;
     gap: 10px;
     min-height: 100px;
     color: #444;
+    height: 132px;
 }
 
 #button {
