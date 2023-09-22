@@ -5,7 +5,7 @@ import { DEFAULT_SETTINGS, Settings } from 'src/app/core/models/settings.model';
 import { State } from 'src/app/core/models/state.model';
 import { UserData } from 'src/app/core/models/user-data.model';
 import { User } from 'src/app/core/models/user.model';
-import { SettingsResource, StateResource, UserResource } from 'src/app/core/resources/resources';
+import { SettingsResource, StateResource, UserDataResource, UserResource } from 'src/app/core/resources/resources';
 import { ExportService } from 'src/app/services/export.service';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
@@ -25,6 +25,7 @@ export class MainComponent {
   currentUserData: UserData | undefined;
   userResource: UserResource;
   users$: Observable<User[]>;
+  userDataResource: UserDataResource;
 
   constructor(
     resourceProvider: ResourceProviderService,
@@ -36,6 +37,7 @@ export class MainComponent {
     this.settings$ = this.settingsResource.asObservable();
     this.userResource = resourceProvider.getResource(UserResource);
     this.users$ = this.userResource.asObservable();
+    this.userDataResource = resourceProvider.getResource(UserDataResource);
 
     // TODO: handle default state
     const x = this;
@@ -52,7 +54,7 @@ export class MainComponent {
     this.stateResource.set("Default");
 
     // FOR TESTING ONLY:
-    this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
+    // this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
   }
 
   onStart() {
@@ -80,7 +82,7 @@ export class MainComponent {
 
   onUserCompleted() {
     this.stateResource.set("Default");
-    this.exportService.addUserData(this.currentUserData!);
+    this.userDataResource.addItems([this.currentUserData!]);
   }
 
 }

@@ -1,6 +1,7 @@
 import { DrinkingState } from "../models/drinking-state.model";
 import { DEFAULT_SETTINGS, Settings } from "../models/settings.model";
 import { State } from "../models/state.model";
+import { UserData } from "../models/user-data.model";
 import { User } from "../models/user.model";
 import { AbstractMultiResource, AbstractSingleResource } from "./resource";
 
@@ -11,6 +12,10 @@ export class SettingsResource extends AbstractSingleResource<Settings> {
 
 export class UserResource extends AbstractMultiResource<User> {
     readonly type = "UserResource";
+}
+
+export class UserDataResource extends AbstractMultiResource<UserData> {
+    readonly type = "UserDataResource";
 }
 
 export class StateResource extends AbstractSingleResource<State>{
@@ -25,6 +30,7 @@ export class DrinkingStateResource extends AbstractSingleResource<DrinkingState>
 
 export type Resource =
     | UserResource
+    | UserDataResource
     | SettingsResource
     | StateResource
     | DrinkingStateResource

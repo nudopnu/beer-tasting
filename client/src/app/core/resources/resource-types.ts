@@ -1,6 +1,7 @@
 export const ResourceTypes = [
     "SettingsResource",
     "UserResource",
+    "UserDataResource",
     "StateResource",
     "DrinkingStateResource",
 ] as const;

@@ -1,2 +1,4 @@
 <p>statistics works!</p>
-{{exportService.userData|json}}
+<ng-container *ngIf="userData$ | async as userData">
+    {{userData | json}}
+</ng-container>

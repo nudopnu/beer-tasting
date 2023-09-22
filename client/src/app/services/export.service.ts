@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserData } from '../core/models/user-data.model';
+import { ResourceProviderService } from './resource-provider.service';
+import { UserDataResource } from '../core/resources/resources';
 
 @Injectable({
   providedIn: 'root'
@@ -7,16 +9,14 @@ import { UserData } from '../core/models/user-data.model';
 export class ExportService {
 
   readonly EXPORT_FILENAME = "recordings.json";
-  userData: UserData[] = [];
 
-  constructor() { }
-
-  addUserData(data: UserData) {
-    this.userData.push(data);
-  }
+  constructor(
+    private resourceProvider: ResourceProviderService,
+  ) { }
 
   export() {
-    const objectUrl = URL.createObjectURL(new Blob([JSON.stringify(this.userData)], {
+    const userData = this.resourceProvider.getResource(UserDataResource).get();
+    const objectUrl = URL.createObjectURL(new Blob([JSON.stringify(userData)], {
       type: "application/json",
     }));
     const tmpLink = document.createElement('a');

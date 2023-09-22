@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterContentInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import * as _ from "lodash";
 import { Subscription, map } from 'rxjs';
 import { FaceExpressionsPlotDataProvider as FaceExpressionsPlotDataProvider } from 'src/app/core/face-expressions-plot-data-provider';
@@ -16,7 +16,7 @@ import { FaceExpressionsRecorder } from 'src/app/core/face-expressions-recorder'
   templateUrl: './drinking.component.html',
   styleUrls: ['./drinking.component.scss']
 })
-export class DrinkingComponent {
+export class DrinkingComponent implements OnDestroy {
 
   @Input() user: User | undefined;
   @Output() onBeerReactionCompleted = new EventEmitter<BeerRaction>();
@@ -32,6 +32,7 @@ export class DrinkingComponent {
   faceDetector: FaceExpressionDetector;
   expressionBuffer: LazyBuffer;
   recorder: FaceExpressionsRecorder;
+  subscription: Subscription;
 
   constructor(resourceProvider: ResourceProviderService) {
     const settings = resourceProvider.getResource(SettingsResource).get();
@@ -48,7 +49,10 @@ export class DrinkingComponent {
     const expressions$ = this.expressionBuffer.wrapObservable(this.faceDetector.faceExpressions$);
     this.recorder = new FaceExpressionsRecorder(expressions$);
     this.dataProvider = new FaceExpressionsPlotDataProvider();
-    this.recorder.recordedExpressions$.subscribe(expression => this.dataProvider?.addExpression(expression));
+    this.subscription = this.recorder.recordedExpressions$.subscribe(expression => this.dataProvider?.addExpression(expression));
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   async onStreamInit(videoElement: HTMLVideoElement) {

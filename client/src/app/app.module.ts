@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BeerSelectionComponent } from './components/beer-selection/beer-selection.component';
 import { FaceExpressionStatsComponent } from './components/face-expression/face-expression-stats/face-expression-stats.component';
-import { FaceExpressionComponent } from './components/face-expression/face-expression.component';
 import { RadarChartComponent } from './components/face-expression/radar-chart/radar-chart.component';
 import { IconComponent } from './components/icon/icon.component';
 import { ModalComponent } from './components/modal/modal.component';
@@ -45,7 +44,6 @@ registerLocaleData(de);
     FaceExpressionStatsComponent,
     QrReaderComponent,
     RegisterComponent,
-    FaceExpressionComponent,
     RadarChartComponent,
     QrCodeComponent,
     StatisticsComponent,

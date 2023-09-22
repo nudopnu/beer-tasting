@@ -1,5 +1,5 @@
 import { FaceExpressions } from 'face-api.js';
-import { Observable, filter } from 'rxjs';
+import { Observable, filter, tap } from 'rxjs';
 
 export class FaceExpressionsRecorder {
 
@@ -9,9 +9,9 @@ export class FaceExpressionsRecorder {
 
     constructor(source$: Observable<FaceExpressions>) {
         this.recordedExpressions$ = source$.pipe(
-            filter(() => this.isRecording)
+            filter(() => this.isRecording),
+            tap(detection => this.addExpression(detection)),
         );
-        this.recordedExpressions$.subscribe(detection => this.addExpression(detection));
     }
 
     start() {
