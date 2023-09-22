@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable, OperatorFunction, Subject, map } from "rxjs";
 import { ResourceType } from "./resource-types";
 import { Resource } from "./resources";
-import { Database } from "../database/database";
+import { Database, WithId } from "../database/database";
 
 export abstract class AbstractResource<T> {
 
@@ -58,9 +58,12 @@ export abstract class AbstractMultiResource<T> extends AbstractResource<Array<T>
         return this.database.getItems<T>(this.type).map(dbi => dbi.item);
     }
 
-    addItems(items: Array<T>): void {
-        this.database.addItems(this.type, items);
+    addItems(items: Array<T>): Array<WithId<T>> {
+        const withIds = this.database.addItems(this.type, items);
+        console.log(withIds);
+        
         this.triggerUpdate();
+        return withIds;
     }
 
     removeItems(itemIds: Array<string>): void {

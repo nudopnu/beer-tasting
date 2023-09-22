@@ -5,7 +5,7 @@ import { DEFAULT_SETTINGS, Settings } from 'src/app/core/models/settings.model';
 import { State } from 'src/app/core/models/state.model';
 import { UserData } from 'src/app/core/models/user-data.model';
 import { User } from 'src/app/core/models/user.model';
-import { SettingsResource, StateResource } from 'src/app/core/resources/resources';
+import { SettingsResource, StateResource, UserResource } from 'src/app/core/resources/resources';
 import { ExportService } from 'src/app/services/export.service';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
@@ -23,6 +23,8 @@ export class MainComponent {
 
   currentUser: User | undefined;
   currentUserData: UserData | undefined;
+  userResource: UserResource;
+  users$: Observable<User[]>;
 
   constructor(
     resourceProvider: ResourceProviderService,
@@ -32,6 +34,8 @@ export class MainComponent {
     this.state$ = this.stateResource.asObservable();
     this.settingsResource = resourceProvider.getResource(SettingsResource);
     this.settings$ = this.settingsResource.asObservable();
+    this.userResource = resourceProvider.getResource(UserResource);
+    this.users$ = this.userResource.asObservable();
 
     // TODO: handle default state
     const x = this;
@@ -56,12 +60,20 @@ export class MainComponent {
   }
 
   onUserRegistered(user: User) {
-    this.currentUser = user;
+    const withIdUser = this.userResource.addItems([user])[0];
+    console.log(withIdUser);
+    
+    this.currentUser = {
+      ...user,
+      id: withIdUser.id,
+    };
     this.currentUserData = {
       user,
       beerReactions: [],
     };
     this.stateResource.set("Recording");
+    console.log(this.currentUser);
+    
   }
 
   onBeerReaction(reaction: BeerRaction) {
