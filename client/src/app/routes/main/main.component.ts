@@ -6,6 +6,7 @@ import { State } from 'src/app/core/models/state.model';
 import { UserData } from 'src/app/core/models/user-data.model';
 import { User } from 'src/app/core/models/user.model';
 import { SettingsResource, StateResource } from 'src/app/core/resources/resources';
+import { ExportService } from 'src/app/services/export.service';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
 @Component({
@@ -18,13 +19,14 @@ export class MainComponent {
   stateResource: StateResource;
   state$: Observable<State>;
   settingsResource: SettingsResource;
-  settings$
+  settings$: Observable<Settings>;
 
   currentUser: User | undefined;
   currentUserData: UserData | undefined;
 
   constructor(
     resourceProvider: ResourceProviderService,
+    private exportService: ExportService,
   ) {
     this.stateResource = resourceProvider.getResource(StateResource);
     this.state$ = this.stateResource.asObservable();
@@ -70,6 +72,7 @@ export class MainComponent {
   onUserCompleted() {
     this.stateResource.set("Default");
     console.log(this.currentUserData);
+    this.exportService.addUserData(this.currentUserData!);
   }
 
 }

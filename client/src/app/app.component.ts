@@ -4,6 +4,7 @@ import { EventDispatcherService } from './services/event-dispatcher.service';
 import { OpenDialogEvent } from './core/events/events';
 import { SettingsComponent } from './components/modal/settings/settings.component';
 import { Router } from '@angular/router';
+import { ExportService } from './services/export.service';
 
 @Component({
   selector: 'beer-root',
@@ -16,6 +17,7 @@ export class AppComponent {
   constructor(
     private eventDispatcher: EventDispatcherService,
     private router: Router,
+    private exportService: ExportService,
   ) { }
 
   toggleCollapsed() {
@@ -29,4 +31,9 @@ export class AppComponent {
   isSelected(route: string): boolean {
     return route === this.router.url;
   }
+
+  export() {
+    this.exportService.export();
+  }
+  
 }
