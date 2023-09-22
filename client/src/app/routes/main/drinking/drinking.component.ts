@@ -1,7 +1,7 @@
 import { AfterContentChecked, AfterContentInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as _ from "lodash";
-import { Subscription } from 'rxjs';
-import { FaceExpressionsRecording } from 'src/app/core/FaceExpressionsRecording';
+import { Subscription, map } from 'rxjs';
+import { FaceExpressionsPlotDataProvider as FaceExpressionsPlotDataProvider } from 'src/app/core/face-expressions-plot-data-provider';
 import { FaceDetections, FaceExpressionDetector } from 'src/app/core/face-detection/face-expression-detector';
 import { LazyBuffer } from 'src/app/core/face-detection/lazy-buffer';
 import { BeerRaction } from 'src/app/core/models/beer-reaction.model';
@@ -9,13 +9,14 @@ import { DrinkingState } from 'src/app/core/models/drinking-state.model';
 import { User } from 'src/app/core/models/user.model';
 import { DrinkingStateResource, SettingsResource } from 'src/app/core/resources/resources';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
+import { FaceExpressionsRecorder } from 'src/app/core/face-expressions-recorder';
 
 @Component({
   selector: 'beer-drinking',
   templateUrl: './drinking.component.html',
   styleUrls: ['./drinking.component.scss']
 })
-export class DrinkingComponent implements AfterContentInit {
+export class DrinkingComponent {
 
   @Input() user: User | undefined;
   @Output() onBeerReactionCompleted = new EventEmitter<BeerRaction>();
@@ -27,12 +28,10 @@ export class DrinkingComponent implements AfterContentInit {
   secondsPerSample: number;
   drinkingStateResource;
   drinkingState$;
-  RatingTooltips = ['ekelhaft!', 'geht so', 'okay', 'gut', 'köstlich!'];
-  userRating = 0;
-  recording: FaceExpressionsRecording | undefined;
+  dataProvider: FaceExpressionsPlotDataProvider | undefined;
   faceDetector: FaceExpressionDetector;
   expressionBuffer: LazyBuffer;
-  subscription: Subscription | undefined;
+  recorder: FaceExpressionsRecorder;
 
   constructor(resourceProvider: ResourceProviderService) {
     const settings = resourceProvider.getResource(SettingsResource).get();
@@ -43,13 +42,18 @@ export class DrinkingComponent implements AfterContentInit {
     this.drinkingStateResource = resourceProvider.getResource(DrinkingStateResource);
     this.drinkingState$ = this.drinkingStateResource.asObservable();
     this.drinkingStateResource.set("Choosing");
-    const faceDetectorCallback = this.onFaceDetection.bind(this);
-    this.faceDetector = new FaceExpressionDetector(faceDetectorCallback);
+    this.faceDetector = new FaceExpressionDetector();
+
     this.expressionBuffer = new LazyBuffer();
+    const expressions$ = this.expressionBuffer.wrapObservable(this.faceDetector.faceExpressions$);
+    this.recorder = new FaceExpressionsRecorder(expressions$);
+    this.dataProvider = new FaceExpressionsPlotDataProvider();
+    this.recorder.recordedExpressions$.subscribe(expression => this.dataProvider?.addExpression(expression));
   }
 
-  ngAfterContentInit(): void {
-    this.recording = new FaceExpressionsRecording(this.user!);
+  async onStreamInit(videoElement: HTMLVideoElement) {
+    await this.faceDetector.initialize(videoElement);
+    await this.faceDetector.startDetection();
   }
 
   getRandomBeers(): void {
@@ -72,41 +76,29 @@ export class DrinkingComponent implements AfterContentInit {
 
   onStartDrinking() {
     this.drinkingStateResource.set("Drinking");
-    this.subscription = this.expressionBuffer.value$.subscribe(value => {
-      this.recording?.addExpression(value);
-    });
+    this.recorder.start();
   }
 
   onBeerCompleted() {
-    this.userRating = 0;
     this.drinkingStateResource.set("Rating");
     if (this.selectedBeer) {
       this.beers = this.beers.filter(beer => beer !== this.selectedBeer);
     }
-    this.subscription?.unsubscribe();
+    this.recorder.stop();
   }
 
-  onNextBeer() {
+  onNextBeer(previousRating: number) {
     this.onBeerReactionCompleted.emit({
       beer: this.selectedBeer!,
-      rating: this.userRating,
-      recording: this.recording!,
+      rating: previousRating,
+      recording: this.recorder.faceExpressions,
     });
-    this.recording = new FaceExpressionsRecording(this.user!);
     this.drinkingStateResource.set("Choosing");
+    this.recorder.reset();
+    this.dataProvider?.reset();
     if (this.beers.length === 0) {
       this.onUserCompleted.emit();
     }
   }
 
-  async onStreamInit(videoElement: HTMLVideoElement) {
-    await this.faceDetector.startDetection(videoElement);
-  }
-
-  private onFaceDetection(detections: FaceDetections) {
-    if (this.drinkingStateResource.get() === "Drinking" && detections.length > 0) {
-      const { expressions } = detections[0];
-      this.expressionBuffer.addExpression(expressions);
-    }
-  }
 }

@@ -1,0 +1,6 @@
+<div id="rating" class="col-center">
+    <nz-rate [(ngModel)]="userRating" [nzTooltips]="RatingTooltips" [nzCharacter]="beerIcon" class="large"></nz-rate>
+    <button nz-button [disabled]="userRating === 0" (click)="onRatingCompleted.emit(userRating)">Weiter</button>
+</div>
+
+<ng-template #beerIcon><beer-icon [name]="'beer'" [type]="'solid'" sizing="fill"></beer-icon></ng-template>

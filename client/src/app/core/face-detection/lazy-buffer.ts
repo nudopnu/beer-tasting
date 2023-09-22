@@ -1,5 +1,5 @@
 import { FaceExpressions } from "face-api.js";
-import { Subject } from "rxjs";
+import { Observable, Subject, tap } from "rxjs";
 
 export class LazyBuffer {
 
@@ -11,6 +11,11 @@ export class LazyBuffer {
     constructor(
         private bufferSize = 3,
     ) { }
+
+    wrapObservable(expressionsEmitter: Observable<FaceExpressions>): Observable<FaceExpressions> {
+        expressionsEmitter.subscribe(this.addExpression.bind(this));
+        return this.value$;
+    }
 
     addExpression(expression: FaceExpressions) {
         this.buffer.push(this.normalize(this.cheatAttributes(expression)));

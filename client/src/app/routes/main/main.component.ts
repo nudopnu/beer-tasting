@@ -52,7 +52,7 @@ export class MainComponent {
     this.stateResource.set("Default");
 
     // FOR TESTING ONLY:
-    // this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
+    this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
   }
 
   onStart() {
@@ -62,7 +62,7 @@ export class MainComponent {
   onUserRegistered(user: User) {
     const withIdUser = this.userResource.addItems([user])[0];
     console.log(withIdUser);
-    
+
     this.currentUser = {
       ...user,
       id: withIdUser.id,
@@ -72,18 +72,14 @@ export class MainComponent {
       beerReactions: [],
     };
     this.stateResource.set("Recording");
-    console.log(this.currentUser);
-    
   }
 
   onBeerReaction(reaction: BeerRaction) {
     this.currentUserData?.beerReactions.push(reaction);
-    console.log(this.currentUserData);
   }
 
   onUserCompleted() {
     this.stateResource.set("Default");
-    console.log(this.currentUserData);
     this.exportService.addUserData(this.currentUserData!);
   }
 

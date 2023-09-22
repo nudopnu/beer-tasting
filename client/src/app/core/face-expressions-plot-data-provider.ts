@@ -1,12 +1,11 @@
-import { Data } from "plotly.js";
-import { BehaviorSubject } from "rxjs";
-import { FaceExpressionTypes as AllFaceExpressions, toGerman } from "./face-detection/face-expression-types";
-import { User } from "./models/user.model";
 import { FaceExpressions } from "face-api.js";
+import { Data } from "plotly.js";
+import { BehaviorSubject, Observable } from "rxjs";
+import { FaceExpressionTypes as AllFaceExpressions, toGerman } from "./face-detection/face-expression-types";
 
-export class FaceExpressionsRecording {
+export class FaceExpressionsPlotDataProvider {
 
-    private readonly initialPlotData = AllFaceExpressions.map(
+    private readonly initialPlotData = () => AllFaceExpressions.map(
         faceExpression => ({
             x: [],
             y: [],
@@ -14,13 +13,13 @@ export class FaceExpressionsRecording {
             name: toGerman(faceExpression),
         } as Data)
     );
+    plotDataSource: BehaviorSubject<Data[]>;
+    plotData$: Observable<Data[]>;
 
-    private tracesSource = new BehaviorSubject<Data[]>(this.initialPlotData);
-    traces$ = this.tracesSource.asObservable();
-
-    constructor(
-        public user: User,
-    ) { }
+    constructor() {
+        this.plotDataSource = new BehaviorSubject<Data[]>(this.initialPlotData());
+        this.plotData$ = this.plotDataSource.asObservable();
+    }
 
     addExpression(expressions: FaceExpressions): void {
         const mapping = (trace: any) => {
@@ -35,6 +34,10 @@ export class FaceExpressionsRecording {
             });
             return result;
         };
-        this.tracesSource.next(this.tracesSource.value.map(mapping));
+        this.plotDataSource.next(this.plotDataSource.value.map(mapping));
+    }
+
+    reset() {
+        this.plotDataSource.next(this.initialPlotData());
     }
 }

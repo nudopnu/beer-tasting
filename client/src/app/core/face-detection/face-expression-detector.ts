@@ -1,5 +1,7 @@
 import * as faceapi from 'face-api.js';
+import { FaceExpressions } from 'face-api.js';
 import { FaceDetection, FaceLandmarks68, IDimensions, WithFaceExpressions, WithFaceLandmarks } from 'face-api.js';
+import { BehaviorSubject, Observable, Subject, filter, map } from 'rxjs';
 
 export type FaceDetections = WithFaceExpressions<WithFaceLandmarks<{
     detection: FaceDetection;
@@ -7,29 +9,43 @@ export type FaceDetections = WithFaceExpressions<WithFaceLandmarks<{
 
 export class FaceExpressionDetector {
 
-    MODELS_PATH = '../assets/models/'; // '../beer-tasting/assets/models/'; // FOR PRODUCTION
+    readonly MODELS_PATH = '../assets/models/'; // '../beer-tasting/assets/models/'; // FOR PRODUCTION
 
-    canvas: HTMLCanvasElement | undefined;
-    interval: any;
+    private videoElementRef: HTMLVideoElement | undefined;
+    private canvas: HTMLCanvasElement | undefined;
+    private interval: any;
+    private faceDetectionSource: Subject<FaceDetections>;
+    faceDetections$: Observable<FaceDetections>;
+    faceExpressions$: Observable<FaceExpressions>;
 
-    constructor(
-        private onDetect: (detections: FaceDetections) => void,
-    ) { }
-
-    async startDetection(videoElement: HTMLVideoElement) {
-        const { width, height } = videoElement.getBoundingClientRect();
-        await this.loadModels();
-        this.canvas = await this.initCanvas(videoElement, { width, height });
-        this.startDetectionLoop(videoElement, { width, height });
+    constructor() {
+        this.faceDetectionSource = new Subject<FaceDetections>();
+        this.faceDetections$ = this.faceDetectionSource.asObservable();
+        this.faceExpressions$ = this.faceDetections$.pipe(
+            filter(faceDetection => faceDetection.length > 0),
+            map(faceDetection => faceDetection[0].expressions),
+        );
     }
-    
+
+    async initialize(videoElement: HTMLVideoElement) {
+        this.videoElementRef = videoElement;
+        await this.loadModels();
+        const { width, height } = this.videoElementRef.getBoundingClientRect();
+        this.canvas = await this.initCanvas(videoElement, { width, height });
+    }
+
+    startDetection(): void {
+        const { width, height } = this.videoElementRef!.getBoundingClientRect();
+        this.interval = this.startDetectionLoop(this.videoElementRef!, { width, height });
+    }
+
     stopDetection(): void {
         clearInterval(this.interval);
     }
 
     private startDetectionLoop(videoElement: HTMLVideoElement, dimensions: IDimensions) {
         if (this.interval) clearInterval(this.interval);
-        this.interval = setInterval(this.detectAndDraw(videoElement, dimensions), 100);
+        return setInterval(this.detectAndDraw(videoElement, dimensions), 100);
     }
 
     private async loadModels() {
@@ -49,15 +65,13 @@ export class FaceExpressionDetector {
         return newCanvas;
     }
 
-
     private detectAndDraw(videoElement: HTMLVideoElement, displaySize: { width: number; height: number; }): () => void {
         return async () => {
             const faceDetections = faceapi.detectAllFaces(videoElement, new faceapi.TinyFaceDetectorOptions({}));
             const detections = await faceDetections
                 .withFaceLandmarks()
                 .withFaceExpressions();
-            this.onDetect(detections);
-
+            this.faceDetectionSource.next(detections);
             const resizedDetections = faceapi.resizeResults(detections, displaySize);
             this.canvas!.getContext("2d")?.clearRect(0, 0, displaySize.width, displaySize.height);
             faceapi.draw.drawFaceLandmarks(this.canvas!, resizedDetections);

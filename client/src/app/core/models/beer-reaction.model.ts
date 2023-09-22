@@ -1,7 +1,7 @@
-import { FaceExpressionsRecording } from "../FaceExpressionsRecording";
+import { FaceExpressions } from "face-api.js";
 
 export interface BeerRaction {
     beer: number;
-    recording: FaceExpressionsRecording;
+    recording: FaceExpressions[];
     rating: number;
 }
