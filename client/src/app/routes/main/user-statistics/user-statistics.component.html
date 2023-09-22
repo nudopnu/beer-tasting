@@ -1,5 +1,7 @@
-<ng-container *ngIf="userData$ | async as userData">
+<div class="col-center" *ngIf="userData$ | async as userData">
+    <h2>Vielen Dank für Ihre Teilnahme. Hier sind Ihre Ergebnisse:</h2>
     <div *ngFor="let reaction of userData[0].beerReactions">
         <beer-reaction [reaction]="reaction"></beer-reaction>
     </div>
-</ng-container>
+    <button nz-button (click)="onUserQuit.emit()">Beenden</button>
+</div>

@@ -72,8 +72,11 @@ export class MainComponent {
       ...user,
       id: withIdUser.id,
     };
+
+    console.log(this.currentUser);
+    
     this.currentUserData = {
-      user,
+      user: this.currentUser,
       beerReactions: [],
     };
     this.stateResource.set("Recording");
@@ -84,6 +87,7 @@ export class MainComponent {
   }
 
   onUserCompleted() {
+    console.log(this.currentUserData);
     this.userDataResource.addItems([this.currentUserData!]);
     this.stateResource.set("Results");
   }

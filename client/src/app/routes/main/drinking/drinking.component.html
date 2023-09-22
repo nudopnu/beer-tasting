@@ -12,11 +12,11 @@
             (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
 
         <ng-container *ngSwitchCase="'Preparing'">
-            <beer-countdown [startValue]="3" (onCompleted)="onStartDrinking()" />
+            <beer-countdown [startValue]="1" (onCompleted)="onStartDrinking()" />
         </ng-container>
 
         <ng-container *ngSwitchCase="'Drinking'">
-            <beer-countdown [startValue]="secondsPerSample" (onCompleted)="onBeerCompleted()" />
+            <beer-countdown [startValue]="1" (onCompleted)="onBeerCompleted()" />
         </ng-container>
 
         <beer-webcam [deviceId]="videoDeviceId" (onStreamInit)="onStreamInit($event)"></beer-webcam>

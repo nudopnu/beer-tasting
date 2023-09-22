@@ -4,13 +4,8 @@
             <beer-opener *ngSwitchCase="'Default'" (onStart)="onStart()" [settings]="settings"></beer-opener>
             <beer-user-scanning *ngSwitchCase="'Scanning'" (onUserRegistered)="onUserRegistered($event)" [settings]="settings"></beer-user-scanning>
             <beer-drinking  *ngSwitchCase="'Recording'" [user]="currentUser" (onBeerReactionCompleted)="onBeerReaction($event)" (onUserCompleted)="onUserCompleted()"></beer-drinking>
-            <beer-user-statistics *ngSwitchCase="'Results'" [user]="currentUser!"></beer-user-statistics>
+            <beer-user-statistics *ngSwitchCase="'Results'" [user]="currentUser!" (onUserQuit)="onRestart()"></beer-user-statistics>
         </ng-container>
     </ng-container>
 
 </div>
-
-
-<!-- <ng-container *ngIf="recording && recording.traces$ | async as data">
-        <beer-plot [data]="data"></beer-plot>
-    </ng-container>-->

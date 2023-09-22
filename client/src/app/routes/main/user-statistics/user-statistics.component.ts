@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FaceExpressions } from 'face-api.js';
 import { Observable, filter, map } from 'rxjs';
 import { UserData } from 'src/app/core/models/user-data.model';
@@ -13,6 +13,8 @@ import { ResourceProviderService } from 'src/app/services/resource-provider.serv
 })
 export class UserStatisticsComponent {
   @Input() user!: User;
+  @Output() onUserQuit = new EventEmitter();
+
   userData$: Observable<UserData[]>;
 
   constructor(resourceProvider: ResourceProviderService) {
