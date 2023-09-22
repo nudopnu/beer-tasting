@@ -55,6 +55,9 @@ export class MainComponent {
 
     // FOR TESTING ONLY:
     // this.onUserRegistered({ gender: 'm', generation: 'Boomer', id: '123' } as User);
+
+    // this.currentUser = { gender: 'm', generation: 'Boomer', id: '123' } as User;
+    // this.onUserCompleted();
   }
 
   onStart() {
@@ -81,8 +84,12 @@ export class MainComponent {
   }
 
   onUserCompleted() {
-    this.stateResource.set("Default");
     this.userDataResource.addItems([this.currentUserData!]);
+    this.stateResource.set("Results");
+  }
+
+  onRestart() {
+    this.stateResource.set("Default");
   }
 
 }

@@ -28,6 +28,8 @@ import { StatisticsComponent } from './routes/statistics/statistics.component';
 import { ZorroModule } from './zorro.module';
 import { CountdownComponent } from './components/countdown/countdown.component';
 import { RatingComponent } from './routes/main/drinking/rating/rating.component';
+import { UserStatisticsComponent } from './routes/main/user-statistics/user-statistics.component';
+import { ReactionComponent } from './routes/main/user-statistics/reaction/reaction.component';
 
 registerLocaleData(de);
 
@@ -52,6 +54,8 @@ registerLocaleData(de);
     UserScanningComponent,
     CountdownComponent,
     RatingComponent,
+    UserStatisticsComponent,
+    ReactionComponent,
   ],
   imports: [
     BrowserModule,

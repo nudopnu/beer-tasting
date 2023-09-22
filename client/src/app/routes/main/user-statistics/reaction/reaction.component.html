@@ -1,0 +1,11 @@
+<div id="container" class="row-center">
+    <div class="col-center">
+        <div><h2><span>Bier Nr. {{reaction.beer}}:</span></h2></div>
+        <div><nz-rate [ngModel]="reaction.rating" nzDisabled></nz-rate></div>
+    </div>
+        <div>
+        <beer-radar-chart [faceExpression]="avgExpressions" [dimensions]="{width: 300, height: 300}"></beer-radar-chart>
+    </div>
+</div>
+
+<ng-template #beerIcon><beer-icon [name]="'beer'" [type]="'solid'" sizing="fill"></beer-icon></ng-template>

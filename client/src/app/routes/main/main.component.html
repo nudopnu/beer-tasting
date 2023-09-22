@@ -4,6 +4,7 @@
             <beer-opener *ngSwitchCase="'Default'" (onStart)="onStart()" [settings]="settings"></beer-opener>
             <beer-user-scanning *ngSwitchCase="'Scanning'" (onUserRegistered)="onUserRegistered($event)" [settings]="settings"></beer-user-scanning>
             <beer-drinking  *ngSwitchCase="'Recording'" [user]="currentUser" (onBeerReactionCompleted)="onBeerReaction($event)" (onUserCompleted)="onUserCompleted()"></beer-drinking>
+            <beer-user-statistics *ngSwitchCase="'Results'" [user]="currentUser!"></beer-user-statistics>
         </ng-container>
     </ng-container>
 
