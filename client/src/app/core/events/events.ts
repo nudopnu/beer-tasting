@@ -13,7 +13,7 @@ export class FaceExpressionEvent extends AbstractEvent<FaceExpressions>{
     override readonly type = "FaceExpressionEvent";
 }
 
-export class OpenDialogEvent extends AbstractEvent<{ component: any }>{
+export class OpenDialogEvent extends AbstractEvent<{ component: any, onClose: () => void }>{
     override readonly type = "OpenDialogEvent";
 }
 

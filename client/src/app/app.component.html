@@ -28,12 +28,12 @@
           <span>Registrieren</span>
         </li>
 
-        <li nz-menu-item nzTitle="Settings" (click)="openSettings()">
+        <li nz-menu-item nzTitle="Settings" #settingsMenuItem (click)="openSettings(settingsMenuItem)">
           <span nz-icon nzType="setting"></span>
           <span>Einstellungen</span>
         </li>
 
-        <li nz-menu-item nzTitle="Exoprt" (click)="export()">
+        <li nz-menu-item nzTitle="Exoprt" #exportMenuItem (click)="export(exportMenuItem)">
           <span nz-icon nzType="export"></span>
           <span>Exportieren</span>
         </li>

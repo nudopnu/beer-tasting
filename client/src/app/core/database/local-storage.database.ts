@@ -2,13 +2,13 @@ import { ResourceType } from "../resources/resource-types";
 import { Database, WithId } from "./database";
 
 export class LocalStorageDatabase implements Database {
+    
     static INTERNAL_ID_COUNTER = "__id";
 
     assignId<T>(type: ResourceType, item: T): WithId<T> {
         const storageKey = type + LocalStorageDatabase.INTERNAL_ID_COUNTER;
         const oldId = parseInt(localStorage.getItem(storageKey) || "0")
         const newId = `${oldId + 1}`;
-        console.log(oldId, newId);
         localStorage.setItem(storageKey, newId);
         return { item, id: newId } as WithId<T>
     }

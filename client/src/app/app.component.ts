@@ -24,16 +24,23 @@ export class AppComponent {
     this.isCollapsed = !this.isCollapsed;
   }
 
-  openSettings() {
-    this.eventDispatcher.dispatch(new OpenDialogEvent({ component: SettingsComponent }));
+  openSettings(element: HTMLElement) {
+    this.eventDispatcher.dispatch(new OpenDialogEvent({ component: SettingsComponent, onClose: () => this.deFocus(element, 0) }));
   }
 
   isSelected(route: string): boolean {
     return route === this.router.url;
   }
 
-  export() {
+  export(element: HTMLElement) {
     this.exportService.export();
+    this.deFocus(element);
   }
-  
+
+  private deFocus(element: HTMLElement, delay = 300) {
+    setTimeout(() => {
+      element.classList.remove("ant-menu-item-selected");
+    }, delay);
+  }
+
 }

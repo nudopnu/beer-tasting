@@ -12,19 +12,22 @@ export class ModalComponent {
 
   dialogQueue = [];
   currentComponent: ComponentRef<any> | undefined;
+  currentOnCloseCallback: (() => void) | undefined;
 
   constructor(
     private viewContainerRef: ViewContainerRef,
     private eventDispatcher: EventDispatcherService,
   ) {
     eventDispatcher.listen("OpenDialogEvent").subscribe(event => {
-      const { component } = event.payload;
+      const { component, onClose } = event.payload;
       this.currentComponent = this.entry.createComponent(component);
+      this.currentOnCloseCallback = onClose;
     })
   }
 
   destroy() {
     this.currentComponent?.destroy();
+    this.currentOnCloseCallback?.();
     this.currentComponent = undefined;
   }
 }

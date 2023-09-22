@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ExportService } from 'src/app/services/export.service';
 
 @Component({
   selector: 'beer-statistics',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class StatisticsComponent {
 
+  constructor(
+    public exportService: ExportService,
+  ) {
+    
+  }
 }

@@ -6,6 +6,7 @@ import { UserData } from '../core/models/user-data.model';
 })
 export class ExportService {
 
+  readonly EXPORT_FILENAME = "recordings.json";
   userData: UserData[] = [];
 
   constructor() { }
@@ -20,7 +21,8 @@ export class ExportService {
     }));
     const tmpLink = document.createElement('a');
     tmpLink.href = objectUrl;
-    tmpLink.setAttribute("download", "recordings.json");
+    tmpLink.setAttribute("download", this.EXPORT_FILENAME);
     tmpLink.click();
+    tmpLink.remove();
   }
 }
