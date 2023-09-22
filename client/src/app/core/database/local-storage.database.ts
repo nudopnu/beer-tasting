@@ -4,14 +4,12 @@ import { Database, WithId } from "./database";
 export class LocalStorageDatabase implements Database {
     static INTERNAL_ID_COUNTER = "__id";
 
-    static id = () => parseInt(localStorage.getItem(LocalStorageDatabase.INTERNAL_ID_COUNTER) || "0");
-
-    assignId<T>(item: T): WithId<T> {
-        
-        const oldId = LocalStorageDatabase.id();
+    assignId<T>(type: ResourceType, item: T): WithId<T> {
+        const storageKey = type + LocalStorageDatabase.INTERNAL_ID_COUNTER;
+        const oldId = parseInt(localStorage.getItem(storageKey) || "0")
         const newId = `${oldId + 1}`;
         console.log(oldId, newId);
-        localStorage.setItem(LocalStorageDatabase.INTERNAL_ID_COUNTER, newId);
+        localStorage.setItem(storageKey, newId);
         return { item, id: newId } as WithId<T>
     }
 
@@ -24,11 +22,12 @@ export class LocalStorageDatabase implements Database {
     }
 
     addItems<T>(type: ResourceType, items: T[]): WithId<T>[] {
-        const newItems = [
+        const newItems = items.map(item => this.assignId(type, item));
+        const allItemsUpdated = [
             ...this.getItemsOrEmpty<T>(type),
-            ...items.map(this.assignId.bind(this)),
+            ...newItems,
         ];
-        this.setItems(type, newItems);
+        this.setItems(type, allItemsUpdated);
         return newItems;
     }
 
