@@ -7,5 +7,5 @@ export interface Settings {
 export const DEFAULT_SETTINGS: Settings = {
     videoInputDevice: undefined,
     numberOfSamples: 3,
-    secondsPerSample: 5,
+    secondsPerSample: 10,
 };
