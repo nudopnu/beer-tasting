@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { BeerRaction } from 'src/app/core/models/beer-reaction.model';
-import { DEFAULT_SETTINGS, Settings } from 'src/app/core/models/settings.model';
+import { Settings } from 'src/app/core/models/settings.model';
 import { State } from 'src/app/core/models/state.model';
 import { UserData } from 'src/app/core/models/user-data.model';
 import { User } from 'src/app/core/models/user.model';
 import { SettingsResource, StateResource, UserDataResource, UserResource } from 'src/app/core/resources/resources';
-import { ExportService } from 'src/app/services/export.service';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
 @Component({
@@ -24,20 +23,18 @@ export class MainComponent {
   currentUser: User | undefined;
   currentUserData: UserData | undefined;
   userResource: UserResource;
-  users$: Observable<User[]>;
   userDataResource: UserDataResource;
 
   constructor(
     resourceProvider: ResourceProviderService,
-    private exportService: ExportService,
   ) {
     this.stateResource = resourceProvider.getResource(StateResource);
-    this.state$ = this.stateResource.asObservable();
     this.settingsResource = resourceProvider.getResource(SettingsResource);
-    this.settings$ = this.settingsResource.asObservable();
     this.userResource = resourceProvider.getResource(UserResource);
-    this.users$ = this.userResource.asObservable();
     this.userDataResource = resourceProvider.getResource(UserDataResource);
+
+    this.state$ = this.stateResource.asObservable();
+    this.settings$ = this.settingsResource.asObservable();
 
     // TODO: handle default state
     const x = this;
@@ -65,16 +62,11 @@ export class MainComponent {
   }
 
   onUserRegistered(user: User) {
-    const withIdUser = this.userResource.addItems([user])[0];
-    console.log(withIdUser);
-
+    const withIdUser = this.userResource.addItem(user);
     this.currentUser = {
       ...user,
       id: withIdUser.id,
     };
-
-    console.log(this.currentUser);
-    
     this.currentUserData = {
       user: this.currentUser,
       beerReactions: [],
@@ -88,7 +80,7 @@ export class MainComponent {
 
   onUserCompleted() {
     console.log(this.currentUserData);
-    this.userDataResource.addItems([this.currentUserData!]);
+    this.userDataResource.addItem(this.currentUserData!);
     this.stateResource.set("Results");
   }
 

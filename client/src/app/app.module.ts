@@ -30,6 +30,7 @@ import { CountdownComponent } from './components/countdown/countdown.component';
 import { RatingComponent } from './routes/main/drinking/rating/rating.component';
 import { UserStatisticsComponent } from './routes/main/user-statistics/user-statistics.component';
 import { ReactionComponent } from './routes/main/user-statistics/reaction/reaction.component';
+import { ResourceProviderComponent } from './components/resource-provider/resource-provider.component';
 
 registerLocaleData(de);
 
@@ -56,6 +57,7 @@ registerLocaleData(de);
     RatingComponent,
     UserStatisticsComponent,
     ReactionComponent,
+    ResourceProviderComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,19 @@
-<p>statistics works!</p>
-<ng-container *ngIf="userData$ | async as userData">
-    {{userData | json}}
+<ng-container *ngIf="avgBeerRatings$ | async as avgBeerRatings">
+    {{avgBeerRatings | json}}
+</ng-container>
+
+<ng-container *ngIf="angriestBeer$ | async as angriestBeer">
+    Wütendstes Bier: {{angriestBeer[0].beer}}
+</ng-container>
+
+<ng-container *ngIf="sadestBeer$ | async as sadestBeer">
+    Traurigstes Bier: {{sadestBeer[0].beer}}
+</ng-container>
+
+<ng-container *ngIf="happiestBeer$ | async as happiestBeer">
+    Fröhlichstes Bier: {{happiestBeer[0].beer}}
+</ng-container>
+
+<ng-container *ngIf="mostSurprisedBeer$ | async as mostSurprisedBeer">
+    Überraschendstes Bier: {{mostSurprisedBeer[0].beer}}
 </ng-container>

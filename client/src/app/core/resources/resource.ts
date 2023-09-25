@@ -60,8 +60,6 @@ export abstract class AbstractMultiResource<T> extends AbstractResource<Array<T>
 
     addItems(items: Array<T>): Array<WithId<T>> {
         const withIds = this.database.addItems(this.type, items);
-        console.log(withIds);
-        
         this.triggerUpdate();
         return withIds;
     }
@@ -69,6 +67,14 @@ export abstract class AbstractMultiResource<T> extends AbstractResource<Array<T>
     removeItems(itemIds: Array<string>): void {
         this.database.removeItems(this.type, itemIds);
         this.triggerUpdate();
+    }
+
+    addItem(item: T): WithId<T> {
+        return this.addItems([item])[0];
+    }
+
+    removeItem(itemId: string): void {
+        this.removeItems([itemId]);
     }
 
     toItem: (_: string) => Array<T> = _ => this.get();

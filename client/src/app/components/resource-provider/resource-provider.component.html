@@ -1,0 +1,4 @@
+<p>resource-provider works!</p>
+<ng-container *ngIf="resources$ | async as resources">
+    {{resources | json}}
+</ng-container>
