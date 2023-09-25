@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 import { Observable } from 'rxjs';
 import { Settings } from 'src/app/core/models/settings.model';
 import { SettingsResource } from 'src/app/core/resources/resources';
@@ -18,6 +19,7 @@ export class SettingsComponent {
 
   constructor(
     resourceProvider: ResourceProviderService,
+    private modal: NzModalRef,
   ) {
     (async () => {
       const inputDevices = await navigator.mediaDevices.enumerateDevices();
@@ -35,4 +37,12 @@ export class SettingsComponent {
     });
   }
 
+  destroyModal(): void {
+    this.modal.destroy();
+  }
+
+  accept(newSettings: Settings): void {
+    this.settingsResource.set(newSettings);
+    this.modal.destroy();
+  }
 }

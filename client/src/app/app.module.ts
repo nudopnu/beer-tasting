@@ -13,7 +13,6 @@ import { BeerSelectionComponent } from './components/beer-selection/beer-selecti
 import { FaceExpressionStatsComponent } from './components/face-expression/face-expression-stats/face-expression-stats.component';
 import { RadarChartComponent } from './components/face-expression/radar-chart/radar-chart.component';
 import { IconComponent } from './components/icon/icon.component';
-import { ModalComponent } from './components/modal/modal.component';
 import { SettingsComponent } from './components/modal/settings/settings.component';
 import { PlotComponent } from './components/plot/plot.component';
 import { QrCodeComponent } from './components/qr-code/qr-code.component';
@@ -41,7 +40,6 @@ registerLocaleData(de);
     WebcamComponent,
     PlotComponent,
     IconComponent,
-    ModalComponent,
     SettingsComponent,
     BeerSelectionComponent,
     FaceExpressionStatsComponent,

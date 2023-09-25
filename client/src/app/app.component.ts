@@ -5,6 +5,7 @@ import { OpenDialogEvent } from './core/events/events';
 import { SettingsComponent } from './components/modal/settings/settings.component';
 import { Router } from '@angular/router';
 import { ExportService } from './services/export.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'beer-root',
@@ -18,6 +19,7 @@ export class AppComponent {
     private eventDispatcher: EventDispatcherService,
     private router: Router,
     private exportService: ExportService,
+    private modalService: NzModalService,
   ) { }
 
   toggleCollapsed() {
@@ -25,7 +27,11 @@ export class AppComponent {
   }
 
   openSettings(element: HTMLElement) {
-    this.eventDispatcher.dispatch(new OpenDialogEvent({ component: SettingsComponent, onClose: () => this.deFocus(element, 0) }));
+    // this.eventDispatcher.dispatch(new OpenDialogEvent({ component: SettingsComponent, onClose: () => this.deFocus(element, 0) }));
+    this.modalService.create({
+      nzTitle: 'Einstellungen',
+      nzContent: SettingsComponent,
+    });
   }
 
   isSelected(route: string): boolean {
