@@ -15,9 +15,9 @@
         padding-left: 200px;
     }
 
-    ::ng-deep .ant-layout-content {
-        padding-right: 200px;
-    }
+    // ::ng-deep .ant-layout-content {
+    //     padding-right: 200px;
+    // }
 }
 
 main {
@@ -28,7 +28,7 @@ main {
 
 main #content {
     width: 100%;
-    max-width: 768px;
+    // max-width: 768px;
 }
 
 #logo-container {

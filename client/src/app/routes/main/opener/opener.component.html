@@ -1,12 +1,15 @@
-<h1>Schmeckt Ihnen Ihr Bier?</h1>
-<beer-webcam (onStreamInit)="onStreamInit($event)" [deviceId]="settings.videoInputDevice?.deviceId"></beer-webcam>
-<div class="row-center">
-    <!-- <beer-face-expression></beer-face-expression> -->
-    <ng-container *ngIf="lazyFaceExpressions$ | async as faceExpressions">
-        <beer-radar-chart [faceExpression]="faceExpressions"></beer-radar-chart>
-    </ng-container>
+<div id="host">
+    <h1 style="grid-column: 1 / 4; text-align: center;">Schmeckt Ihnen Ihr Bier?</h1>
+    <beer-webcam (onStreamInit)="onStreamInit($event)" [deviceId]="settings.videoInputDevice?.deviceId"></beer-webcam>
+    <div>
+        <ng-container *ngIf="lazyFaceExpressions$ | async as faceExpressions">
+            <beer-radar-chart [faceExpression]="faceExpressions"></beer-radar-chart>
+        </ng-container>
+    </div>
     <button nz-button id="qr" (click)="onStart.emit()">
         <nz-qrcode nzValue="https://nudopnu.github.io/beer-tasting/register" nzLevel="H"></nz-qrcode>
         <div>Teilnehmen</div>
     </button>
 </div>
+
+<beer-statistics></beer-statistics>

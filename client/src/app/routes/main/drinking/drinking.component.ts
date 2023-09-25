@@ -39,7 +39,7 @@ export class DrinkingComponent implements OnDestroy {
     this.numberOfSamples = settings.numberOfSamples;
     this.videoDeviceId = settings.videoInputDevice!.deviceId;
     this.secondsPerSample = settings.secondsPerSample;
-    this.beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), this.numberOfSamples);
+    this.beers = _.sampleSize(settings.beers.filter(beer => beer.isAvailable).map(beer => beer.beer + 1), this.numberOfSamples);
     this.drinkingStateResource = resourceProvider.getResource(DrinkingStateResource);
     this.drinkingState$ = this.drinkingStateResource.asObservable();
     this.drinkingStateResource.set("Choosing");

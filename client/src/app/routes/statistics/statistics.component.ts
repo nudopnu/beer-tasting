@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FaceExpressions } from 'face-api.js';
 import { Observable, map } from 'rxjs';
+import { Settings } from 'src/app/core/models/settings.model';
 import { UserData } from 'src/app/core/models/user-data.model';
 import { User } from 'src/app/core/models/user.model';
-import { UserDataResource } from 'src/app/core/resources/resources';
+import { SettingsResource, UserDataResource } from 'src/app/core/resources/resources';
 import { ExportService } from 'src/app/services/export.service';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
@@ -23,11 +24,14 @@ export class StatisticsComponent {
   mostSurprisedBeer$: Observable<{ beer: string; avg: FaceExpressions; }[]>;
   mostDisgustedBeer$: Observable<{ beer: string; avg: FaceExpressions; }[]>;
   sadestBeer$: Observable<{ beer: string; avg: FaceExpressions; }[]>;
+  settings$: Observable<Settings>;
 
   constructor(
     public resourceProvider: ResourceProviderService,
   ) {
     const userDataResource = resourceProvider.getResource(UserDataResource);
+    const settingsResource = resourceProvider.getResource(SettingsResource);
+    this.settings$ = settingsResource.asObservable();
     this.userData$ = userDataResource.asObservable();
     this.avgBeerRatings$ = this.userData$.pipe(
       map(this.toAvgBeerRatings),
@@ -73,6 +77,10 @@ export class StatisticsComponent {
     this.sadestBeer$ = this.avgBeerExpressions$.pipe(
       map(entries => entries.sort((a: any, b: any) => b.avg.sad - a.avg.sad))
     );
+  }
+
+  getBeerName(settings: Settings, index: number | string) {
+    return settings.beers.filter(b => b.beer == index)[0].name;
   }
 
   private avgFaceExpression(expressions: FaceExpressions[]) {

@@ -1,19 +1,54 @@
-<ng-container *ngIf="avgBeerRatings$ | async as avgBeerRatings">
-    {{avgBeerRatings | json}}
+<ng-container *ngIf="settings$ | async as settings">
+
+    <div>
+        <ng-container *ngIf="avgBeerRatings$ | async as avgBeerRatings">
+            <div *ngFor="let beer of avgBeerRatings.slice(0, 3); index as i">
+                <div>
+                    <h2><span>Platz {{i+1}}: {{getBeerName(settings, beer.beer)}}</span></h2>
+                </div>
+                <nz-rate [ngModel]="beer.rating" nzDisabled></nz-rate>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- <ng-container *ngIf="angriestBeer$ | async as angriestBeer">
+    <ng-container *ngIf="angriestBeer.length > 0">
+        <div><h2><span> Wütendstes Bier: {{angriestBeer[0].beer}}</span></h2></div>
+        <beer-radar-chart [faceExpression]="angriestBeer[0].avg" [dimensions]="{width: 300, height: 300}"></beer-radar-chart>
+    </ng-container>
+</ng-container> -->
+    <div>
+        <ng-container *ngIf="happiestBeer$ | async as happiestBeer">
+            <ng-container *ngIf="happiestBeer.length > 0">
+                <div>
+                    <h2><span>Fröhlichstes Bier: {{getBeerName(settings, happiestBeer[0].beer)}}</span></h2>
+                </div>
+                <beer-radar-chart [faceExpression]="happiestBeer[0].avg"
+                    [dimensions]="{width: 300, height: 300}"></beer-radar-chart>
+            </ng-container>
+        </ng-container>
+    </div>
+
+    <div>
+        <ng-container *ngIf="sadestBeer$ | async as sadestBeer">
+            <ng-container *ngIf="sadestBeer.length > 0">
+                <div>
+                    <h2><span> Traurigstes Bier: {{getBeerName(settings, sadestBeer[0].beer)}}</span></h2>
+                </div>
+                <beer-radar-chart [faceExpression]="sadestBeer[0].avg"
+                    [dimensions]="{width: 300, height: 300}"></beer-radar-chart>
+            </ng-container>
+        </ng-container>
+    </div>
+
 </ng-container>
 
-<ng-container *ngIf="angriestBeer$ | async as angriestBeer">
-    Wütendstes Bier: {{angriestBeer[0].beer}}
-</ng-container>
-
-<ng-container *ngIf="sadestBeer$ | async as sadestBeer">
-    Traurigstes Bier: {{sadestBeer[0].beer}}
-</ng-container>
-
-<ng-container *ngIf="happiestBeer$ | async as happiestBeer">
-    Fröhlichstes Bier: {{happiestBeer[0].beer}}
-</ng-container>
-
+<!-- 
 <ng-container *ngIf="mostSurprisedBeer$ | async as mostSurprisedBeer">
-    Überraschendstes Bier: {{mostSurprisedBeer[0].beer}}
-</ng-container>
+    <ng-container *ngIf="mostSurprisedBeer.length > 0">
+        Überraschendstes Bier: {{mostSurprisedBeer[0].beer}}
+    </ng-container>
+</ng-container> -->
+
+
+<ng-template #beerIcon><beer-icon [name]="'beer'" [type]="'solid'" sizing="fill"></beer-icon></ng-template>

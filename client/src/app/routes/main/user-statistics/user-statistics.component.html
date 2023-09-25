@@ -3,5 +3,5 @@
     <div *ngFor="let reaction of userData[0].beerReactions">
         <beer-reaction [reaction]="reaction"></beer-reaction>
     </div>
-    <button nz-button (click)="onUserQuit.emit()">Beenden</button>
+    <button style="margin-bottom: 20px;" nz-button (click)="onUserQuit.emit()">Beenden</button>
 </div>

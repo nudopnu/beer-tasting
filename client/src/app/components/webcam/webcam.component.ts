@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 
 @Component({
@@ -6,15 +6,24 @@ import { EventDispatcherService } from 'src/app/services/event-dispatcher.servic
   templateUrl: './webcam.component.html',
   styleUrls: ['./webcam.component.scss']
 })
-export class WebcamComponent implements  OnChanges {
+export class WebcamComponent implements OnChanges, OnDestroy {
 
   @ViewChild('video') videoElementRef: ElementRef | undefined;
   @Output() onStreamInit = new EventEmitter<HTMLVideoElement>();
   @Input() deviceId: string | undefined;
+  mediaStream: MediaStream | undefined;
 
   async ngOnChanges(_changes: SimpleChanges) {
-    const mediaStream = await this.getVideoInputStream(this.deviceId);
-    await this.setStream(mediaStream);
+    this.mediaStream = await this.getVideoInputStream(this.deviceId);
+    await this.setStream(this.mediaStream);
+  }
+
+  ngOnDestroy(): void {
+    if (this.mediaStream) {
+      this.mediaStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
   }
 
   private async getVideoInputStream(videoSource?: string) {
