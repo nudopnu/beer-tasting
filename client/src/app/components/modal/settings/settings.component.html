@@ -2,13 +2,16 @@
 
     <div class="col-center"><beer-webcam [deviceId]="selectedDevice?.deviceId"></beer-webcam></div>
     <div id="settings">
-        <div style="grid-column: 1/2;">Video Source:</div>
-        <nz-select style="grid-column: 2/4;" [(ngModel)]="selectedDevice" (ngModelChange)="onVideoInputChange($event)">
+        <div style="grid-column: 1/3;">Video Source:</div>
+        <nz-select style="grid-column: 3/5;" [(ngModel)]="selectedDevice" (ngModelChange)="onVideoInputChange($event)">
             <nz-option *ngFor="let deviceInfo of videoDeviceInfos" [nzValue]="deviceInfo"
                 [nzLabel]="deviceInfo.label" />
         </nz-select>
-        <ng-container *ngFor="let beer of settings.beers">
-            <div>Bier Nr. {{beer.beer + 1}}</div>
+        <ng-container *ngFor="let beer of settings.beers; index as i">
+            <button nz-button nzShape="circle" nzDanger (click)="remove(settings, i)" disabled>
+                <span nz-icon nzDanger nzType="delete"></span>
+            </button>
+            <div [ngClass]="{'out': !beer.isAvailable}">Bier Nr. {{beer.beer + 1}}</div>
             <input nz-input [(ngModel)]="beer.name" [ngClass]="{'out': !beer.isAvailable}" />
             <label nz-checkbox [(ngModel)]="beer.isAvailable"></label>
         </ng-container>

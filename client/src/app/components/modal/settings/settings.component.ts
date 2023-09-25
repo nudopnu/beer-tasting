@@ -45,4 +45,13 @@ export class SettingsComponent {
     this.settingsResource.set(newSettings);
     this.modal.destroy();
   }
+
+  remove(settings: Settings, beer: number) {
+    this.settingsResource.set({
+      ...settings,
+      beers: [
+        ...settings.beers.filter((item, idex) => beer !== idex)
+      ]
+    });
+  }
 }
