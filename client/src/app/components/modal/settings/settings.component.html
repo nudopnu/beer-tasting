@@ -1,8 +1,13 @@
 <h1>Settings</h1>
 <div class="col-center"><beer-webcam [deviceId]="selectedDevice?.deviceId"></beer-webcam></div>
-<div id="settings">
-    <div>Video Source:</div>
-    <nz-select [(ngModel)]="selectedDevice" (ngModelChange)="onVideoInputChange($event)">
+<div id="settings" *ngIf="settings$ | async as settings">
+    <div style="grid-column: 1/2;">Video Source:</div>
+    <nz-select style="grid-column: 2/4;" [(ngModel)]="selectedDevice" (ngModelChange)="onVideoInputChange($event)">
         <nz-option *ngFor="let deviceInfo of videoDeviceInfos" [nzValue]="deviceInfo" [nzLabel]="deviceInfo.label" />
     </nz-select>
+    <ng-container *ngFor="let beer of settings.beers">
+        <div>Bier Nr. {{beer.beer + 1}}</div>
+        <input nz-input [(ngModel)]="beer.name" [ngClass]="{'out': !beer.isAvailable}"/>
+        <label nz-checkbox [(ngModel)]="beer.isAvailable"></label>
+    </ng-container>
 </div>

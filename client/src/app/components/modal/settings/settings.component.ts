@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Settings } from 'src/app/core/models/settings.model';
 import { SettingsResource } from 'src/app/core/resources/resources';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
@@ -10,6 +12,7 @@ import { ResourceProviderService } from 'src/app/services/resource-provider.serv
 export class SettingsComponent {
 
   settingsResource: SettingsResource;
+  settings$: Observable<Settings>;
   videoDeviceInfos: MediaDeviceInfo[] = [];
   selectedDevice: MediaDeviceInfo | undefined;
 
@@ -22,6 +25,7 @@ export class SettingsComponent {
       this.selectedDevice = this.videoDeviceInfos[0];
     })();
     this.settingsResource = resourceProvider.getResource(SettingsResource);
+    this.settings$ = this.settingsResource.asObservable();
   }
 
   onVideoInputChange(selectedDevice: MediaDeviceInfo) {
