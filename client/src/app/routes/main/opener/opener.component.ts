@@ -22,7 +22,6 @@ export class OpenerComponent implements OnDestroy {
   lazyFaceExpressions$: Observable<FaceExpressions>;
 
   constructor(
-    private eventDispatcher: EventDispatcherService,
     private resourceProvider: ResourceProviderService,
   ) {
     this.faceDetector = new FaceExpressionDetector();
@@ -34,13 +33,6 @@ export class OpenerComponent implements OnDestroy {
   async onStreamInit(videoElement: HTMLVideoElement) {
     await this.faceDetector.initialize(videoElement);
     await this.faceDetector.startDetection();
-  }
-
-  private onFaceDetection(detections: FaceDetections) {
-    if (detections.length > 0) {
-      const { expressions } = detections[0];
-      this.eventDispatcher.dispatch(new FaceExpressionEvent(expressions, true));
-    }
   }
 
   ngOnDestroy(): void {

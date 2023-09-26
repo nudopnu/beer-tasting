@@ -20,6 +20,7 @@ export class AppComponent {
     private router: Router,
     private exportService: ExportService,
     private modalService: NzModalService,
+    private modal: NzModalService,
   ) { }
 
   toggleCollapsed() {
@@ -40,10 +41,24 @@ export class AppComponent {
 
   export(element: HTMLElement) {
     this.exportService.export();
-    this.deFocus(element);
+    this.unfocus(element);
   }
 
-  private deFocus(element: HTMLElement, delay = 300) {
+  update(element: HTMLElement) {
+    this.modal.warning({
+      nzTitle: 'Warnung!',
+      nzContent: 'Das Zurücksetzen führt zur Löschung aller zwischengespeicherten Daten! Dies kann jedoch zur Fehlerbehebung notwendig sein.',
+      nzOnOk: () => {
+        localStorage.clear();
+        window.location.reload();
+      },
+      nzOnCancel: () => {
+        this.unfocus(element);
+      }
+    });
+  }
+
+  private unfocus(element: HTMLElement, delay = 300) {
     setTimeout(() => {
       element.classList.remove("ant-menu-item-selected");
     }, delay);

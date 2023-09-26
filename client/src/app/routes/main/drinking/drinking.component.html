@@ -8,8 +8,9 @@
             <beer-rating (onRatingCompleted)="onNextBeer($event)" />
         </ng-container>
 
-        <beer-beer-selection *ngSwitchCase="'Choosing'" [beers]="beers"
-            (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
+        <ng-container *ngSwitchCase="'Choosing'">
+            <beer-beer-selection [beers]="beerSelection" (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
+        </ng-container>
 
         <ng-container *ngSwitchCase="'Preparing'">
             <beer-countdown (onCompleted)="onStartDrinking()" />

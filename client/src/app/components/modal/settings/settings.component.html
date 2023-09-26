@@ -13,7 +13,7 @@
             <button nz-button nzShape="circle" nzDanger (click)="remove(settings, i)" disabled>
                 <span nz-icon nzDanger nzType="delete"></span>
             </button>
-            <div [ngClass]="{'out': !beer.isAvailable}">Bier Nr. {{beer.beer + 1}}</div>
+            <div [ngClass]="{'out': !beer.isAvailable}">Bier Nr. {{beer.assignedNumber}}</div>
             <input nz-input [(ngModel)]="beer.name" [ngClass]="{'out': !beer.isAvailable}" />
             <label nz-checkbox [(ngModel)]="beer.isAvailable"></label>
         </ng-container>

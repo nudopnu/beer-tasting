@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { IconDefinition } from '@ant-design/icons-angular';
-import { AppstoreOutline, HomeOutline, LineChartOutline, MailOutline, MenuFoldOutline, MenuUnfoldOutline, SettingOutline, ExportOutline } from '@ant-design/icons-angular/icons';
+import { AppstoreOutline, HomeOutline, LineChartOutline, MailOutline, MenuFoldOutline, MenuUnfoldOutline, SettingOutline, ExportOutline, SyncOutline } from '@ant-design/icons-angular/icons';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -24,6 +24,7 @@ const icons: IconDefinition[] = [
     LineChartOutline,
     HomeOutline,
     ExportOutline,
+    SyncOutline,
 ];
 
 const exports = [

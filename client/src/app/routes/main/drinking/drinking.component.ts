@@ -10,6 +10,8 @@ import { User } from 'src/app/core/models/user.model';
 import { DrinkingStateResource, SettingsResource } from 'src/app/core/resources/resources';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 import { FaceExpressionsRecorder } from 'src/app/core/face-expressions-recorder';
+import { Beer } from 'src/app/core/models/beer.model';
+import { Settings } from 'c:/Data/work/code/beer/client/src/app/core/models/settings.model';
 
 @Component({
   selector: 'beer-drinking',
@@ -22,8 +24,8 @@ export class DrinkingComponent implements OnDestroy {
   @Output() onBeerReactionCompleted = new EventEmitter<BeerRaction>();
   @Output() onUserCompleted = new EventEmitter();
   numberOfSamples: number;
-  beers: number[];
-  selectedBeer: number | undefined;
+  beerSelection: Beer[];
+  selectedBeer: Beer | undefined;
   videoDeviceId: string;
   secondsPerSample: number;
   drinkingStateResource;
@@ -33,13 +35,16 @@ export class DrinkingComponent implements OnDestroy {
   expressionBuffer: LazyBuffer;
   recorder: FaceExpressionsRecorder;
   subscription: Subscription;
+  settings: Settings;
+  allBeers: Beer[];
 
   constructor(resourceProvider: ResourceProviderService) {
-    const settings = resourceProvider.getResource(SettingsResource).get();
-    this.numberOfSamples = settings.numberOfSamples;
-    this.videoDeviceId = settings.videoInputDevice!.deviceId;
-    this.secondsPerSample = settings.secondsPerSample;
-    this.beers = _.sampleSize(settings.beers.filter(beer => beer.isAvailable).map(beer => beer.beer + 1), this.numberOfSamples);
+    this.settings = resourceProvider.getResource(SettingsResource).get();
+    this.numberOfSamples = this.settings.numberOfSamples;
+    this.videoDeviceId = this.settings.videoInputDevice!.deviceId;
+    this.secondsPerSample = this.settings.secondsPerSample;
+    this.allBeers = this.settings.beers;
+    this.beerSelection = _.sampleSize(this.allBeers.filter(beer => beer.isAvailable), this.numberOfSamples);
     this.drinkingStateResource = resourceProvider.getResource(DrinkingStateResource);
     this.drinkingState$ = this.drinkingStateResource.asObservable();
     this.drinkingStateResource.set("Choosing");
@@ -61,7 +66,7 @@ export class DrinkingComponent implements OnDestroy {
   }
 
   getRandomBeers(): void {
-    this.beers = _.sampleSize([...Array(10)].map((_, i) => i + 1), this.numberOfSamples);
+    this.beerSelection = _.sampleSize(this.allBeers.filter(beer => beer.isAvailable), this.numberOfSamples);
   }
 
   getInstruction(state: DrinkingState) {
@@ -73,9 +78,9 @@ export class DrinkingComponent implements OnDestroy {
     }
   }
 
-  onBeerSelect(selectedBeer: number) {
+  onBeerSelect(beer: Beer) {
     this.drinkingStateResource.set("Preparing");
-    this.selectedBeer = selectedBeer;
+    this.selectedBeer = beer;
   }
 
   onStartDrinking() {
@@ -86,7 +91,7 @@ export class DrinkingComponent implements OnDestroy {
   onBeerCompleted() {
     this.drinkingStateResource.set("Rating");
     if (this.selectedBeer) {
-      this.beers = this.beers.filter(beer => beer !== this.selectedBeer);
+      this.beerSelection = this.beerSelection.filter(beer => beer !== this.selectedBeer);
     }
     this.recorder.stop();
   }
@@ -100,7 +105,7 @@ export class DrinkingComponent implements OnDestroy {
     this.drinkingStateResource.set("Choosing");
     this.recorder.reset();
     this.dataProvider?.reset();
-    if (this.beers.length === 0) {
+    if (this.beerSelection.length === 0) {
       this.onUserCompleted.emit();
     }
   }

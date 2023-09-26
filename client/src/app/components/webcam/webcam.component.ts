@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'beer-webcam',
@@ -41,9 +40,18 @@ export class WebcamComponent implements OnChanges, OnDestroy {
     if (this.videoElementRef !== undefined) {
       const videoElement = this.videoElementRef.nativeElement as HTMLVideoElement;
       videoElement.srcObject = stream;
+      if (!this.isPlaying(videoElement) && !stream.getTracks()[0].enabled) {
+      }
       await videoElement.play();
       this.onStreamInit.next(videoElement);
     }
+  }
+
+  private isPlaying(videoElement: HTMLVideoElement) {
+    return videoElement.currentTime > 0
+      && !videoElement.paused
+      && !videoElement.ended
+      && videoElement.readyState > videoElement.HAVE_CURRENT_DATA;
   }
 
 }

@@ -4,7 +4,7 @@
         <ng-container *ngIf="avgBeerRatings$ | async as avgBeerRatings">
             <div *ngFor="let beer of avgBeerRatings.slice(0, 3); index as i">
                 <div>
-                    <h2><span>Platz {{i+1}}: {{getBeerName(settings, beer.beer)}}</span></h2>
+                    <h2><span>Platz {{i+1}}: {{beer.beer.name}}</span></h2>
                 </div>
                 <nz-rate [ngModel]="beer.rating" nzDisabled></nz-rate>
             </div>
@@ -21,7 +21,7 @@
         <ng-container *ngIf="happiestBeer$ | async as happiestBeer">
             <ng-container *ngIf="happiestBeer.length > 0">
                 <div>
-                    <h2><span>Fröhlichstes Bier: {{getBeerName(settings, happiestBeer[0].beer)}}</span></h2>
+                    <h2><span>Fröhlichstes Bier: {{happiestBeer[0].beer.name}}</span></h2>
                 </div>
                 <beer-radar-chart [faceExpression]="happiestBeer[0].avg"
                     [dimensions]="{width: 300, height: 300}"></beer-radar-chart>
@@ -33,7 +33,7 @@
         <ng-container *ngIf="sadestBeer$ | async as sadestBeer">
             <ng-container *ngIf="sadestBeer.length > 0">
                 <div>
-                    <h2><span> Traurigstes Bier: {{getBeerName(settings, sadestBeer[0].beer)}}</span></h2>
+                    <h2><span> Traurigstes Bier: {{sadestBeer[0].beer.name}}</span></h2>
                 </div>
                 <beer-radar-chart [faceExpression]="sadestBeer[0].avg"
                     [dimensions]="{width: 300, height: 300}"></beer-radar-chart>

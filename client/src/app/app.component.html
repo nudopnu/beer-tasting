@@ -33,9 +33,14 @@
           <span>Einstellungen</span>
         </li>
 
-        <li nz-menu-item nzTitle="Exoprt" #exportMenuItem (click)="export(exportMenuItem)">
+        <li nz-menu-item nzTitle="Export" #exportMenuItem (click)="export(exportMenuItem)">
           <span nz-icon nzType="export"></span>
           <span>Exportieren</span>
+        </li>
+
+        <li nz-menu-item nzTitle="Zurücksetzen" #updateMenuItem (click)="update(updateMenuItem)">
+          <span nz-icon nzType="sync"></span>
+          <span>Zurücksetzen</span>
         </li>
         
       </ul>

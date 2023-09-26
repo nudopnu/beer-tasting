@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Beer } from 'src/app/core/models/beer.model';
 
 @Component({
   selector: 'beer-beer-selection',
@@ -8,8 +9,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 export class BeerSelectionComponent implements OnChanges {
 
   beerSlots: number[] = [];
-  @Input() beers: number[] = [];
-  @Output() onBeerSelect = new EventEmitter<number>();
+  @Input() beers: Beer[] = [];
+  @Output() onBeerSelect = new EventEmitter<Beer>();
 
   ngOnChanges(changes: SimpleChanges): void {
     const { currentValue, previousValue } = changes['beers'];
