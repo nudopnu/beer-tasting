@@ -10,6 +10,6 @@ export class RatingComponent {
   @Output() onRatingCompleted = new EventEmitter<number>();
 
   userRating = 0;
-  RatingTooltips = ['ekelhaft!', 'geht so', 'okay', 'gut', 'köstlich!'];
+  RatingTooltips = ['nicht meins', 'geht so', 'okay', 'gut', 'köstlich!'];
 
 }
