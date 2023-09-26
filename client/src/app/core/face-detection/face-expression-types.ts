@@ -17,7 +17,7 @@ export function toGerman(faceExpressionType: FaceExpressionType): string {
         sad: "traurig",
         angry: "wütend",
         // fearful: "ängstlich",
-        disgusted: "angewidert",
+        disgusted: "irritiert",
         surprised: "überrascht"
     };
     return mapping[faceExpressionType];
