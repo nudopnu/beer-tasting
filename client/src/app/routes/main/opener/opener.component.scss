@@ -6,9 +6,17 @@
     margin-bottom: 20px;
 }
 
-@media (max-width: 992px) {
-    :host {
+h1 {
+    grid-column: 1 / 4;
+}
+
+@media (max-width: 1250px) {
+    #host {
         grid-template-columns: 400px;
+    }
+    
+    h1 {
+        grid-column: 1;
     }
 }
 

@@ -1,5 +1,5 @@
 <div id="host">
-    <h1 style="grid-column: 1 / 4; text-align: center;">Schmeckt Ihnen Ihr Bier?</h1>
+    <h1 style="text-align: center;">Schmeckt Ihnen Ihr Bier?</h1>
     <beer-webcam (onStreamInit)="onStreamInit($event)" [deviceId]="settings.videoInputDevice?.deviceId"></beer-webcam>
     <div>
         <ng-container *ngIf="lazyFaceExpressions$ | async as faceExpressions">
