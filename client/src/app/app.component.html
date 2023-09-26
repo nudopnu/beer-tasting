@@ -42,7 +42,16 @@
           <span nz-icon nzType="sync"></span>
           <span>Zurücksetzen</span>
         </li>
-        
+
+        <li style="display: flex; width: 100%; padding-top: 10px;">
+          <nz-upload class="userdata-uploader" nzListType="picture-card" [nzShowUploadList]="false" [nzBeforeUpload]="onUpload">
+            <ng-container>
+              <span class="upload-icon" *ngIf="uploadingUserData" nz-icon nzType="loading"></span>
+              <div class="ant-upload-text" *ngIf="!uploadingUserData">Restore UserData</div>
+            </ng-container>
+          </nz-upload>
+        </li>
+
       </ul>
     </nz-sider>
 
