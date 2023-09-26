@@ -101,6 +101,7 @@ export class DrinkingComponent implements OnDestroy {
       beer: this.selectedBeer!,
       rating: previousRating,
       recording: this.recorder.faceExpressions,
+      recordedTime: new Date(Date.now()),
     });
     this.drinkingStateResource.set("Choosing");
     this.recorder.reset();

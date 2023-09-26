@@ -5,4 +5,5 @@ export interface BeerRaction {
     beer: Beer;
     recording: FaceExpressions[];
     rating: number;
+    recordedTime: Date;
 }
