@@ -1,0 +1,26 @@
+<div id="form">
+
+    <!-- username -->
+    <div class="label">
+        Username:
+    </div>
+    <input nz-input [placeholder]="userName" [disabled]="true" />
+
+    <!-- age -->
+    <div class="label">
+        Altersangabe:
+    </div>
+    <nz-select [(ngModel)]="selectedGeneration" (ngModelChange)="onValueChange()" class="select">
+        <nz-option *ngFor="let generation of generations" [nzValue]="generation"
+            [nzLabel]="generation | generationLabel" />
+    </nz-select>
+
+    <!-- gender -->
+    <div class="label">
+        Geschlecht:
+    </div>
+    <nz-select [(ngModel)]="selectedGender" (ngModelChange)="onValueChange()" class="select">
+        <nz-option *ngFor="let gender of genderTypes" [nzValue]="gender" [nzLabel]="gender" />
+    </nz-select>
+
+</div>

@@ -31,6 +31,9 @@ import { UserStatisticsComponent } from './routes/main/user-statistics/user-stat
 import { ReactionComponent } from './routes/main/user-statistics/reaction/reaction.component';
 import { ResourceProviderComponent } from './components/resource-provider/resource-provider.component';
 import { InfoComponent } from './routes/info/info.component';
+import { UserDataFormComponent } from './components/user-data-form/user-data-form.component';
+import { GenerationLabelPipe } from './pipes/generation-label.pipe';
+import { ModalRegisterComponent } from './components/modal/modal-register/modal-register.component';
 
 registerLocaleData(de);
 
@@ -58,6 +61,9 @@ registerLocaleData(de);
     ReactionComponent,
     ResourceProviderComponent,
     InfoComponent,
+    UserDataFormComponent,
+    GenerationLabelPipe,
+    ModalRegisterComponent,
   ],
   imports: [
     BrowserModule,

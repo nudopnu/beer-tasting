@@ -1,0 +1,6 @@
+<beer-user-data-form [(validUser)]="currentUser" />
+
+<div *nzModalFooter>
+    <button nz-button nzType="default" (click)="destroyModal()">Abbrechen</button>
+    <button nz-button nzType="primary" (click)="accept()" [disabled]="!currentUser">Okay</button>
+</div>

@@ -1,33 +1,14 @@
-<div id="form" *ngIf="!currentUser">
-    <div class="label">
-        Username:
-    </div>
-    <input nz-input [placeholder]="userName" [disabled]="true" />
-    <div class="label">
-        Altersangabe:
-    </div>
-    <nz-select [(ngModel)]="selectedGeneration" class="select">
-        <nz-option *ngFor="let generation of generations" [nzValue]="generation"
-            [nzLabel]="getLabel(generation)"></nz-option>
-    </nz-select>
-    <div class="label">
-        Geschlecht:
-    </div>
-    <nz-select [(ngModel)]="selectedGender" class="select">
-        <nz-option *ngFor="let gender of genderTypes" [nzValue]="gender" [nzLabel]="gender"></nz-option>
-    </nz-select>
-</div>
+<beer-user-data-form *ngIf="!qrCode" [(validUser)]="currentUser" />
 <div id="qr">
     <beer-qr-code *ngIf="qrCode" [content]="qrCode"></beer-qr-code>
 </div>
 <div id="buttons">
-    <ng-container *ngIf="!currentUser">
-        <button nz-button nzType="default" nzShape="round" [disabled]="!selectedGender || !selectedGeneration"
-            (click)="generateQrCode()">
+    <ng-container *ngIf="!qrCode">
+        <button nz-button nzType="default" nzShape="round" [disabled]="!currentUser" (click)="generateQrCode()">
             QR Code generieren
         </button>
     </ng-container>
-    <ng-container *ngIf="!!currentUser">
+    <ng-container *ngIf="!!qrCode">
         <button nz-button nzType="default" nzShape="round" (click)="back()">Zurück</button>
     </ng-container>
 </div>

@@ -1,0 +1,10 @@
+#form {
+    display: grid;
+    grid-template-areas: 'a b';
+    padding: 20px;
+    gap: 20px;
+}
+
+.select {
+    min-width: 100px;
+}
