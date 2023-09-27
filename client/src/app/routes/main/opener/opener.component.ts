@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FaceExpressions } from 'face-api.js';
-import { Observable, map } from 'rxjs';
-import { FaceExpressionEvent } from 'src/app/core/events/events';
-import { FaceDetections, FaceExpressionDetector } from 'src/app/core/face-detection/face-expression-detector';
+import { Observable } from 'rxjs';
+import { FaceExpressionDetector } from 'src/app/core/face-detection/face-expression-detector';
 import { LazyBuffer } from 'src/app/core/face-detection/lazy-buffer';
 import { Settings } from 'src/app/core/models/settings.model';
-import { EventDispatcherService } from 'src/app/services/event-dispatcher.service';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
 @Component({

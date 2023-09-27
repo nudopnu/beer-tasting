@@ -1,16 +1,16 @@
-import { AfterContentChecked, AfterContentInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import * as _ from "lodash";
-import { Observable, Subscription, map } from 'rxjs';
-import { FaceExpressionsPlotDataProvider as FaceExpressionsPlotDataProvider } from 'src/app/core/face-expressions-plot-data-provider';
-import { FaceDetections, FaceExpressionDetector } from 'src/app/core/face-detection/face-expression-detector';
+import { Observable, Subscription } from 'rxjs';
+import { FaceExpressionDetector } from 'src/app/core/face-detection/face-expression-detector';
 import { LazyBuffer } from 'src/app/core/face-detection/lazy-buffer';
+import { FaceExpressionsPlotDataProvider } from 'src/app/core/face-expressions-plot-data-provider';
+import { FaceExpressionsRecorder } from 'src/app/core/face-expressions-recorder';
 import { BeerRaction } from 'src/app/core/models/beer-reaction.model';
+import { Beer } from 'src/app/core/models/beer.model';
 import { DrinkingState } from 'src/app/core/models/drinking-state.model';
 import { User } from 'src/app/core/models/user.model';
 import { DrinkingStateResource, SettingsResource } from 'src/app/core/resources/resources';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
-import { FaceExpressionsRecorder } from 'src/app/core/face-expressions-recorder';
-import { Beer } from 'src/app/core/models/beer.model';
 import { Settings } from 'c:/Data/work/code/beer/client/src/app/core/models/settings.model';
 
 @Component({

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FaceExpressions } from 'face-api.js';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { UserData } from 'src/app/core/models/user-data.model';
 import { User } from 'src/app/core/models/user.model';
 import { UserDataResource } from 'src/app/core/resources/resources';
@@ -24,7 +23,5 @@ export class UserStatisticsComponent {
       map(userDatas => userDatas.filter(userData => x.user.id === userData?.user.id))
     );
   }
-
-  
 
 }
