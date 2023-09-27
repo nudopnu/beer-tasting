@@ -60,6 +60,7 @@ export class DrinkingComponent implements OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.faceDetector.stopDetection();
   }
 
   async onStreamInit(videoElement: HTMLVideoElement) {

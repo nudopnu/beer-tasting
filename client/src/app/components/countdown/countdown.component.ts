@@ -17,14 +17,19 @@ export class CountdownComponent implements AfterViewInit, OnDestroy {
   @Input() startValue = 3;
   @Output() onCompleted = new EventEmitter();
 
+  startTime: number = -1;
+
   ngAfterViewInit(): void {
+    this.startTime = Date.now();
     this.interval = setInterval(() => {
-      this.progress -= 1;
-      if (this.progress === 0) {
+      const elapsedTime = Date.now() - this.startTime;
+      const elapsedSeconds = elapsedTime / 1000;
+      this.progress = (1 - (elapsedSeconds / this.startValue)) * 100;
+      if (this.progress <= 0) {
         this.onCompleted.emit();
         clearInterval(this.interval);
       }
-    }, (10 * this.startValue));
+    }, 100);
   }
 
   ngOnDestroy(): void {
