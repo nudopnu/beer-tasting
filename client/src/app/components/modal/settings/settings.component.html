@@ -1,6 +1,6 @@
 <ng-container *ngIf="settings$ | async as settings">
 
-    <div class="col-center"><beer-webcam [deviceId]="selectedDevice?.deviceId"></beer-webcam></div>
+    <div class="col-center"><beer-webcam [deviceId]="settings.videoInputDevice?.deviceId"></beer-webcam></div>
     <div id="settings">
         <div style="grid-column: 1/3;">Video Source:</div>
         <nz-select style="grid-column: 3/5;" [(ngModel)]="selectedDevice" (ngModelChange)="onVideoInputChange($event)">

@@ -1,5 +1,7 @@
 import { AfterContentInit, Component, Input } from '@angular/core';
-import { combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
+import { Database } from 'src/app/core/database/database';
+import { Resource } from 'src/app/core/resources/resources';
 import { ResourceProviderService } from 'src/app/services/resource-provider.service';
 
 @Component({
@@ -9,8 +11,8 @@ import { ResourceProviderService } from 'src/app/services/resource-provider.serv
 })
 export class ResourceProviderComponent implements AfterContentInit {
 
-  @Input() resourceClasses: Array<any> = [];
-  resources$: any;
+  @Input() resourceClasses: Array<new <T extends Resource>(database: Database) => T> = [];
+  resources$!: Observable<Array<any>>;
 
   constructor(private resourceProvider: ResourceProviderService) { }
 

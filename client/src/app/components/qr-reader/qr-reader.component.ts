@@ -23,8 +23,8 @@ export class QrReaderComponent implements AfterViewInit, OnChanges, OnDestroy {
     private eventDispatcher: EventDispatcherService,
   ) { }
 
-  init(deviceId: string) {
-    this.html5QrCode!.start(
+  async init(deviceId: string) {
+    await this.html5QrCode!.start(
       deviceId,
       this.readerConfiguration,
       (decodedText, _decodedResult) => {
@@ -39,12 +39,15 @@ export class QrReaderComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   async ngAfterViewInit() {
     this.html5QrCode = new Html5Qrcode("reader");
-    this.init(this.deviceId!);
+    await this.init(this.deviceId!);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  async ngOnChanges(changes: SimpleChanges) {
     if (changes["deviceId"].isFirstChange()) return;
-    this.init(this.deviceId!);
+    if (this.html5QrCode?.isScanning) {
+      await this.html5QrCode.stop();
+    }
+    await this.init(this.deviceId!);
   }
 
   ngOnDestroy(): void {

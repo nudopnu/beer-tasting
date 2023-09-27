@@ -27,7 +27,7 @@ export class WebcamComponent implements OnChanges, OnDestroy {
 
   private async getVideoInputStream(videoSource?: string) {
     const constraints = {
-      video: true as any
+      video: { facingMode: "user" } as MediaTrackConstraints,
     };
     if (videoSource) {
       constraints.video = { deviceId: { exact: videoSource } };

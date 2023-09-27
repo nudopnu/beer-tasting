@@ -1,6 +1,6 @@
 import { AfterContentChecked, AfterContentInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import * as _ from "lodash";
-import { Subscription, map } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { FaceExpressionsPlotDataProvider as FaceExpressionsPlotDataProvider } from 'src/app/core/face-expressions-plot-data-provider';
 import { FaceDetections, FaceExpressionDetector } from 'src/app/core/face-detection/face-expression-detector';
 import { LazyBuffer } from 'src/app/core/face-detection/lazy-buffer';
@@ -37,9 +37,11 @@ export class DrinkingComponent implements OnDestroy {
   subscription: Subscription;
   settings: Settings;
   allBeers: Beer[];
+  settings$: Observable<Settings>;
 
   constructor(resourceProvider: ResourceProviderService) {
     this.settings = resourceProvider.getResource(SettingsResource).get();
+    this.settings$ = resourceProvider.getResource(SettingsResource).asObservable();
     this.numberOfSamples = this.settings.numberOfSamples;
     this.videoDeviceId = this.settings.videoInputDevice!.deviceId;
     this.secondsPerSample = this.settings.secondsPerSample;

@@ -9,7 +9,7 @@
         </ng-container>
 
         <ng-container *ngSwitchCase="'Choosing'">
-            <beer-beer-selection [beers]="beerSelection" (onBeerSelect)="onBeerSelect($event)"></beer-beer-selection>
+            <beer-beer-selection [beers]="beerSelection" (onBeerSelect)="onBeerSelect($event)" />
         </ng-container>
 
         <ng-container *ngSwitchCase="'Preparing'">
@@ -20,7 +20,9 @@
             <beer-countdown [startValue]="secondsPerSample" (onCompleted)="onBeerCompleted()" />
         </ng-container>
 
-        <beer-webcam [deviceId]="videoDeviceId" (onStreamInit)="onStreamInit($event)"></beer-webcam>
+        <ng-container *ngIf="settings$ | async as settings">
+            <beer-webcam [deviceId]="settings.videoInputDevice?.deviceId" (onStreamInit)="onStreamInit($event)" />
+        </ng-container>
     </div>
 </ng-container>
 
